@@ -1,0 +1,124 @@
+package cn.com.enjoystudy.oa.webapps.manage.study;
+
+import cn.com.enjoystudy.oa.bean.study.*;
+import cn.com.enjoystudy.oa.service.study.CertificateService;
+import cn.com.enjoystudy.oa.service.study.CourseCertificateService;
+import cn.com.enjoystudy.oa.service.study.CourseService;
+import cn.com.enjoystudy.oa.validation.manage.study.CertificateValidator;
+import cn.com.enjoystudy.oa.webapps.BaseController;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+@Controller
+@RequestMapping("/manage/study/certificate")
+public class CertificateController extends BaseController {
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private CertificateService certificateService;
+    @Autowired
+    private CourseCertificateService courseCertificateService;
+
+    @RequestMapping("index")
+    public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mv = new ModelAndView("manage/study/certificate/index");
+        return mv;
+    }
+
+    @RequestMapping("list")
+    @ResponseBody
+    public JSONObject list(CertificateSO so) {
+        PageInfo<Certificate> pageInfo = certificateService.findPag(so);
+        List<Certificate> datas = pageInfo.getList();
+        JSONObject json = resultSuccess();
+        json.put("datas", datas);
+        json.put("total", pageInfo.getTotal());
+        json.put("pages", pageInfo.getPages());
+        return json;
+    }
+
+    @RequestMapping("edit")
+    public ModelAndView edit(@RequestParam(value = "id", required = false) String id) {
+        List<Course> courseList = courseService.list(new CourseSO());
+
+        Certificate certificate = null;
+        if (StringUtils.isNotBlank(id)) {
+            certificate = certificateService.getById(id);
+
+            CourseCertificateSO certificateSO = new CourseCertificateSO();
+            certificateSO.setCertificateId(certificate.getId());
+            List<CourseCertificate> certificates = courseCertificateService.list(certificateSO);
+            if (null != certificate && certificates.size() > 0) {
+                String[] strs = new String[certificates.size()];
+
+                int index = 0;
+                for (CourseCertificate cc : certificates) {
+                    strs[index] = cc.getCourseId();
+                    index++;
+                }
+                certificate.setCourseIds(strs);
+            }
+        } else {
+            certificate = new Certificate();
+        }
+
+        ModelAndView mv = new ModelAndView("manage/study/certificate/edit");
+        mv.getModel().put("so", certificate);
+        mv.getModel().put("courseList", courseList);
+        return mv;
+    }
+
+    @RequestMapping("save")
+    @ResponseBody
+    public JSONObject save(CertificateSO so, BindingResult result) {
+        CertificateValidator validator = new CertificateValidator();
+        validator.validate(so, result);
+
+        if (result.hasErrors()) {
+            return resultError(result.getFieldError().getDefaultMessage());
+        } else {
+            Certificate certificate = null;
+            if (StringUtils.isNotBlank(so.getId())) {
+                certificate = certificateService.getById(so.getId());
+            } else {
+                certificate = new Certificate();
+            }
+            certificate.setName(StringUtils.trim(so.getName()));
+            if (StringUtils.isNotBlank(so.getId())) {
+                certificateService.update(certificate);
+                courseCertificateService.deleteByCertificateId(certificate.getId());
+            } else {
+                certificateService.insert(certificate);
+            }
+            if (null != so.getCourseIds() && so.getCourseIds().length > 0) {
+                for (String courseId : so.getCourseIds()) {
+                    CourseCertificate cc = new CourseCertificate();
+                    cc.setCertificateId(certificate.getId());
+                    cc.setCourseId(courseId);
+                    courseCertificateService.insert(cc);
+                }
+            }
+            return resultSuccess();
+        }
+    }
+
+    @RequestMapping("delete")
+    @ResponseBody
+    public JSONObject delete(@RequestParam String id) {
+        certificateService.deleteById(id);
+        return resultSuccess();
+    }
+}

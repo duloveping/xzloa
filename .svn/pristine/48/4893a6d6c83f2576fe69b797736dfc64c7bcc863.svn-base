@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.base.BasePositionDao">
+    <sql id="columns"> id, code, name, caption, show_state, serial_number </sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != showState"> and show_state = #{showState}</if>
+            <if test="null != code and '' != code"> and code = #{code}</if>
+            <if test="null != name and '' != name">
+                <choose>
+                    <when test="null != like and like == true"> and name= #{name}</when>
+                    <otherwise>
+                        <bind name="likeName" value="'%' + name + '%'"/>
+                        and name like #{likeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != exceptId and '' != exceptId">
+                <![CDATA[ id <> #{exceptId}::uuid ]]>
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.base.BasePosition" >
+        insert into sys_role (id, create_time, update_time, flag, status, code, name, caption, show_state, serial_number)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{code}, #{name}, #{caption}, #{showState}, #{serialNumber})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.BasePosition" >
+        update sys_role set update_time = #{updateTime}, code = #{code}, name = #{name}, caption = #{caption}, serial_number = #{serialNumber}
+        show_state = #{showState} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.BasePosition">
+        select <include refid="columns"/> from sys_role where id = #{id}::uuid flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update sys_role set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.base.BasePosition"
+            parameterType="cn.com.enjoystudy.oa.bean.base.BasePositionSO">
+        select <include refid="columns"/> from sys_role <include refid="wheres"/> order by create_time desc
+    </select>
+</mapper>

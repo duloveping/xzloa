@@ -1,0 +1,195 @@
+package cn.com.enjoystudy.oa.bean.study;
+
+import cn.com.enjoystudy.oa.bean.EntitySupport;
+
+import java.util.Date;
+
+/**
+ * 考卷
+ * @author 广州新咨力科技有限公司-杜永生
+ */
+public class ExaminationPaper extends EntitySupport {
+    /** 标题 */
+    private String title;
+    /** 开考时间 */
+    private Date startTime;
+    /** 结束时间 */
+    private Date endTime;
+    /** 满分成绩 */
+    private Integer totalScore;
+    /** 及格成绩 */
+    private Integer passScore;
+    /** 时长（单位：分钟） */
+    private Integer duration;
+    /** 考试（测试）状态，1未开始，2已开始，3暂停中，4结束，5改卷，6作废，7关闭 */
+    private Integer testState;
+    /** 考试次数（补考次数） */
+    private Integer testAmount;
+    /** 单选题类型：1随机数量，2固定数量 */
+    private Integer singleType;
+    /** 单选题数量 */
+    private Integer singleAmount;
+    /** 多选题类型：1随机数量，2固定数量 */
+    private Integer multiType;
+    /** 多选题数量 */
+    private Integer multiAmount;
+    /** 不定项选择题类型：1随机数量，2固定数量 */
+    private Integer checkType;
+    /** 不定项选择题数量 */
+    private Integer checkAmount;
+    /** 填空题类型：1随机数量，2固定数量 */
+    private Integer fillType;
+    /** 填空题数量 */
+    private Integer fillAmount;
+    /** 判断类型：1随机数量，2固定数量 */
+    private Integer judgeType;
+    /** 判断题数量 */
+    private Integer judgeAmount;
+
+    public ExaminationPaper() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Integer getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Integer totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public Integer getPassScore() {
+        return passScore;
+    }
+
+    public void setPassScore(Integer passScore) {
+        this.passScore = passScore;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public Integer getTestState() {
+        return testState;
+    }
+
+    public void setTestState(Integer testState) {
+        this.testState = testState;
+    }
+
+    public Integer getTestAmount() {
+        return testAmount;
+    }
+
+    public void setTestAmount(Integer testAmount) {
+        this.testAmount = testAmount;
+    }
+
+    public Integer getSingleType() {
+        return singleType;
+    }
+
+    public void setSingleType(Integer singleType) {
+        this.singleType = singleType;
+    }
+
+    public Integer getSingleAmount() {
+        return singleAmount;
+    }
+
+    public void setSingleAmount(Integer singleAmount) {
+        this.singleAmount = singleAmount;
+    }
+
+    public Integer getMultiType() {
+        return multiType;
+    }
+
+    public void setMultiType(Integer multiType) {
+        this.multiType = multiType;
+    }
+
+    public Integer getMultiAmount() {
+        return multiAmount;
+    }
+
+    public void setMultiAmount(Integer multiAmount) {
+        this.multiAmount = multiAmount;
+    }
+
+    public Integer getCheckType() {
+        return checkType;
+    }
+
+    public void setCheckType(Integer checkType) {
+        this.checkType = checkType;
+    }
+
+    public Integer getCheckAmount() {
+        return checkAmount;
+    }
+
+    public void setCheckAmount(Integer checkAmount) {
+        this.checkAmount = checkAmount;
+    }
+
+    public Integer getFillType() {
+        return fillType;
+    }
+
+    public void setFillType(Integer fillType) {
+        this.fillType = fillType;
+    }
+
+    public Integer getFillAmount() {
+        return fillAmount;
+    }
+
+    public void setFillAmount(Integer fillAmount) {
+        this.fillAmount = fillAmount;
+    }
+
+    public Integer getJudgeType() {
+        return judgeType;
+    }
+
+    public void setJudgeType(Integer judgeType) {
+        this.judgeType = judgeType;
+    }
+
+    public Integer getJudgeAmount() {
+        return judgeAmount;
+    }
+
+    public void setJudgeAmount(Integer judgeAmount) {
+        this.judgeAmount = judgeAmount;
+    }
+}

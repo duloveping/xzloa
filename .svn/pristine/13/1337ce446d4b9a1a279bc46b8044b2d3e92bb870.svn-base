@@ -1,0 +1,81 @@
+$("#inputForm").validate({
+    rules : {
+        duration: {
+            required: true
+        },
+        testType: {
+            required: true
+        },
+        paperType: {
+            required: true
+        },
+        totalScore: {
+            required: true
+        },
+        passScore: {
+            required: true
+        },
+        testAmount: {
+            required: true
+        },
+        questionAmount: {
+            required: true
+        },
+        questionType: {
+            required: true
+        }
+    },
+    messages: {
+        duration: {
+            required: "考试时长不能为空！"
+        },
+        testType: {
+            required: "考试类型不能为空！"
+        },
+        paperType: {
+            required: "考卷类型不能为空！"
+        },
+        totalScore: {
+            required: "考试总成绩不能为空！"
+        },
+        passScore: {
+            required: "合格成绩不能为空！"
+        },
+        testAmount: {
+            required: "补考次数不能为空！"
+        },
+        questionAmount: {
+            required: "考题数量不能为空！"
+        },
+        questionType: {
+            required: "考题分配情况不能为空！"
+        }
+    },
+    onkeyup : false,
+    focusCleanup : true,
+    success : "valid",
+    submitHandler : function(form) {
+        $.ajax({
+            type: "post",
+            url: ctx + "/manage/study/examination-config/save.jhtml",
+            cache: false,
+            data: $(form).serialize(),
+            dataType: "json",
+            success: function (res) {
+                $("#id").val(res.id);
+                top.layer.alert(res.info,{icon:1,time:3000});
+            },
+            error : function(XmlHttpRequest, textStatus, errorThrown) {
+                top.layer.alert('数据保存失败');
+            }
+        });
+    }
+});
+
+$(function() {
+    $('.skin-minimal input').iCheck({
+        checkboxClass: 'icheckbox-blue',
+        radioClass: 'iradio-blue',
+        increaseArea: '20%'
+    });
+});

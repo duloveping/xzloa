@@ -1,0 +1,55 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/taglibs.jsp" %>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<%@ include file="/WEB-INF/views/common/meta.jsp" %>
+		<%@ include file="/WEB-INF/views/common/javascript.jsp" %>
+		<script type="text/javascript" src="<c:url value='/static/js/templates/common/select/selectDialog.ui.js'/>" charset="utf-8"></script>
+		<title>首页</title>
+	</head>
+	<body>
+
+		<input name="test" type="button" value="测试" onclick="testSelect()">
+		<input id="receiveUser" type="text" value="">
+		<input id="receiveUsername" type="text" value="">
+		<script type="text/javascript">
+            var selectUserResult;
+
+			function testSelect() {
+                var ismultiple = false;
+                var rootId = -1;
+                var target = 1;
+
+                var param = {
+                    target: target, // select target, default 0, 0: person, 1: department, 2: company, 3: department or company
+                    rootId: rootId, // root id, default "-1", "0": whole company, "-1": current company, others: specified root id
+                    multiple: ismultiple, // multiple select or not, default false
+                    url: "<c:url value='/common/select/index.jhtml'/>"
+                };
+
+                if (!selectUserResult) {
+                    if ($("#receiveUser").val()) {
+                        selectUserResult = {
+                            id: $("#receiveUser").val().split(","),
+                            name: $("#receiveUsername").val().split(",")
+                        };
+                    }
+                }
+
+                top.$.fn.selectDialog(param,selectUserResult, function (data) {
+                    console.log(data);
+                    selectUserResult = data;
+                    if (data.flag == 1){// Ok
+                        $("#receiveUser").val(data.id);
+                        $("#receiveUsername").val(data.nameResult);
+                    }else if (data.flag == 2){// clear
+                        $("#receiveUser").val("");
+                        $("#receiveUsername").val("");
+                    }
+                });
+            }
+
+		</script>
+	</body>
+</html>

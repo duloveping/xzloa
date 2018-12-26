@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.base.DepartmentDao" >
+    <sql id="columns"> id, category, code, name, phone, boss_id, boss_name, parent_id </sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != category"> and category = #{category}</if>
+            <if test="null != code and '' != code"> and code = #{code}</if>
+            <if test="null != name and '' != name">
+                <choose>
+                    <when test="like == false"> and name= #{name}</when>
+                    <otherwise>
+                        <bind name="likeName" value="'%' + name + '%'"/>
+                        and name like #{likeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != parentId and '' != parentId">
+                <choose>
+                    <when test="'0'.toString() == parentId">and parent_id is null</when>
+                    <otherwise> and parent_id = #{parentId}::uuid</otherwise>
+                </choose>
+            </if>
+            <if test="null != exceptId and '' != exceptId"><![CDATA[ and id <> #{exceptId}::uuid ]]></if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.base.Department" >
+        insert into department (id, create_time, update_time, flag, status,
+        category, code, name, phone, boss_id, boss_name, parent_id)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{category}, #{code}, #{name}, #{phone}, #{bossId}, #{bossName}, #{parentId}::uuid)
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.Department" >
+        update department set update_time = #{updateTime},
+        category = #{category}, code = #{code}, name = #{name}, phone = #{phone},
+        boss_id = #{bossId}, boss_name = #{bossName}, parent_id = #{parentId}::uuid
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.Department">
+        select <include refid="columns"/> from department where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update department set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.base.Department"
+            parameterType="cn.com.enjoystudy.oa.bean.base.DepartmentSO">
+        select <include refid="columns"/>
+        from department <include refid="wheres"/>
+        order by parent_id asc, create_time desc
+    </select>
+
+    <select id="count" resultType="long">
+        select count(id) amount
+        from department <include refid="wheres"/>
+    </select>
+</mapper>

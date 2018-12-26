@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.EmployeeCourseExerciseDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseExercise" >
+        insert into employee_course_exercise (id, create_time, update_time, flag, status,
+        employee_id, course_id, video_id, exercise_id, title, category, score, right_state)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{employeeId}::uuid, #{courseId}::uuid, #{videoId}::uuid, #{exerciseId}::uuid,
+        #{title}, #{category}, #{score}, #{rightState})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseExercise" >
+        update employee_course_exercise set update_time = #{updateTime}, employee_id = #{employeeId}::uuid,
+        course_id = #{courseId}::uuid, video_id = #{videoId}, exercise_id = #{uuid},
+        title = #{title}, category = #{category}, score = #{score}, right_state = #{rightState}
+        where id = #{id}::uuid
+    </update>
+
+    <resultMap id="getByIdResultMap" type="cn.com.enjoystudy.oa.bean.study.EmployeeCourseExercise">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+        <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+        <result column="video_id" jdbcType="VARCHAR" property="videoId" />
+        <result column="exercise_id" jdbcType="VARCHAR" property="exerciseId" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="category" jdbcType="INTEGER" property="category" />
+        <result column="score" jdbcType="INTEGER" property="score" />
+        <result column="right_state" jdbcType="BOOLEAN" property="rightState" />
+        <association property="analysis" column="{exerciseId=id}" select="getAnalysis" javaType="java.lang.String"/>
+        <collection property="itemList" column="{exerciseId=id}" javaType="java.util.List"
+                    ofType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseExerciseItem" select="findItemsByExerciseId"/>
+    </resultMap>
+
+    <select id="getById" resultMap="getByIdResultMap">
+        select id, employee_id, course_id, video_id, exercise_id, title, category, score, right_state
+        from employee_course_exercise
+        where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update employee_course_exercise set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseExercise"
+            parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseExerciseSO">
+        select id, employee_id, course_id, video_id, exercise_id, title, category, score, right_state
+        from employee_course_exercise
+        where flag = true and status = true
+        <if test="null != courseId and '' != courseId"> and employee_id = #{employeeId}::uuid </if>
+        <if test="null != courseId and '' != courseId"> and course_id = #{courseId}::uuid </if>
+        <if test="null != videoId and '' != videoId"> and video_id = #{videoId}::uuid </if>
+        <if test="null != exerciseId and '' != videoId"> and exercise_id = #{exerciseId}::uuid </if>
+        <if test="null != category"> and category = #{category} </if>
+        <if test="null != rightState"> and right_state = #{rightState} </if>
+        order by update_time desc
+    </select>
+
+    <select id="findItemsByExerciseId" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseExerciseItem">
+        select id, exercise_id, title, is_answer, check_state from employee_course_exercise_item
+        where exercise_id = #{exerciseId}::uuid and flag = true and status = true
+    </select>
+
+    <delete id="deleteByExerciseId">
+        delete from employee_course_exercise_item where exercise_id = #{exerciseId}::uuid
+    </delete>
+
+    <select id="getAnalysis" resultType="java.lang.String">
+        select content from employee_course_exercise_analysis
+        where exercise_id = #{exerciseId}::uuid and flag = true and status = true
+    </select>
+</mapper>

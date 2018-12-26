@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.sys.BaseDictionaryItemDao" >
+    <sql id="columns"> id, dictionary_id, item_text, item_value, show_state, serial_number </sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != showState"> and show_state = #{showState}</if>
+            <if test="null != dictionaryId and '' != dictionaryId"> and dictionary_id = #{dictionaryId}</if>
+            <if test="null != itemText and '' != itemText"> and item_text = #{itemText}</if>
+            <if test="null != itemText and '' != itemText"> and item_text = #{itemValue}</if>
+            <if test="null != exceptId and '' != exceptId"><![CDATA[ id <> #{exceptId}::uuid ]]></if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.sys.BaseDictionaryItem" >
+        insert into base_dictionary_item (id, create_time, update_time, flag, status,
+        dictionary_id, item_text, item_value, show_state, serial_number)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{dictionaryId}, #{itemText}, #{itemValue}, #{showState}, #{serialNumber})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.sys.BaseDictionaryItem" >
+        update base_dictionary_item set update_time = #{updateTime},
+        dictionary_id = #{dictionaryId}, item_text = #{itemText}, item_value = #{itemValue},
+        show_state = #{showState}, serial_number = #{serialNumber}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.sys.BaseDictionaryItem">
+        select <include refid="columns"/> from base_dictionary_item where id = #{id}::uuid flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update base_dictionary_item set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.sys.BaseDictionaryItem"
+            parameterType="cn.com.enjoystudy.oa.bean.sys.BaseDictionaryItemSO">
+        select <include refid="columns"/>
+        from base_dictionary_item <include refid="wheres"/>
+        order by serial_number asc, create_time desc
+    </select>
+</mapper>

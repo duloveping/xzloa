@@ -1,0 +1,27 @@
+package cn.com.enjoystudy.oa.dao.study;
+
+import cn.com.enjoystudy.oa.bean.study.CourseType;
+import cn.com.enjoystudy.oa.bean.study.CourseTypeSO;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * 课程类别DAO
+ * @author 广州新咨力科技有限公司-杜永生
+ */
+@Repository
+public interface CourseTypeDao {
+    int insert(CourseType entity);
+
+    int update(CourseType entity);
+
+    CourseType getById(@Param("id") String id);
+
+    int deleteById(@Param("id") String id);
+
+    List<CourseType> list(CourseTypeSO so);
+
+    long count(CourseTypeSO so);
+}

@@ -1,0 +1,305 @@
+drop table sys_login_log;
+create table sys_login_log
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    username character varying(50),
+    ip_address character varying(50),
+    request_time timestamp without time zone,
+    sessionid character varying(50),
+    device_type character varying(50),
+    browser_type character varying(50),
+    login_state boolean,
+    caption character varying(300),
+    primary key (id)
+) with (oids = false);
+comment on table sys_login_log is '数字字典';
+comment on column sys_login_log.id is '流水号';
+comment on column sys_login_log.create_time is '创建时间';
+comment on column sys_login_log.update_time is '更新时间';
+comment on column sys_login_log.flag is '标记';
+comment on column sys_login_log.status is '状态';
+comment on column sys_login_log.username is '用户名';
+comment on column sys_login_log.ip_address is 'IP地址';
+comment on column sys_login_log.request_time is '请求时间';
+comment on column sys_login_log.sessionid is '会话ID';
+comment on column sys_login_log.device_type is '设备类型';
+comment on column sys_login_log.browser_type is '浏览器类型';
+comment on column sys_login_log.login_state is '登录状态';
+comment on column sys_login_log.caption is '备注';
+
+drop table base_dictionary;
+create table base_dictionary
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    code character varying(50) not null,
+    name character varying(50) not null,
+    caption character varying(300),
+    show_state boolean default false,
+    primary key (id)
+) with (oids = false);
+comment on table base_dictionary is '数字字典';
+comment on column base_dictionary.id is '流水号';
+comment on column base_dictionary.create_time is '创建时间';
+comment on column base_dictionary.update_time is '更新时间';
+comment on column base_dictionary.flag is '标记';
+comment on column base_dictionary.status is '状态';
+comment on column base_dictionary.code is '字典编号';
+comment on column base_dictionary.name is '字典名称';
+comment on column base_dictionary.caption is '备注';
+comment on column base_dictionary.show_state is '显示状态';
+
+drop table base_dictionary_item;
+create table base_dictionary_item
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    dictionary_id uuid,
+    item_text character varying(50) not null,
+    item_value character varying(50) not null,
+    show_state boolean default false,
+    serial_number integer default 0,
+    primary key (id),
+    foreign key (dictionary_id) references base_dictionary(id)
+) with (oids = false);
+comment on table base_dictionary_item is '数字字典选项';
+comment on column base_dictionary_item.id is '流水号';
+comment on column base_dictionary_item.create_time is '创建时间';
+comment on column base_dictionary_item.update_time is '更新时间';
+comment on column base_dictionary_item.flag is '标记';
+comment on column base_dictionary_item.status is '状态';
+comment on column base_dictionary_item.dictionary_id is '所属字典ID';
+comment on column base_dictionary_item.item_text is '选项文本';
+comment on column base_dictionary_item.item_value is '选项值';
+comment on column base_dictionary_item.show_state is '显示状态';
+comment on column base_dictionary_item.serial_number is '排序序号';
+
+drop table department;
+create table department
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    category integer,
+    code character varying(50) not null,
+    name character varying(50) not null,
+    phone character varying(15),
+    boss_id uuid,
+    boss_name character varying(50),
+    parent_id uuid,
+    primary key (id),
+    foreign key (parent_id) references department(id)
+) with (oids = false);
+comment on table department is '部门信息';
+comment on column department.id is '流水号';
+comment on column department.create_time is '创建时间';
+comment on column department.update_time is '更新时间';
+comment on column department.flag is '标记';
+comment on column department.status is '状态';
+comment on column department.category is '分类：1单位，2部门，3组';
+comment on column department.code is '部门编号';
+comment on column department.name is '部门名称';
+comment on column department.phone is '部门电话';
+comment on column department.boss_id is '负责人ID';
+comment on column department.boss_name is '负责人姓名';
+comment on column department.parent_id is '上级ID';
+
+drop table employee_account;
+create table employee_account
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    department_id uuid,
+    code character varying(50) not null,
+    full_name character varying(50) not null,
+    login_password character(40),
+    lock_state boolean,
+    primary key (id),
+    foreign key (department_id) references department(id)
+) with (oids = false);
+
+comment on table employee_account is '员工基本信息';
+comment on column employee_account.id is '流水号';
+comment on column employee_account.create_time is '创建时间';
+comment on column employee_account.update_time is '更新时间';
+comment on column employee_account.flag is '标记';
+comment on column employee_account.department_id is '所属部门ID';
+comment on column employee_account.code is '员工编号';
+comment on column employee_account.full_name is '员工姓名';
+comment on column employee_account.login_password is '登录密码';
+comment on column employee_account.lock_state is '锁定状态';
+
+drop table base_position;
+create table base_position
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    code character varying(50) not null,
+    name character varying(50) not null,
+    caption character varying(300),
+    show_state boolean default false,
+    serial_number integer default 0,
+    primary key (id)
+) with (oids = false);
+comment on table base_position is '职位信息';
+comment on column base_position.id is '流水号';
+comment on column base_position.create_time is '创建时间';
+comment on column base_position.update_time is '更新时间';
+comment on column base_position.flag is '标记';
+comment on column base_position.code is '职位编号';
+comment on column base_position.name is '职位姓名';
+comment on column base_position.caption is '备注';
+comment on column base_position.show_state is '显示状态';
+comment on column base_position.serial_number is '排序序号';
+
+drop table employee_position;
+create table employee_position
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    employee_id uuid,
+    position_id uuid,
+    primary key (id),
+    unique (employee_id, position_id),
+    foreign key (employee_id) references employee_account(id),
+    foreign key (position_id) references base_position(id)
+) with (oids = false);
+comment on table employee_position is '员工职位';
+comment on column employee_position.id is '流水号';
+comment on column employee_position.create_time is '创建时间';
+comment on column employee_position.update_time is '更新时间';
+comment on column employee_position.flag is '标记';
+comment on column employee_position.employee_id is '所属员工ID';
+comment on column employee_position.position_id is '所属职位ID';
+
+drop table sys_role;
+create table sys_role
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    code character varying(50) not null,
+    name character varying(50) not null,
+    caption character varying(300),
+    show_state boolean default false,
+    serial_number integer default 0,
+    primary key (id)
+) with (oids = false);
+comment on table sys_role is '角色信息';
+comment on column sys_role.id is '流水号';
+comment on column sys_role.create_time is '创建时间';
+comment on column sys_role.update_time is '更新时间';
+comment on column sys_role.flag is '标记';
+comment on column sys_role.code is '角色编号';
+comment on column sys_role.name is '角色姓名';
+comment on column sys_role.caption is '备注';
+comment on column sys_role.show_state is '显示状态';
+comment on column sys_role.serial_number is '排序序号';
+
+drop table employee_role;
+create table employee_role
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    employee_id uuid,
+    role_id uuid,
+    primary key (id),
+    unique (employee_id, role_id),
+    foreign key (employee_id) references employee_account(id),
+    foreign key (role_id) references sys_role(id)
+) with (oids = false);
+comment on table employee_role is '员工角色';
+comment on column employee_role.id is '流水号';
+comment on column employee_role.create_time is '创建时间';
+comment on column employee_role.update_time is '更新时间';
+comment on column employee_role.flag is '标记';
+comment on column employee_role.status is '状态';
+comment on column employee_role.employee_id is '所属员工ID';
+comment on column employee_role.role_id is '所属角色ID';
+
+drop table sys_menu;
+create table sys_menu
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    code character varying(50) not null,
+    name character varying(50) not null,
+    href character varying(255),
+    category integer,
+    icon character varying(100),
+    css_class character varying(255),
+    css_style character varying(255),
+    caption character varying(300),
+    show_state boolean default false,
+    serial_number integer default 0,
+    parent_id uuid,
+    primary key (id),
+    foreign key (parent_id) references sys_menu(id)
+) with (oids = false);
+comment on table sys_menu is '系统菜单';
+comment on column sys_menu.id is '流水号';
+comment on column sys_menu.create_time is '创建时间';
+comment on column sys_menu.update_time is '更新时间';
+comment on column sys_menu.flag is '标记';
+comment on column sys_menu.code is '菜单编号';
+comment on column sys_menu.name is '菜单名称';
+comment on column sys_menu.href is '链接地址';
+comment on column sys_menu.category is '类型：1菜单，2权限';
+comment on column sys_menu.icon is '图标';
+comment on column sys_menu.css_class is 'html的class属性';
+comment on column sys_menu.css_style is 'html的style属性';
+comment on column sys_menu.show_state is '显示状态';
+comment on column sys_menu.serial_number is '排序序号';
+comment on column sys_menu.parent_id is '所属父级ID';
+
+drop table sys_role_menu;
+create table sys_role_menu
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    role_id uuid,
+    menu_id uuid,
+    primary key (id),
+    unique (role_id, menu_id),
+    foreign key (role_id) references sys_role(id),
+    foreign key (menu_id) references sys_menu(id)
+) with (oids = false);
+comment on table sys_role_menu is '菜色菜单';
+comment on column sys_role_menu.id is '流水号';
+comment on column sys_role_menu.create_time is '创建时间';
+comment on column sys_role_menu.update_time is '更新时间';
+comment on column sys_role_menu.flag is '标记';
+comment on column sys_role_menu.role_id is '所属角色ID';
+comment on column sys_role_menu.menu_id is '所属菜单ID';

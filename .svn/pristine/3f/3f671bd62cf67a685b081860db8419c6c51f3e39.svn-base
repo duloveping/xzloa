@@ -1,0 +1,54 @@
+package cn.com.enjoystudy.oa.service.sys;
+
+import cn.com.enjoystudy.oa.bean.sys.BaseDictionary;
+import cn.com.enjoystudy.oa.bean.sys.BaseDictionarySO;
+import cn.com.enjoystudy.oa.dao.sys.BaseDictionaryDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * 数字字典Service实现
+ * @author 广州新咨力科技有限公司-杜永生
+ */
+@Service
+@Transactional(readOnly = true, rollbackFor = Exception.class)
+public class BaseDictionaryServiceImpl implements BaseDictionaryService {
+    @Autowired
+    private BaseDictionaryDao baseDictionaryDao;
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int insert(BaseDictionary entity) {
+        return baseDictionaryDao.insert(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int update(BaseDictionary entity) {
+        return baseDictionaryDao.update(entity);
+    }
+
+    @Override
+    public BaseDictionary getById(String id) {
+        return baseDictionaryDao.getById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void deleteById(String id) {
+        baseDictionaryDao.deleteById(id);
+    }
+
+    @Override
+    public List<BaseDictionary> list(BaseDictionarySO so) {
+        return baseDictionaryDao.list(so);
+    }
+
+    @Override
+    public long count(BaseDictionarySO so) {
+        return baseDictionaryDao.count(so);
+    }
+}

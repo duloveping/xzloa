@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.StorePaperDao">
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.StorePaper" >
+        insert into store_paper (id, create_time, update_time, flag, status,
+        show_state, course_id, title, duration, question_amount, total_score, pass_score, test_amount, editor_id,
+        editor_name, edit_state, edit_time, auditor_id, auditor_name, audit_state, audit_time, auditor_mind)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{showState}, #{courseId}::uuid, #{title}, #{duration}, #{questionAmount}, #{totalScore}, #{passScore},
+        #{testAmount}, #{editorId}::uuid, #{editorName}, #{editState}, #{editTime}, #{auditorId}::uuid, #{auditorName},
+        #{auditState}, #{auditTime}, #{auditorMind})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.StorePaper" >
+        update store_paper set update_time = #{updateTime},
+        show_state = #{showState}, course_id = #{courseId}::uuid, title = #{title}, duration = #{duration},
+        question_amount = #{questionAmount}, total_score = #{totalScore}, pass_score = #{passScore},
+        test_amount = #{testAmount}, editor_id = #{editorId}::uuid, editor_name = #{editorName}, edit_state = #{editState},
+        edit_time = #{editTime}, auditor_id = #{auditorId}::uuid, auditor_name = #{auditorName}, audit_state = #{auditState},
+        audit_time = #{auditTime}, auditor_mind = #{auditorMind} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.StorePaper">
+        select id, show_state, course_id, title, duration, question_amount, total_score, pass_score, test_amount,
+        editor_id, editor_name, edit_state, edit_time, auditor_id, auditor_name, audit_state, audit_time, auditor_mind
+        from store_paper where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update store_paper set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.StorePaper"
+            parameterType="cn.com.enjoystudy.oa.bean.study.StorePaperSO">
+        select id, show_state, course_id, title, duration, question_amount, total_score, pass_score, test_amount,
+        editor_id, editor_name, edit_state, edit_time, auditor_id, auditor_name, audit_state, audit_time, auditor_mind
+        from store_paper
+        where flag = true and status = true
+        <if test="showState != null"> and show_state = #{showState} </if>
+        <if test="editState != null"> and edit_state = #{editState} </if>
+        <if test="auditState != null"> and audit_state = #{auditState} </if>
+        <if test="courseId != null and '' != courseId"> and course_id = #{courseId}::uuid </if>
+        <if test="title != null and '' != title">
+            <bind name="likeTitle" value="'%' + title + '%'"/>
+            and title like #{likeTitle}
+        </if>
+        order by update_time desc
+    </select>
+
+    <select id="count" resultType="long">
+        select count(id) amount from store_paper
+        where flag = true and status = true
+        <if test="courseId != null and '' != courseId"> and course_id = #{courseId}::uuid </if>
+        <if test="title != null and '' != title">
+            <bind name="likeTitle" value="'%' + title + '%'"/>
+            and title like #{likeTitle}
+        </if>
+    </select>
+</mapper>

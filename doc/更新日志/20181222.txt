@@ -1,0 +1,4 @@
+alter table course_video add column show_state boolean default false;
+comment on column course_video.show_state is '显示状态';
+
+<i class="Hui-iconfont Hui-iconfont-lunzi"></i>

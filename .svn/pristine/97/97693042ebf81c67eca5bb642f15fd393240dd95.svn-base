@@ -1,0 +1,11 @@
+package cn.com.enjoystudy.oa.bean.study;
+
+import cn.com.enjoystudy.oa.bean.EntitySupport;
+
+/**
+ * 课程
+ * @author 广州新咨力科技有限公司-杜永生
+ */
+public class Course extends EntitySupport {
+    private String typeId;
+}

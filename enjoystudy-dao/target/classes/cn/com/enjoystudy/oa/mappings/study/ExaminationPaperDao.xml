@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.ExaminationPaperDao">
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.ExaminationPaper" >
+        insert into examination_paper (id, create_time, update_time, flag, status, total_score, pass_score,
+        course_id, test_type, test_state, test_amount, duration, title, question_amount,
+        question_type, single_amount, multi_amount, judge_amount, check_amount, fill_amount)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{totalScore}, #{passScore},
+        #{courseId}::uuid, #{testType}, #{testState}, #{testAmount}, #{duration}, #{title}, #{questionAmount},
+        #{questionType}, #{singleAmount}, #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.ExaminationPaper" >
+        update examination_paper set update_time = #{updateTime}, total_score = #{totalScore}, pass_score = #{passScore},
+        course_id = #{courseId}::uuid, test_type = #{testType}, test_state = #{testState}, test_amount = #{testAmount},
+        duration = #{duration}, title = #{title}, question_amount = #{questionAmount}, question_type = #{questionType},
+        single_amount = #{singleAmount}, multi_amount = #{multiAmount}, judge_amount = #{judgeAmount},
+        check_amount = #{checkAmount}, fill_amount = #{fillAmount}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.ExaminationPaper">
+        select id, course_id, test_type, test_state, total_score, pass_score, test_amount, duration, title,
+        question_amount, question_type, single_amount, multi_amount, judge_amount, check_amount, fill_amount
+        from examination_paper where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update examination_paper set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.ExaminationPaper"
+            parameterType="cn.com.enjoystudy.oa.bean.study.ExaminationPaperSO">
+        select id, course_id, test_type, test_state, total_score, pass_score, test_amount, duration, title,
+        question_amount, question_type, single_amount, multi_amount, judge_amount, check_amount, fill_amount
+        from examination_paper
+        where flag = true and status = true
+        <if test="courseId != null and '' != courseId"> and course_id = #{courseId}::uuid </if>
+        <if test="testType != null"> and test_type = #{testType} </if>
+        <if test="testState != null"> and test_state = #{testState} </if>
+        <if test="title != null and '' != title">
+            <bind name="likeTitle" value="'%' + title + '%'"/>
+            and title like #{likeTitle}
+        </if>
+        order by update_time desc
+    </select>
+
+    <select id="count" resultType="long">
+        select count(id) amount from examination_paper
+        where flag = true and status = true
+        <if test="courseId != null and '' != courseId"> and course_id = #{courseId}::uuid </if>
+        <if test="testType != null"> and test_type = #{testType} </if>
+        <if test="testState != null"> and test_state = #{testState} </if>
+        <if test="title != null and '' != title">
+            <bind name="likeTitle" value="'%' + title + '%'"/>
+            and title like #{likeTitle}
+        </if>
+    </select>
+</mapper>

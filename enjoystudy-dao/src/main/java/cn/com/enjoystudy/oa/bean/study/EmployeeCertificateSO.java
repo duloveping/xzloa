@@ -1,0 +1,154 @@
+package cn.com.enjoystudy.oa.bean.study;
+
+import cn.com.enjoystudy.oa.bean.SOSupport;
+
+import java.util.Date;
+
+/**
+ * 员工考试获取的证书
+ */
+public class EmployeeCertificateSO extends SOSupport {
+    /** 员工ID */
+    private String employeeId;
+    /** 员工姓名 */
+    private String employeeName;
+    /** 员工性别 */
+    private String employeeSex;
+    /** 员工出生日期 */
+    private String employeeBorn;
+    /** 员工身份证号 */
+    private String identityCode;
+    /** 证书ID */
+    private String certificateId;
+    /** 证书编号 */
+    private String certificateCode;
+    /** 证书名称 */
+    private String certificateName;
+    /** 证书日期 */
+    private Date certificateDate;
+    /** 公章图片地址 */
+    private String sealPhoto;
+    /** 机构编号 */
+    private String organizationCode;
+    /** 机构名称 */
+    private String organizationName;
+    /** 发证人ID */
+    private String teacherId;
+    /** 发证人姓名 */
+    private String teacherName;
+
+    public EmployeeCertificateSO() {
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    public String getEmployeeSex() {
+        return employeeSex;
+    }
+
+    public void setEmployeeSex(String employeeSex) {
+        this.employeeSex = employeeSex;
+    }
+
+    public String getEmployeeBorn() {
+        return employeeBorn;
+    }
+
+    public void setEmployeeBorn(String employeeBorn) {
+        this.employeeBorn = employeeBorn;
+    }
+
+    public String getIdentityCode() {
+        return identityCode;
+    }
+
+    public void setIdentityCode(String identityCode) {
+        this.identityCode = identityCode;
+    }
+
+    public String getCertificateId() {
+        return certificateId;
+    }
+
+    public void setCertificateId(String certificateId) {
+        this.certificateId = certificateId;
+    }
+
+    public String getCertificateCode() {
+        return certificateCode;
+    }
+
+    public void setCertificateCode(String certificateCode) {
+        this.certificateCode = certificateCode;
+    }
+
+    public String getCertificateName() {
+        return certificateName;
+    }
+
+    public void setCertificateName(String certificateName) {
+        this.certificateName = certificateName;
+    }
+
+    public Date getCertificateDate() {
+        return certificateDate;
+    }
+
+    public void setCertificateDate(Date certificateDate) {
+        this.certificateDate = certificateDate;
+    }
+
+    public String getSealPhoto() {
+        return sealPhoto;
+    }
+
+    public void setSealPhoto(String sealPhoto) {
+        this.sealPhoto = sealPhoto;
+    }
+
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
+
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+}

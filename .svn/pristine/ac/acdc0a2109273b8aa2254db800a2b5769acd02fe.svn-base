@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.base.EmployeePositionDao" >
+    <resultMap id="resultMap" type="cn.com.enjoystudy.oa.bean.base.EmployeePosition">
+        <result column="id" jdbcType="BIGINT" property="id" />
+        <result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+        <result column="position_id" jdbcType="VARCHAR" property="positionId" />
+        <association property="employee" column="role_id" select="getEmployee" javaType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount"/>
+        <association property="position" column="menu_id" select="getPosition" javaType="cn.com.enjoystudy.oa.bean.base.BasePosition"/>
+    </resultMap>
+
+    <select id="getEmployee" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount">
+        select id, department_id, code, full_name, login_password, lock_state
+        from employee_account where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <select id="getPosition" resultType="cn.com.enjoystudy.oa.bean.base.BasePosition">
+        select id, code, name, caption, show_state, serial_number
+        from sys_role  where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <sql id="columns"> id, employee_id, position_id </sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != employeeId and '' != employeeId"> and employee_id = #{employeeId}::uuid</if>
+            <if test="null != positionId and '' != positionId"> and position_id = #{positionId}::uuid</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeePosition" >
+        insert into employee_position (id, create_time, update_time, flag, status, role_id, menu_id)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{roleId}, #{menuId})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeePosition" >
+        update employee_position set update_time = #{updateTime}, role_id = #{roleId}, menu_id = #{menuId} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.EmployeePosition">
+        select <include refid="columns"/> from employee_position where id = #{id}::uuid flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update employee_position set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultMap="resultMap" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeePositionSO">
+        select <include refid="columns"/>
+        from employee_position <include refid="wheres"/>
+        order by serial_number asc, create_time desc
+    </select>
+
+    <select id="findByEmployeeId" resultMap="resultMap">
+        select <include refid="columns"/>
+        from employee_position where flag = true and status = true employee_id = #{employeeId}::uuid
+    </select>
+
+    <select id="finidByPositionId" resultMap="resultMap">
+        select <include refid="columns"/>
+        from employee_position where flag = true and status = true position_id = #{positionId}::uuid
+    </select>
+
+    <delete id="deleteByEmployeeId">
+        delete from employee_position where employee_id = #{employeeId}::uuid
+    </delete>
+
+    <delete id="deleteByPositionId">
+        delete from employee_position where position_id = #{positionId}::uuid
+    </delete>
+</mapper>

@@ -1,0 +1,38 @@
+$(function () {
+    $("#inputForm").validate({
+        rules : {
+            auditorMind: {
+                required : true
+            }
+        },
+        messages: {
+            auditorMind: {
+                required: "审核意见不能为空！"
+            }
+        },
+        onkeyup : false,
+        focusCleanup : true,
+        success : "valid",
+        submitHandler : function(form) {
+            $.ajax({
+                type: "post",
+                url: ctx + "/manage/study/store-paper/save-audit.jhtml",
+                cache: false,
+                data: $(form).serialize(),
+                dataType: "json",
+                success: function (res) {
+                    if (res.status == false) {
+                        layer.msg(res.info,{icon:1,time:3000});
+                    } else {
+                        parent.paper.list(1);
+                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        parent.layer.close(index);
+                    }
+                },
+                error : function(XmlHttpRequest, textStatus, errorThrown) {
+                    layer.alert('数据保存失败');
+                }
+            });
+        }
+    });
+});

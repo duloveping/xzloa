@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.CourseExaminationDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.CourseExamination" >
+        insert into course_examination (id, create_time, update_time, flag, status,
+        course_id, video_id, title, category, score)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{courseId}::uuid, #{videoId}::uuid, #{title}, #{category}, #{score})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.CourseExamination" >
+        update course_examination set update_time = #{updateTime},
+        course_id = #{courseId}::uuid, video_id = #{videoId}, title = #{title}, category = #{category}, score = #{score}
+        where id = #{id}::uuid
+    </update>
+
+    <resultMap id="getByIdResultMap" type="cn.com.enjoystudy.oa.bean.study.CourseExamination">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+        <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+        <result column="video_id" jdbcType="VARCHAR" property="videoId" />
+        <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="category" jdbcType="INTEGER" property="category" />
+        <result column="score" jdbcType="INTEGER" property="score" />
+        <association property="analysis" column="{examinationId=id}" select="getAnalysis" javaType="java.lang.String"/>
+        <collection property="itemList" column="{examinationId=id}" javaType="java.util.List"
+                    ofType="cn.com.enjoystudy.oa.bean.study.CourseExaminationItem" select="findItemsByExaminationId"/>
+    </resultMap>
+
+    <select id="getById" resultMap="getByIdResultMap">
+        select e.id, c.id course_id, c.name course_name,
+        v.id video_id, v.name video_id, e.title, e.category, e.score
+        from course_examination e
+        left join course c on c.id = course_id
+        left join course_video v on v.id = e.video_id
+        where e.id = #{id}::uuid and e.flag = true and e.status = true
+    </select>
+
+    <update id="deleteById">
+        update course_examination set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.CourseExamination"
+            parameterType="cn.com.enjoystudy.oa.bean.study.CourseExaminationSO">
+        select e.id, c.id course_id, c.name course_name,
+        v.id video_id, v.name video_id, e.title, e.category, e.score
+        from course_examination e
+        left join course c on c.id = course_id
+        left join course_video v on v.id = e.video_id
+        where e.flag = true and e.status = true
+        <if test="null != courseId and '' != courseId"> and c.id = #{courseId} </if>
+        <if test="null != videoId and '' != videoId"> and v.id = #{videoId} </if>
+        <if test="null != category"> and e.category = #{category} </if>
+        <if test="null != title and '' != title">
+            <bind name="likeTitle" value="'%' + title + '%'"/>
+            and title like #{likeTitle}
+        </if>
+        order by e.update_time desc
+    </select>
+
+    <select id="findItemsByExaminationId" resultType="cn.com.enjoystudy.oa.bean.study.CourseExaminationItem">
+        select id, title, is_answer from course_examination_item
+        where examination_id = #{examinationId}::uuid and flag = true and status = true
+    </select>
+
+    <delete id="deleteByExaminationId">
+        delete from course_examination_item where examination_id = #{examinationId}::uuid
+    </delete>
+
+    <select id="findAllCourse" resultType="cn.com.enjoystudy.oa.bean.study.Course">
+        select id, name from course where flag = true and status  = true
+    </select>
+
+    <select id="getAnalysis" resultType="java.lang.String">
+        select content from course_examination_analysis where examination_id = #{examinationId}::uuid and flag = true and status = true
+    </select>
+</mapper>

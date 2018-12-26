@@ -1,0 +1,54 @@
+function keyDown(){
+	var evt = window.event || arguments.callee.caller.arguments[0];
+	if(evt.keyCode==13) {$("#loginform").submit()};
+}
+
+var cookie_login_name = "default_enjoystudy_username";
+
+$(function(){
+    $("#inputForm").validate({
+		rules : {
+			username : {
+				required : true,
+			},
+			password : {
+				required : true,
+			},
+			checkCode : {
+				required : true,
+			}
+		},
+		onkeyup : false,
+		focusCleanup : true,
+		success : "valid",
+		submitHandler : function(form) {
+			$.ajax({
+				type: "post",
+				url: "login.jhtml",
+				cache: false,
+				data: $(form).serialize(),
+				dataType: "json",
+				success: function (res) {
+					if (res.success) {
+						window.location.href = "../../manage/main/index.jhtml";
+					} else {
+						$("#kaptchaImage").attr('src', '../../images/kaptcha.jpg?' + Math.floor(Math.random()*100));
+                        layer.alert(res.message);
+					}
+				},
+				error : function(XmlHttpRequest, textStatus, errorThrown) {
+                    $("#kaptchaImage").attr('src', '../../images/kaptcha.jpg?' + Math.floor(Math.random()*100));
+					layer.alert('登录失败');
+				}
+			});
+		}
+	});
+	
+	$("#username").focus();
+	
+	$('#kaptchaImage').click(function () {
+    	$(this).attr('src', '../../images/kaptcha.jpg?' + Math.floor(Math.random()*100)); 
+    });
+});
+
+

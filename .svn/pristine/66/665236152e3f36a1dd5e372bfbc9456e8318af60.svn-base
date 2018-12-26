@@ -1,0 +1,136 @@
+package cn.com.enjoystudy.oa.bean.study;
+
+import cn.com.enjoystudy.oa.bean.EntitySupport;
+import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
+
+import java.util.Date;
+
+/**
+ * 员工考试试卷
+ * @author 广州新咨力科技有限公司-杜永生
+ */
+public class EmployeeExaminationPaper extends EntitySupport {
+    /** 试卷 */
+    private ExaminationPaper paper;
+    /** 试卷ID */
+    private String paperId;
+    /** 试卷标题 */
+    private String paperTitle;
+    /** 员工 */
+    private EmployeeAccount employee;
+    /** 员工ID */
+    private String employeeId;
+    /** 员工名称 */
+    private String employeeName;
+    /** 领卷时间 */
+    private Date startTime;
+    /** 交卷时间 */
+    private Date endTime;
+    /** 参与状态：1正常，2缺考 */
+    private Integer joinState;
+    /** 考试状态：1未开始，2已开始，3暂停，4结束，5作废 */
+    private Integer testState;
+    /** 通过状态：1及格，2不及格 */
+    private Integer passState;
+    /** 考试成绩（测试成绩） */
+    private Integer testScore;
+
+    public EmployeeExaminationPaper() {
+    }
+
+    public ExaminationPaper getPaper() {
+        return paper;
+    }
+
+    public void setPaper(ExaminationPaper paper) {
+        this.paper = paper;
+    }
+
+    public String getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(String paperId) {
+        this.paperId = paperId;
+    }
+
+    public String getPaperTitle() {
+        return paperTitle;
+    }
+
+    public void setPaperTitle(String paperTitle) {
+        this.paperTitle = paperTitle;
+    }
+
+    public EmployeeAccount getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(EmployeeAccount employee) {
+        this.employee = employee;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Integer getJoinState() {
+        return joinState;
+    }
+
+    public void setJoinState(Integer joinState) {
+        this.joinState = joinState;
+    }
+
+    public Integer getTestState() {
+        return testState;
+    }
+
+    public void setTestState(Integer testState) {
+        this.testState = testState;
+    }
+
+    public Integer getPassState() {
+        return passState;
+    }
+
+    public void setPassState(Integer passState) {
+        this.passState = passState;
+    }
+
+    public Integer getTestScore() {
+        return testScore;
+    }
+
+    public void setTestScore(Integer testScore) {
+        this.testScore = testScore;
+    }
+}

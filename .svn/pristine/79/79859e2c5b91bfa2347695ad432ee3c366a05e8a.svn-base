@@ -1,0 +1,119 @@
+function goPage(curr) {
+    $.ajax({
+        type: "post",
+        url: "list.jhtml",
+        cache: false,
+        data: {
+            "pageNumber": curr,
+            "username": $.trim($("#username").val()),
+            "realname": $.trim($("#realname").val()),
+            "rnd": Math.random()
+        },
+        dataType: "json",
+        success: function (res) {
+            if (res.status) {
+                var edit = $("#dataTableList > tbody").attr("data-edit");
+                var del = $("#dataTableList > tbody").attr("data-delete");
+                var html = "";
+                var array = res.datas;
+                for (var i = 0; i < array.length; i++) {
+                    var data = array[i];
+                    var caption = "";
+                    if (null != data.caption) {
+                        caption = data.caption;
+                    }
+                    html += "<tr>";
+                    html += "<td>" + data.account.username + "</td>";
+                    html += "<td>" + data.account.realname + "</td>";
+                    html += "<td>" + data.department.name + "</td>";
+                    html += "<td>";
+                    if (edit == 1) {
+                        html += "<a href=\"javascript:void(0);\" onclick=\"employee.edit(" + data.id + ");\">编辑</a>&nbsp;&nbsp;";
+                    }
+                    if (del == 1) {
+                        html += "<a href=\"javascript:void(0);\" onclick=\"employee.delete(this, " + data.id + ");\">删除</a>"
+                    }
+                    html += "</td></tr>";
+                }
+
+                $("#dataTableList > tbody").html(html);
+
+                laypage({
+                    cont: 'pageNav',
+                    pages: res.pages,
+                    groups: 10,
+                    curr: curr || 1,
+                    jump: function (obj, first) {
+                        if (!first) {
+                            goPage(obj.curr);
+                        }
+                    }
+                });
+            } else {
+                layer.alert(res.info);
+            }
+        },
+        error : function(XmlHttpRequest, textStatus, errorThrown) {
+            layer.alert('无权限操作');
+        }
+    });
+}
+
+function Employee() {};
+
+Employee.prototype = {
+    list: goPage,
+    add: function () {
+        layer.open({
+            type: 2,
+            title: '添加员工',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['640px', '480px'],
+            maxmin: true,
+            content: 'edit.jhtml?rnd=' + Math.random()
+        });
+    },
+    edit: function (id) {
+        layer.open({
+            type: 2,
+            title: '修改员工',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['640px', '480px'],
+            maxmin: true,
+            content: 'edit.jhtml?id=' + id + '&rnd=' + Math.random()
+        });
+    },
+    delete: function (obj, id) {
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type : "post",
+                url : "delete.jhtml",
+                cache : false,
+                data : {"id" : id, "rnd" : Math.random()},
+                dataType : "json",
+                success : function(res){
+                    if (res.status) {
+                        layer.msg('删除成功',{icon:1,time:3000});
+                    } else {
+                        layer.alert(res.info);
+                    }
+
+                }
+            });
+            $(obj).parents("tr").remove();
+            layer.close(index);
+        });
+    }
+};
+
+var employee = null;
+$(function () {
+    employee = new Employee();
+    employee.list(1);
+
+    $("#searchBotton").bind("click", function(){
+        employee.list(1);
+    });
+});

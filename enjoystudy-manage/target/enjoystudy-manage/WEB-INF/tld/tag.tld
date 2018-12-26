@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.2</jsp-version>
+    <short-name>xzlTag</short-name>
+    <description>乐学堂标签</description>
+
+    <tag>
+        <name>sysBaseConfigTag</name>
+        <tag-class>cn.com.enjoystudy.oa.tag.system.SysBaseConfigTag</tag-class>
+        <body-content>jsp</body-content>
+        <description>系统设置标签</description>
+    </tag>
+
+    <tag>
+        <name>sysMenuListTag</name>
+        <tag-class>cn.com.enjoystudy.oa.tag.system.SysMenuListTag</tag-class>
+        <body-content>jsp</body-content>
+        <description>菜单列表标签</description>
+        <attribute>
+            <name>varid</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>变量名称</description>
+        </attribute>
+        <attribute>
+            <name>code</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>菜单编号（权限编号）</description>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>菜单名称（权限名称）</description>
+        </attribute>
+        <attribute>
+            <name>category</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>类型：1菜单，2权限</description>
+        </attribute>
+        <attribute>
+            <name>showState</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>显示状态</description>
+        </attribute>
+        <attribute>
+            <name>parentId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>所属父级菜单ID</description>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>sysRoleMenuListTag</name>
+        <tag-class>cn.com.enjoystudy.oa.tag.system.SysRoleMenuListTag</tag-class>
+        <body-content>jsp</body-content>
+        <description>角色菜单列表标签</description>
+        <attribute>
+            <name>varid</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>变量名称</description>
+        </attribute>
+        <attribute>
+            <name>roleId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>角色ID</description>
+        </attribute>
+        <attribute>
+            <name>menuId</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>菜单ID</description>
+        </attribute>
+    </tag>
+</taglib>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.common.SelectDao">
+    <select id="findEmployeesByIds" resultType="java.util.Map">
+        select e.id employeeId, e.full_name employeeName, d.id departmentId, d.name departmentName
+        from employee_account e
+        inner join department d on d.id = e.department_id
+        where e.flag = true and e.status = true and d.flag = true and d.status = true
+        <if test="null != ids and ids.length > 0">
+            and e.id in <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">#{item}</foreach>
+        </if>
+    </select>
+
+    <select id="findDepartmentsByIds" resultType="java.util.Map">
+        select d.id departmentId, d.name departmentName from department d
+        where d.flag = true and d.status = true
+        <if test="null != ids and ids.length > 0">
+            and e.id in <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">#{item}</foreach>
+        </if>
+    </select>
+
+    <select id="zTreefindSubOrgs" resultType="java.util.Map">
+        select d.id, d.name, d.parent_id pId,
+        (case when d.parent_id is null then true else false end) isParent,
+        (select count(c.id) amount from department c
+        where c.flag = true and c.status = true and c.parent_id = d.id
+        <if test="null != deptFlag">
+            <choose>
+                <when test="deptFlag == 1"> and c.category = 1 </when>
+                <when test="deptFlag == 2">
+                    <if test="psco == 0 || psco == 3"> and c.category = 1 </if>
+                </when>
+            </choose>
+        </if>
+        ) hasChild
+        from department d where d.flag = true and d.status = true
+        <if test="null != deptFlag">
+            <choose>
+                <when test="deptFlag == 1"> and d.category = 1 </when>
+                <when test="deptFlag == 2">
+                    <if test="psco == 0 || psco == 3"> and d.category = 1 </if>
+                </when>
+            </choose>
+        </if>
+        <if test="null != invisibleOrgIdList and invisibleOrgIdList.size() > 0">
+            <foreach collection="invisibleOrgIdList" item="invisibleOrgId">
+                <![CDATA[ and d.id <> #{invisibleOrgId}::uuid ]]>
+            </foreach>
+        </if>
+    </select>
+
+
+</mapper>

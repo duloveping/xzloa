@@ -1,0 +1,123 @@
+function Menu() {};
+
+Menu.prototype = {
+    list: function (){
+        $.ajax({
+            type: "post",
+            url: "list.jhtml",
+            cache: false,
+            data: {
+                "code": $.trim($("#code").val()),
+                "name": $.trim($("#name").val()),
+                "rnd": Math.random()
+            },
+            dataType: "json",
+            success: function (res) {
+                if (res.status) {
+                    var html = "";
+                    var array = res.datas;
+                    for (var i = 0; i < array.length; i++) {
+                        var data = array[i];
+                        if (data.parentId == "0") {
+                            html += "<tr data-tt-id=\"" + data.id + "\">";
+                        } else {
+                            html += "<tr data-tt-id=\"" + data.id + "\" data-tt-parent-id=\"" + data.parentId + "\">";
+                        }
+                        html += "<td>" + data.name + "（" + data.code + "）</td>";
+                        html += "<td>" + data.href + "</td>";
+                        html += "<td>";
+                        if (data.parentId == "0") {
+                            html += "<a href=\"javascript:void(0);\" onclick=\"menu.add('" + data.id + "');\">新增子菜单</a>&nbsp;&nbsp;";
+                        } else {
+                            if (data.category == 1) {
+                                html += "<a href=\"javascript:void(0);\" onclick=\"menu.permission('" + data.id + "');\">菜单权限</a>&nbsp;&nbsp;";
+                            }
+                        }
+                        html += "<a href=\"javascript:void(0);\" onclick=\"menu.edit('" + data.id + "');\">编辑</a>&nbsp;&nbsp;";
+                        html += "<a href=\"javascript:void(0);\" onclick=\"menu.delete(this, '" + data.id + "');\">删除</a>"
+                        html += "</td></tr>";
+
+                        if (data.parentId != "0") {
+                            if (null != data.menuList && typeof(data.menuList) != "undefined" && data.menuList.length > 0) {
+                                for (var j = 0; j < data.menuList.length; j++) {
+                                    var obj = array[j];
+
+                                    html += "<tr data-tt-id=\"" + obj.id + "\" data-tt-parent-id=\"" + obj.parentId + "\">";
+                                    html += "<td>" + obj.name + "（" + obj.code + "）</td>";
+                                    html += "<td></td>";
+                                    html += "<td>";
+                                    html += "<a href=\"javascript:void(0);\" onclick=\"menu.edit('" + obj.id + "');\">编辑</a>&nbsp;&nbsp;";
+                                    html += "<a href=\"javascript:void(0);\" onclick=\"menu.delete(this, '" + obj.id + "');\">删除</a>"
+                                    html += "</td></tr>";
+                                }
+                            }
+                        }
+
+                    }
+                    $("#dataTableList > tbody").html(html).treetable();
+                } else {
+                    layer.alert(res.info);
+                }
+            }
+        });
+    },
+    add: function (pid) {
+        layer.open({
+            type: 2,
+            title: '添加菜单',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['800px', '600px'],
+            maxmin: true,
+            content: 'edit.jhtml?parentId=' + pid + '&rnd=' + Math.random()
+        });
+    },
+    permission: function (menuId) {
+        layer.open({
+            type: 2,
+            title: '权限菜单',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['800px', '600px'],
+            maxmin: true,
+            content: 'permission-edit.jhtml?parentId=' + menuId + '&rnd=' + Math.random()
+        });
+    },
+    edit: function (id) {
+        layer.open({
+            type: 2,
+            title: '编辑菜单',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['800px', '600px'],
+            maxmin: true,
+            content: 'edit.jhtml?id=' + id + '&rnd=' + Math.random()
+        });
+    },
+    delete: function (obj, id) {
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type : "post",
+                url : "delete.jhtml",
+                cache : false,
+                data : {"id" : id, "rnd" : Math.random()},
+                dataType : "json",
+                success : function(res){
+                    if (res.status) {
+                        layer.msg('删除成功',{icon:1,time:3000});
+                    } else {
+                        layer.alert(res.info);
+                    }
+                }
+            });
+            $(obj).parents("tr").remove();
+            layer.close(index);
+        });
+    }
+};
+
+var menu = null;
+$(function () {
+    menu = new Menu();
+    menu.list();
+});

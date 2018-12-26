@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.CourseDao" >
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != code and '' != code"> and code = #{code}</if>
+            <if test="null != name and '' != name">
+                <choose>
+                    <when test="like == false"> and name= #{name}</when>
+                    <otherwise>
+                        <bind name="likeName" value="'%' + name + '%'"/>
+                        and name like #{likeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != typeId and '' != typeId">
+                <choose>
+                    <when test="'0'.toString() == typeId">and type_id is null</when>
+                    <otherwise> and type_id = #{typeId}::uuid</otherwise>
+                </choose>
+            </if>
+            <if test="null != exceptId and '' != exceptId"><![CDATA[ and id <> #{exceptId}::uuid ]]></if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.Course" >
+        insert into course (id, create_time, update_time, flag, status,
+        code, name, type_id, teacher_id, introduction, description)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{code}, #{name}, #{typeId}::uuid, #{teacherId}::uuid, #{introduction}, #{description})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.Course" >
+        update course set update_time = #{updateTime},
+        code = #{code}, name = #{name}, teacher_id = #{teacherId}::uuid, type_id = #{typeId}::uuid,
+        introduction = #{introduction}, description = #{description}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.Course">
+        select id, code, name, type_id, teacher_id, introduction, description
+        from course where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update course set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.Course"
+            parameterType="cn.com.enjoystudy.oa.bean.study.CourseSO">
+        select c.id, c.code, c.name, t.id type_id, t.name type_name, e.id teacher_id, e.full_name teacher_name
+        from course c
+        left join course_type t on t.id = c.type_id
+        left join teacher e on e.id = c.teacher_id
+        where c.flag = true and c.status = true
+        <if test="null != code and '' != code"> and c.code = #{code}</if>
+        <if test="null != name and '' != name">
+            <choose>
+                <when test="like == false"> and c.name= #{name}</when>
+                <otherwise>
+                    <bind name="likeName" value="'%' + name + '%'"/>
+                    and c.name like #{likeName}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="null != typeId and '' != typeId"> t.id = #{typeId} </if>
+        <if test="null != teacherId and '' != teacherId"> e.id = #{teacherId} </if>
+        <if test="null != exceptId and '' != exceptId"><![CDATA[ and c.id <> #{exceptId}::uuid ]]></if>
+        order by c.update_time desc
+    </select>
+
+    <select id="count" resultType="long">
+        select count(id) amount
+        from course <include refid="wheres"/>
+    </select>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.base.EmployeeAccountDao" >
+    <sql id="columns"> id, department_id, position_id, code, full_name, login_password, lock_state </sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != lockState"> and lock_state = #{lockState}</if>
+            <if test="null != departmentId and '' != departmentId"> and department_id = #{departmentId}::uuid</if>
+            <if test="null != positionId and '' != positionId"> and position_id = #{positionId}::uuid</if>
+            <if test="null != code and '' != code"> and code = #{code}</if>
+            <if test="null != fullName and '' != fullName">
+                <choose>
+                    <when test="null != like and like == true"> and full_name= #{fullName}</when>
+                    <otherwise>
+                        <bind name="likeName" value="'%' + fullName + '%'"/>
+                        and full_name like #{likeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != exceptId and '' != exceptId"><![CDATA[ id <> #{exceptId}::uuid ]]></if>
+            <if test="null != employeeIds and employeeIds.length > 0">
+                <choose>
+                    <when test="employeeIds.length == 1"> and id = #{employeeIds[0]} </when>
+                    <otherwise>
+                        and id in
+                        <foreach collection ="employeeIds" item="item" index="index" open="(" close=")" separator =","> #{item}::uuid </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != departmentIds and departmentIds.length > 0">
+                <choose>
+                    <when test="departmentIds.length == 1"> and department_id = #{departmentIds[0]} </when>
+                    <otherwise>
+                        and department_id in
+                        <foreach collection ="departmentIds" item="item" index="index" open="(" close=")" separator =","> #{item}::uuid </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != positionIds and positionIds.length > 0">
+                <choose>
+                    <when test="positionIds.length == 1"> and position_id = #{positionIds[0]} </when>
+                    <otherwise>
+                        and position_id in
+                        <foreach collection ="positionIds" item="item" index="index" open="(" close=")" separator =","> #{item}::uuid </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
+        insert into employee_account (id, create_time, update_time, flag, status,
+        department_id, position_id, code, full_name, login_password, lock_state)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{departmentId}::uuid, #{positionId}::uuid, #{code}, #{fullName}, #{loginPassword}, #{lockState})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
+        update employee_account set update_time = #{updateTime},
+        department_id = #{departmentId}::uuid, position_id = #{positionId}:uuid, code = #{code},
+        full_name = #{fullName}, login_password = #{loginPassword}, lock_state = #{lockState}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount">
+        select <include refid="columns"/> from EmployeeAccount where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update employee_account set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount"
+            parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccountSO">
+        select <include refid="columns"/>
+        from employee_account <include refid="wheres"/>
+        order by create_time desc
+    </select>
+
+    <select id="getDepartment" resultType="cn.com.enjoystudy.oa.bean.base.Department">
+        select id, category, code, name, phone, boss_id, boss_name, parent_id
+        from department
+        where id = #{departmentId}::uuid and flag = true and status = true
+    </select>
+
+    <select id="getPosition" resultType="cn.com.enjoystudy.oa.bean.base.BasePosition">
+        select id, code, name, caption, show_state, serial_number
+        from base_position
+        where id = #{positionId}::uuid and flag = true and status = true
+    </select>
+</mapper>

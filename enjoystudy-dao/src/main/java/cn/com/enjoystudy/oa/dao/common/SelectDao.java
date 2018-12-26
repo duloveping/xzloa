@@ -1,0 +1,21 @@
+package cn.com.enjoystudy.oa.dao.common;
+
+import cn.com.enjoystudy.oa.bean.base.Department;
+import cn.com.enjoystudy.oa.bean.base.DepartmentSO;
+import cn.com.enjoystudy.oa.bean.common.SearchCriteria;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public interface SelectDao {
+    List<Map<String, String>> findEmployeesByIds(@Param("ids") String[] ids);
+
+    List<Map<String, String>> findDepartmentsByIds(@Param("ids") String[] ids);
+
+    List<Map<String, Object>> zTreefindSubOrgs(SearchCriteria criteria);
+
+    List<Department> list(DepartmentSO so);
+}

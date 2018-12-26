@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.CourseExaminationItemDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.CourseExercise" >
+        insert into course_examination_item (id, create_time, update_time, flag, status,
+        course_id, video_id, examination_id, title, is_answer)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{courseId}::uuid, #{videoId}::uuid, #{examinationId}::uuid, #{title}, #{isAnswer})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.CourseExercise" >
+        update course_examination_item set update_time = #{updateTime},
+        course_id = #{courseId}::uuid, video_id = #{videoId}::uuid, examination_id = #{examinationId}::uuid,
+        title = #{title}, is_answer = #{isAnswer} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.CourseExaminationItem">
+        select id, course_id, video_id, examination_id, title, is_answer from course_examination_item
+        where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update course_examination_item set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.CourseExercise"
+            parameterType="cn.com.enjoystudy.oa.bean.study.CourseExerciseSO">
+        select id, course_id, video_id, examination_id, title, is_answer
+        from course_examination_item
+        where flag = true and status = true
+        <if test="null != courseId"> and course_id = #{courseId} </if>
+        <if test="null != videoId and '' != videoId"> and video_id = #{videoId} </if>
+        <if test="null != examination_id and '' != examination_id"> and examination_id = #{examinationId} </if>
+        <if test="null != isAnswer"> and is_answer = #{isAnswer} </if>
+        <if test="null != title and '' != title">
+            <bind name="likeTitle" value="'%' + title + '%'"/>
+            and title like #{likeTitle}
+        </if>
+    </select>
+
+    <delete id="deleteByExaminationId">
+        delete from course_examination_item where examination_id = #{examinationId}::uuid
+    </delete>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.StoreQuestionItemDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.StoreQuestionItem" >
+        insert into store_question_item (id, create_time, update_time, flag, status, question_id, title, is_answer)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{questionId}::uuid, #{title}, #{isAnswer})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.StoreQuestionItem" >
+        update store_question_item set update_time = #{updateTime},
+        question_id = #{questionId}::uuid, title = #{title}, is_answer = #{isAnswer} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.StoreQuestionItem">
+        select id, question_id, title, is_answer from store_question_item
+        where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update store_question_item set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.StoreQuestionItem"
+            parameterType="cn.com.enjoystudy.oa.bean.study.StoreQuestionItemSO">
+        select id, question_id, title, is_answer
+        from store_question_item
+        where flag = true and status = true
+        <if test="null != questionId and '' != questionId"> and question_id = #{questionId}::uuid </if>
+        <if test="null != isAnswer"> and is_answer = #{isAnswer} </if>
+    </select>
+
+    <delete id="deleteByQuestionId">
+        delete from store_question_item where question_id = #{questionId}::uuid
+    </delete>
+</mapper>

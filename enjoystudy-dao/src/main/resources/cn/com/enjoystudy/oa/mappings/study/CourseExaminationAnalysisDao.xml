@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.CourseExaminationAnalysisDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.CourseExaminationAnalysis" >
+        insert into course_examination_analysis (id, create_time, update_time, flag, status,
+        course_id, video_id, examination_id, content)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{courseId}::uuid, #{videoId}::uuid, #{examinationId}::uuid, #{content})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.CourseExaminationAnalysis" >
+        update course_examination_analysis set update_time = #{updateTime},
+        course_id = #{courseId}::uuid, video_id = #{videoId}::uuid, examination_id = #{examinationId}::uuid,
+        content = #{content} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.CourseExaminationAnalysis">
+        select id, course_id, video_id, examination_id, content from course_examination_analysis
+        where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update course_examination_analysis set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="getAnalysisExaminationId" resultType="cn.com.enjoystudy.oa.bean.study.CourseExaminationAnalysis">
+        select id, course_id, video_id, examination_id, content from course_examination_analysis
+        where examination_id = #{examinationId}::uuid and flag = true and status = true
+    </select>
+</mapper>

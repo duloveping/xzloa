@@ -1,0 +1,45 @@
+$(function () {
+    $("#inputForm").validate({
+        rules: {
+            name: {
+                required: true,
+                remote: {
+                    type: "post",
+                    url: "",
+                    data: {
+                        name: function () {
+                            return $("#name").val();
+                        }
+                    }
+                }
+            }
+        },
+        messages: {
+            name: {
+                required: "公司编号不能为空！",
+                remote: jQuery.format("公司名称已被使用！")
+            },
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: "post",
+                url: "save.jhtml",
+                cache: false,
+                data: $(form).serialize(),
+                dataType: "json",
+                success: function (res) {
+                    if (res.status) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.menu.list();
+                        parent.layer.close(index);
+                    } else {
+                        layer.alert(res.info);
+                    }
+                },
+                error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    layer.alert('数据保存失败');
+                }
+            });
+        }
+    });
+});

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.sys.SysSequenceDao" >
+    <sql id="columns">id, seq_code, seq_name, seq_value</sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != seqCode and '' != seqCode"> and seq_code = #{seqCode}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.sys.SysSequence" >
+        insert into sys_sequence (id, create_time, update_time, flag, status, seq_code, seq_name, seq_value)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{seqCode}, #{seqName}, #{seqValue})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.sys.SysSequence" >
+        update sys_sequence set update_time = #{updateTime},
+        seq_code = #{seqCode}, seq_name = #{seqName}, seq_value = #{seqValue}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.sys.SysSequence">
+        select <include refid="columns"/> from sys_sequence where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <select id="getByCode" resultType="cn.com.enjoystudy.oa.bean.sys.SysSequence">
+        select <include refid="columns"/> from sys_sequence where seq_code = #{code}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update sys_sequence set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.sys.SysSequence"
+            parameterType="cn.com.enjoystudy.oa.bean.sys.SysSequenceSO">
+        select <include refid="columns"/>
+        from sys_sequence <include refid="wheres"/>
+    </select>
+
+    <select id="count" resultType="long">
+        select count(id) amount
+        from sys_sequence <include refid="wheres"/>
+    </select>
+
+</mapper>

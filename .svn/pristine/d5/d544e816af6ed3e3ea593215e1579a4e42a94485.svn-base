@@ -1,0 +1,13 @@
+org.quartz.threadPool.class=org.quartz.simpl.SimpleThreadPool
+org.quartz.threadPool.threadCount=5
+org.quartz.threadPool.threadPriority=5
+org.quartz.jobStore.class=org.quartz.impl.jdbcjobstore.JobStoreTX
+org.quartz.jobStore.driverDelegateClass=org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+org.quartz.jobStore.tablePrefix=qrtz_
+
+org.quartz.jobStore.dataSource=postgresqlDS
+org.quartz.dataSource.postgresqlDS.maxConnections=10
+org.quartz.dataSource.postgresqlDS.driver=org.postgresql.Driver
+org.quartz.dataSource.postgresqlDS.URL=jdbc\:postgresql\://192.168.2.3\:5432/zsxzl?rewriteBatchedStatements=true&useUnicode\=true&characterEncoding\=UTF-8
+org.quartz.dataSource.postgresqlDS.user=postgres
+org.quartz.dataSource.postgresqlDS.password=dys123!@#

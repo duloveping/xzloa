@@ -1,0 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro"%>
+<%@ taglib uri="/WEB-INF/tld/tag.tld" prefix="xzlTag" %>
+<%@ taglib uri="/WEB-INF/tld/fun.tld" prefix="xzlFun" %>

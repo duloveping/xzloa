@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.enjoystudy.oa.dao.base.BaseOrganizationDao" >
+    <resultMap id="resultMap" type="cn.com.enjoystudy.oa.bean.base.BaseOrganization">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="category" jdbcType="INTEGER" property="category" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+        <association property="parent" column="{id=parent_id}" select="getById"
+             javaType="cn.com.enjoystudy.oa.bean.base.BaseOrganization"/>
+    </resultMap>
+
+    <select id="getById" resultMap="resultMap">
+        select id, code, name, parent_id from department
+        where flag = true and status  = true and id = #{id}::uuid
+    </select>
+
+    <select id="list" resultMap="resultMap">
+        select id, code, name, parent_id from department
+        where flag = true and status  = true
+        <if test="null != category"> and category = #{category} </if>
+        <if test="null != code and '' != code"> and code = #{code} </if>
+        <if test="null != name and '' != name"> and name = #{name} </if>
+        <if test="null != parentId and '' != parentId">
+            <choose>
+                <when test="'0'.toString() == parentId">and parent_id is null</when>
+                <otherwise> and parent_id = #{parentId}::uuid</otherwise>
+            </choose>
+        </if>
+        <if test="null != ids and ids.length > 0">
+            and id in
+            <foreach collection="ids" item="item" open="(" close=")" separator=",">
+                #{item}::uuid
+            </foreach>
+        </if>
+        <if test="null != parentIds and parentIds.length > 0">
+            and parent_id in
+            <foreach collection="parentIds" item="item" open="(" close=")" separator=",">
+                #{item}::uuid
+            </foreach>
+        </if>
+        <if test="null != exceptIds and exceptIds.length > 0">
+            and id not in
+            <foreach collection="exceptIds" item="item" open="(" close=")" separator=",">
+                #{item}::uuid
+            </foreach>
+        </if>
+    </select>
+</mapper>

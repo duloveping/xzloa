@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.EmployeeCourseStudyDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseStudy" >
+        insert into employee_course_study (id, create_time, update_time, flag, status,
+        employee_id, course_id,  video_id, study_time)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{employeeId}::uuid, #{courseId}::uuid, #{videoId}::uuid, #{studyTime})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseStudy" >
+        update employee_course_study set update_time = #{updateTime},
+        employee_id = #{employeeId}::uuid, course_id = #{courseId}::uuid,
+        video_id = #{videoId}::uuid, study_time = #{studyTime}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseStudy">
+        select id, employee_id, course_id,  video_id, study_time
+        from employee_course_study
+        where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update employee_course_study set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseStudy"
+            parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseStudySO">
+        select v.id video_id, v.name video_name, c.id course_id, c.name course_name,
+        (select count(s.id) amount from employee_course_study s
+        where s.video_id = v.id and s.employee_id = #{employeeId}::uuid
+        and s.flag = true and s.status = true) study_amount,
+        (select max(study_time) study_time from employee_course_study s
+        where s.video_id = v.id and s.employee_id = #{employeeId}::uuid
+        and s.flag = true and s.status = true) study_time
+        from course_video v
+        inner join course c on c.id = v.course_id
+        where v.flag = true and v.status = true
+        <if test="null != courseId and '' != courseId"> and c.id = #{courseId}::uuid</if>
+        <if test="null != courseName and '' != courseName">
+            <bind name="likeCourseName" value="'%' + courseName + '%'"/>
+            and c.name like #{likeCourseName}
+        </if>
+        <if test="null != videoId and '' != videoId"> and v.id = #{videoId}::uuid</if>
+        <if test="null != videoName and '' != videoName">
+            <bind name="likeVideoName" value="'%' + videoName + '%'"/>
+            and v.name like #{likeVideoName}
+        </if>
+        order by study_time desc
+    </select>
+
+    <select id="getCourseStudyReportList" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseStudy"
+            parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCourseStudySO">
+        select c.id course_id, c.name course_name, (select count(v.id) from course_video v
+        where v.flag = true and v.status = true and v.course_id  = c.id) lesson_amount,
+        (select count(distinct employee_id) from employee_course_study s where s.course_id = c.id) employee_amount
+        from course c
+        where c.flag = true and c.status = true
+        <if test="null != courseName and '' != courseName">
+            <bind name="likeCourseName" value="'%' + courseName + '%'"/>
+            and c.name like #{likeCourseName}
+        </if>
+    </select>
+
+    <select id="getStudyAmount" resultType="long">
+        select count(distinct video_id) amount from employee_course_study
+        where flag = true and status = true and course_id = #{courseId}::uuid and employee_id = #{employeeId}::uuid
+    </select>
+</mapper>

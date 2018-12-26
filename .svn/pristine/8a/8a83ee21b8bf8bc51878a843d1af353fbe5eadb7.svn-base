@@ -1,0 +1,92 @@
+package cn.com.enjoystudy.oa.service.base;
+
+import cn.com.enjoystudy.oa.bean.base.BasePosition;
+import cn.com.enjoystudy.oa.bean.base.Department;
+import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
+import cn.com.enjoystudy.oa.bean.base.EmployeeAccountSO;
+import cn.com.enjoystudy.oa.dao.base.EmployeeAccountDao;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * 员工账号Service实现
+ * @author 广州新咨力科技有限公司-杜永生
+ */
+@Service
+@Transactional(readOnly = true, rollbackFor = Exception.class)
+public class EmployeeAccountServiceImpl implements EmployeeAccountService {
+    @Autowired
+    private EmployeeAccountDao employeeAccountDao;
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int insert(EmployeeAccount entity) {
+        entity.preInsert();
+        return employeeAccountDao.insert(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int update(EmployeeAccount entity) {
+        entity.preUpdate();
+        return employeeAccountDao.update(entity);
+    }
+
+    @Override
+    public EmployeeAccount getById(String id) {
+        return employeeAccountDao.getById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int deleteById(String id) {
+        return employeeAccountDao.deleteById(id);
+    }
+
+    @Override
+    public List<EmployeeAccount> list(EmployeeAccountSO so) {
+        return employeeAccountDao.list(so);
+    }
+
+    @Override
+    public PageInfo<EmployeeAccount> findPage(EmployeeAccountSO so) {
+        PageHelper.startPage(so.getPageNum(), so.getPageSize());
+        PageInfo pageInfo = new PageInfo(employeeAccountDao.list(so));
+        return pageInfo;
+    }
+
+    @Override
+    public Department getDepartment(String departmentId) {
+        return employeeAccountDao.getDepartment(departmentId);
+    }
+
+    @Override
+    public BasePosition getPosition(String positionId) {
+        return employeeAccountDao.getPosition(positionId);
+    }
+
+    @Override
+    public long count(EmployeeAccountSO so) {
+        return employeeAccountDao.count(so);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void updateLoginPassword(String password, String id) {
+        if (StringUtils.isBlank(password)) {
+            throw new NullPointerException("password is null.");
+        }
+
+        if (StringUtils.isBlank(id)) {
+            throw new NullPointerException("id is null.");
+        }
+        employeeAccountDao.updateLoginPassword(password, id);
+    }
+}

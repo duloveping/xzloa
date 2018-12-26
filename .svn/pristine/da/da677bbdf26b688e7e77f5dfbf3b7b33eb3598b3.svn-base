@@ -1,0 +1,235 @@
+$("#inputForm").validate({
+    rules : {
+        name: {
+            required: true
+        }
+    },
+    messages: {
+        name: {
+            required: "课程名称不能为空！"
+        }
+    },
+    onkeyup : false,
+    focusCleanup : true,
+    success : "valid",
+    submitHandler : function(form) {
+        var fileName = "";
+        var fileType = "";
+        var fileSize = "";
+        var filePath = "";
+        var image = "";
+        var attachmentList = new Array();
+
+        if (null != video.name && video.name.length > 0) {
+            fileName = video.name[video.name.length - 1];
+            fileType = video.type[video.name.length - 1];
+            fileSize = video.size[video.name.length - 1];
+            filePath = video.path[video.name.length - 1];
+        }
+
+        if (null != photo.path && photo.path.length > 0) {
+            image = photo.path[photo.path.length - 1];
+        }
+
+        if (null != file.name && file.name.length > 0) {
+            for (var i = 0; i < file.name.length; i++) {
+                var attachment = {
+                    "fileName": file.name[i],
+                    "fileType": file.type[i],
+                    "fileSize": file.size[i],
+                    "filePath": file.path[i]
+                };
+                attachmentList.push(attachment);
+            }
+        }
+
+        var data = {
+            "id": $.trim($("#id").val()),
+            "courseId": $.trim($("#courseId").val()),
+            "name": $.trim($("#name").val()),
+            "introduction": $.trim($("#introduction").val()),
+            "description": $.trim(editor.getContent()),
+            "image":  image,
+            "fileName": $.trim(fileName),
+            "fileType": $.trim(fileType),
+            "fileSize": $.trim(fileSize),
+            "filePath": $.trim(filePath),
+            "attachmentList": attachmentList
+        };
+
+        $.ajax({
+            type: "post",
+            url: ctx + "/manage/study/course-video/save.jhtml",
+            cache: false,
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType : 'application/json;charset=UTF-8',
+            success: function (res) {
+                top.layer.msg(res.info,{icon:1,time:3000});
+                if (res.status) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.course.list(1);
+                    parent.layer.close(index);
+                }
+            },
+            error : function(XmlHttpRequest, textStatus, errorThrown) {
+                top.layer.alert('数据保存失败');
+            }
+        });
+    }
+});
+
+function initUploader(element, url) {
+    var $list = $("#" + element + "List");
+    var $btn = $("#" + element + "-star");
+    var state = "pending";
+    var uploader;
+
+    uploader = WebUploader.create({
+        auto: true,
+        swf: ctx + '/static/js/common/H-ui.admin_v3.0/lib/webuploader/0.1.5/Uploader.swf',
+        // 文件接收服务端。
+        server: ctx + url,
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#' + element + 'Picker'
+    });
+
+    uploader.on('fileQueued', function (file) {
+        var $li = $(
+            '<div id="' + file.id + '" class="item">' +
+            '<div class="pic-box"><img/></div>' +
+            '<div class="info">' + file.name + '</div>' +
+            '<p class="state">等待上传...</p>' +
+            '</div>'),
+            $img = $li.find('img');
+        $list.append($li);
+
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        // thumbnailWidth x thumbnailHeight 为 100 x 100
+
+        var thumbnailWidth = 100;
+        var thumbnailHeight = 100;
+
+        uploader.makeThumb(file, function (error, src) {
+            if (error) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+
+            $img.attr('src', src);
+        }, thumbnailWidth, thumbnailHeight);
+    });
+
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on('uploadProgress', function (file, percentage) {
+        var $li = $('#' + file.id),
+            $percent = $li.find('.progress-box .sr-only');
+
+        // 避免重复创建
+        if (!$percent.length) {
+            $percent = $('<div class="progress-box"><span class="progress-bar radius"><span class="sr-only" style="width:0%"></span></span></div>').appendTo($li).find('.sr-only');
+        }
+        $li.find(".state").text("上传中");
+        $percent.css('width', percentage * 100 + '%');
+    });
+
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on('uploadSuccess', function (f, response) {
+        console.log(response);
+
+        if (response.state == true) {
+            if (element == "photo") {
+                photo.name.push(response.fileName);
+                photo.type.push(response.contentType);
+                photo.size.push(response.size);
+                photo.path.push(response.large);
+                photo.time.push(new Date());
+            } else if (element == "video") {
+                video.name.push(response.fileName);
+                video.type.push(response.contentType);
+                video.size.push(response.size);
+                video.path.push(response.url);
+                video.time.push(new Date());
+            } else if (element == "file") {
+                file.name.push(response.fileName);
+                file.type.push(response.contentType);
+                file.size.push(response.size);
+                file.path.push(response.url);
+                file.time.push(new Date());
+            }
+
+            // var dir = response.dir;
+
+            // if () {}
+            //
+            //
+            //
+            // $("#fileName").val(response.fileName);
+            // $("#contentType").val(response.contentType);
+            // $("#fileSize").val(response.size);
+            // $("#filePath").val(response.url);
+            // if (null != response.large && typeof(response.large) == "undefined") {
+            //     $("#large").val(response.large);
+            // }
+            // if (null != response.middle && typeof(response.middle) == "undefined") {
+            //     $("#middle").val(response.middle);
+            // }
+            // if (null != response.small && typeof(response.small) == "undefined") {
+            //     $("#small").val(response.small);
+            // }
+            // if (null != response.thumb && typeof(response.thumb) == "undefined") {
+            //     $("#thumb").val(response.thumb);
+            // }
+        }
+        $('#' + f.id).addClass('upload-state-success').find(".state").text("已上传");
+    });
+
+    // 文件上传失败，显示上传出错。
+    uploader.on('uploadError', function (file) {
+        $('#' + file.id).addClass('upload-state-error').find(".state").text("上传出错");
+    });
+
+    // 完成上传完了，成功或者失败，先删除进度条。
+    uploader.on('uploadComplete', function (file) {
+        $('#' + file.id).find('.progress-box').fadeOut();
+    });
+
+    uploader.on('all', function (type) {
+        if (type === 'startUpload') {
+            state = 'uploading';
+        } else if (type === 'stopUpload') {
+            state = 'paused';
+        } else if (type === 'uploadFinished') {
+            state = 'done';
+        }
+
+        if (state === 'uploading') {
+            $btn.text('暂停上传');
+        } else {
+            $btn.text('开始上传');
+        }
+    });
+
+    $btn.on('click', function () {
+        if (state === 'uploading') {
+            uploader.stop();
+        } else {
+            uploader.upload();
+        }
+    });
+}
+
+var editor;
+var photo = {id: [], name: [], type: [], size: [], path:[], time:[]};
+var video = {id: [], name: [], type: [], size: [], path:[], time:[]};
+var file = {id: [], name: [], type: [], size: [], path:[], time:[]};
+
+$(function () {
+    editor = UE.getEditor('description');
+
+    initUploader('photo', '/manage/study/course-video/upload-image.jhtml');
+    initUploader('video', '/manage/study/course-video/upload-media.jhtml');
+    initUploader('file', '/manage/study/course-video/upload-file.jhtml');
+});

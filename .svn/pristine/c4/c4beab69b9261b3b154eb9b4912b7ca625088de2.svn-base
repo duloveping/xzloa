@@ -1,0 +1,25 @@
+package cn.com.enjoystudy.oa.service.study;
+
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper;
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaperSO;
+import com.github.pagehelper.PageInfo;
+
+import java.util.List;
+
+public interface EmployeeExaminationPaperService {
+    int insert(EmployeeExaminationPaper entity);
+
+    int update(EmployeeExaminationPaper entity);
+
+    EmployeeExaminationPaper getById(String id);
+
+    int deleteById(String id);
+
+    List<EmployeeExaminationPaper> list(EmployeeExaminationPaperSO so);
+
+    PageInfo<EmployeeExaminationPaper> findPage(EmployeeExaminationPaperSO so);
+
+    long count(EmployeeExaminationPaperSO so);
+
+    long getTestAmount(String employeeId, String courseId);
+}

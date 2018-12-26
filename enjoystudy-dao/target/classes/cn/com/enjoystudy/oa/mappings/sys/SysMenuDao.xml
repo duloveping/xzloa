@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.sys.SysMenuDao" >
+    <sql id="columns"> id, code, name, href, category, icon, css_class, css_style, caption, show_state, serial_number, parent_id </sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != showState"> and show_state = #{showState}</if>
+            <if test="null != category"> and category = #{category}</if>
+            <if test="null != code and '' != code"> and code = #{code}</if>
+            <if test="null != name and '' != name">
+                <choose>
+                    <when test="null != like and like == true"> and name= #{name}</when>
+                    <otherwise>
+                        <bind name="likeName" value="'%' + name + '%'"/>
+                        and name like #{likeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != parentId and '' != parentId">
+                <choose>
+                    <when test="'0'.toString() == parentId">and parent_id is null</when>
+                    <otherwise> and parent_id = #{parentId}::uuid</otherwise>
+                </choose>
+            </if>
+            <if test="null != exceptId and '' != exceptId"><![CDATA[ and id <> #{exceptId}::uuid ]]></if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.sys.SysMenu" >
+        insert into sys_menu (id, create_time, update_time, flag, status,
+        code, name, href, category, icon, css_class, css_style, caption, show_state, serial_number, parent_id)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{code}, #{name}, #{href}, #{category}, #{icon}, #{cssClass}, #{cssStyle}, #{caption}, #{showState}, #{serialNumber}, #{parentId}::uuid)
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.sys.SysMenu" >
+        update sys_menu set update_time = #{updateTime},
+        code = #{code}, name = #{name}, href = #{href}, category = #{category}, icon = #{icon}, css_class = #{cssClass},
+        css_style = #{cssStyle}, caption = #{caption}, show_state = #{showState}, serial_number = #{serialNumber},
+        parent_id = #{parentId}::uuid where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.sys.SysMenu">
+        select <include refid="columns"/> from sys_menu where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update sys_menu set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.sys.SysMenu"
+            parameterType="cn.com.enjoystudy.oa.bean.sys.SysMenuSO">
+        select <include refid="columns"/>
+        from sys_menu <include refid="wheres"/>
+        order by serial_number asc, create_time desc
+    </select>
+
+    <select id="count" resultType="long">
+        select count(id) amount
+        from sys_menu <include refid="wheres"/>
+    </select>
+
+    <select id="findByParentId" resultType="cn.com.enjoystudy.oa.bean.sys.SysMenu">
+        select <include refid="columns"/>
+        from sys_menu where flag = true and status = true and parent_id = #{parentId}::uuid
+        order by serial_number asc
+    </select>
+
+    <select id="findEmployeeMenuList" resultType="cn.com.enjoystudy.oa.bean.sys.SysMenu"
+            parameterType="cn.com.enjoystudy.oa.bean.sys.SysMenuSO">
+        select <include refid="columns"/>
+        from sys_menu m where m.flag = true and m.status = true
+        <if test="null != showState"> and m.show_state = #{showState}</if>
+        <if test="null != category"> and m.category = #{category}</if>
+        <if test="null != code and '' != code"> and m.code = #{code}</if>
+        <if test="null != parentId and '' != parentId">
+            <choose>
+                <when test="'0'.toString() == parentId"> and m.parent_id is null </when>
+                <otherwise> and m.parent_id = #{parentId}::uuid </otherwise>
+            </choose>
+        </if>
+        <if test="null != employeeId and '' != employeeId">
+            and exists(select distinct rm.menu_id from sys_role_menu rm
+            where exists(select distinct rp.role_id from sys_role_position rp
+            where exists(select distinct ep.position_id from employee_position ep
+            where rp.position_id = ep.position_id and ep.employee_id = #{employeeId}::uuid)
+            and rp.role_id = rm.role_id) and m.id = rm.menu_id)
+        </if>
+        order by m.serial_number asc
+    </select>
+
+    <select id="findMenu" resultType="cn.com.enjoystudy.oa.bean.sys.SysMenu">
+        select <include refid="columns"/>
+        from sys_menu m where m.flag = true and m.status = true
+        <if test="null != parentId and '' != parentId">
+            <choose>
+                <when test="'0'.toString() == parentId"> and m.parent_id is null </when>
+                <otherwise> and m.parent_id = #{parentId}::uuid </otherwise>
+            </choose>
+        </if>
+        <if test="null != employeeId and '' != employeeId">
+            and exists(select distinct rm.menu_id from sys_role_menu rm
+            where exists(select distinct rp.role_id from sys_role_position rp
+            where exists(select distinct ep.position_id from employee_position ep
+            where rp.position_id = ep.position_id and ep.employee_id = #{employeeId}::uuid)
+            and rp.role_id = rm.role_id) and m.id = rm.menu_id)
+        </if>
+    </select>
+
+</mapper>

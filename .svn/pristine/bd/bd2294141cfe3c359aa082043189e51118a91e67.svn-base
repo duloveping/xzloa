@@ -1,0 +1,112 @@
+package cn.com.enjoystudy.oa.webapps;
+
+import cn.com.enjoystudy.oa.util.JsUtils;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * 基础Controller，所属的Controller类都需要继承该类
+ */
+public class BaseController {
+    public JSONObject resultSuccess() {
+        return resultSuccess("成功");
+    }
+
+    public JSONObject resultSuccess(String info) {
+        JSONObject json = new JSONObject();
+        json.put("status", true);
+        json.put("info", info);
+        return json;
+    }
+
+    public JSONObject resultError() {
+        return resultError("失败");
+    }
+
+    public JSONObject resultError(String info) {
+        JSONObject json = new JSONObject();
+        json.put("status", true);
+        if (StringUtils.isNotBlank(info)) {
+            json.put("info", info);
+        }
+        return json;
+    }
+
+
+    public Integer getStart(int page, int size) {
+        if (page > 0) {
+            return (page - 1) * size;
+        }
+        return 0;
+    }
+
+    public Integer getTotalPage(int total, int size) {
+        int page = total / size;
+        if (total % size != 0) {
+            page += 1;
+        }
+        return page;
+    }
+
+    /**
+     * 登录认证异常
+     * @param request
+     * @param response
+     * @return
+     */
+    @ExceptionHandler({ UnauthenticatedException.class, AuthenticationException.class })
+    public ModelAndView authenticationException(HttpServletRequest request, HttpServletResponse response) {
+        if (isAjaxRequest(request)) {
+            JSONObject json = new JSONObject();
+            json.put("info", "未登录");
+            json.put("status", false);
+            JsUtils.writeJson(response, json.toJSONString());
+            return null;
+        } else {
+            return new ModelAndView("redirect:/manage/login/index.jhtml");
+        }
+    }
+
+    /**
+     * 权限异常
+     * @param request
+     * @param response
+     * @return
+     */
+    @ExceptionHandler({ UnauthorizedException.class, AuthorizationException.class })
+    public ModelAndView authorizationException(HttpServletRequest request, HttpServletResponse response) {
+        if (isAjaxRequest(request)) {
+            JSONObject json = new JSONObject();
+            json.put("info", "无权限");
+            json.put("status", false);
+            JsUtils.writeJson(response, json.toJSONString());
+            return null;
+        } else {
+            return new ModelAndView("redirect:/common/error/403.jhtml");
+        }
+    }
+
+    /**
+     * 是否是Ajax请求
+     * @param request
+     * @return
+     */
+    public Boolean isAjaxRequest(HttpServletRequest request) {
+        String requestedWith = request.getHeader("x-requested-with");
+        if (requestedWith != null && requestedWith.equalsIgnoreCase("XMLHttpRequest")) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
+}
+

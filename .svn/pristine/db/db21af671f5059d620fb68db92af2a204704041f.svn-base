@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.EmployeeExaminationPaperDao">
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper" >
+        insert into employee_examination_paper (id, create_time, update_time, flag, status,
+        paper_id, paper_title, employee_id, employee_name, course_id, course_name, test_type, test_state, test_amount,
+        duration, question_amount, question_type, total_score, pass_score, test_score, pass_state, single_amount,
+        multi_amount, judge_amount, check_amount, fill_amount, join_state, start_time, end_time, submit_time)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{paperId}::uuid, #{paperTitle}, #{employeeId}::uuid, #{employeeName}, #{courseId}::uuid, #{courseName}, #{testType},
+        #{testState}, #{testAmount}, #{duration}, #{questionAmount}, #{questionType}, #{totalScore}, #{passScore},
+        #{testScore}, #{passState}, #{singleAmount}, #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount},
+        #{joinState}, #{startTime}, #{endTime}, #{submitTime})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper" >
+        update employee_examination_paper set update_time = #{updateTime},
+        paper_id = #{paperId}::uuid, paper_title = #{paperTitle}, employee_id = #{employeeId}::uuid, employee_name = #{employeeName},
+        course_id = #{courseId}::uuid, course_name = #{courseName}, test_type = #{testType}, test_state = #{testState},
+        test_amount = #{testAmount}, duration = #{duration}, question_amount = #{questionAmount}, question_type = #{questionType},
+        total_score = #{totalScore}, pass_score = #{passScore}, test_score = #{testScore}, pass_state = #{passState},
+        single_amount = #{singleAmount}, multi_amount = #{multiAmount}, judge_amount = #{judgeAmount}, check_amount = #{checkAmount},
+        fill_amount = #{fillAmount}, join_state = #{joinState}, start_time = #{startTime}, end_time = #{endTime},
+        submit_time = #{submitTime} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper">
+        select id, paper_id, paper_title, employee_id, employee_name, course_id, course_name, test_type, test_state,
+        test_amount, duration, question_amount, question_type, total_score, pass_score, test_score, pass_state,
+        single_amount, multi_amount, judge_amount, check_amount, fill_amount, join_state, start_time, end_time, submit_time
+        from employee_examination_paper where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update employee_examination_paper set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper"
+            parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaperSO">
+        select id, paper_id, paper_title, employee_id, employee_name, course_id, course_name, test_type, test_state,
+        test_amount, duration, question_amount, question_type, total_score, pass_score, test_score, pass_state,
+        single_amount, multi_amount, judge_amount, check_amount, fill_amount, join_state, start_time, end_time, submit_time
+        from employee_examination_paper
+        where flag = true and status = true
+        <if test="employeeId != null and '' != employeeId"> and employee_id = #{employeeId}::uuid </if>
+        <if test="paperId != null and '' != paperId"> and paper_id = #{paperId}::uuid </if>
+        <if test="testState != null"> and test_state = #{testState} </if>
+        <if test="passState != null"> and test_state = #{passState} </if>
+    </select>
+
+    <select id="count" resultType="long">
+        select count(id) amount from employee_examination_paper
+        where flag = true and status = true
+        <if test="employeeId != null and '' != employeeId"> and employee_id = #{employeeId}::uuid </if>
+        <if test="paperId != null and '' != paperId"> and paper_id = #{paperId}::uuid </if>
+        <if test="courseId != null and '' != courseId"> and course_id = #{courseId}::uuid </if>
+        <if test="testState != null"> and test_state = #{testState} </if>
+        <if test="passState != null"> and test_state = #{passState} </if>
+    </select>
+
+    <select id="getTestAmount" resultType="long">
+        select count(id) amount from employee_examination_paper
+        where flag = true and status = true and course_id = #{courseId} and employee_id = #{employeeId}
+    </select>
+</mapper>

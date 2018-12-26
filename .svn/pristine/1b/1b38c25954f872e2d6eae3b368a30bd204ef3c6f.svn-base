@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.base.EmployeeAccountDao" >
+    <sql id="columns"> id, department_id, code, full_name, login_password, lock_state </sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != lockState"> and lock_state = #{lockState}</if>
+            <if test="null != departmentId and '' != departmentId"> and department_id = #{departmentId}::uuid</if>
+            <if test="null != code and '' != code"> and code = #{code}</if>
+            <if test="null != fullName and '' != fullName">
+                <choose>
+                    <when test="null != like and like == true"> and full_name= #{fullName}</when>
+                    <otherwise>
+                        <bind name="likeName" value="'%' + fullName + '%'"/>
+                        and full_name like #{likeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != exceptId and '' != exceptId"><![CDATA[ id <> #{exceptId}::uuid ]]></if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
+        insert into employee_account (id, create_time, update_time, flag, status,
+        department_id, code, full_name, login_password, lock_state)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{departmentId}::uuid, #{code}, #{fullName}, #{loginPassword}, #{lockState})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
+        update employee_account set update_time = #{updateTime},
+        department_id = #{departmentId}::uuid, code = #{code}, full_name = #{fullName}, login_password = #{loginPassword}
+        lock_state = #{lockState} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount">
+        select <include refid="columns"/> from EmployeeAccount where id = #{id}::uuid flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update employee_account set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount"
+            parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccountSO">
+        select <include refid="columns"/>
+        from employee_account <include refid="wheres"/>
+        order by create_time desc
+    </select>
+</mapper>

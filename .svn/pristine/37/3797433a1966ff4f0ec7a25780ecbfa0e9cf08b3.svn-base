@@ -1,0 +1,47 @@
+package cn.com.enjoystudy.oa.service.study;
+
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationQuestion;
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationQuestionSO;
+import cn.com.enjoystudy.oa.dao.study.EmployeeExaminationQuestionDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional(readOnly = true, rollbackFor = Exception.class)
+public class EmployeeExaminationQuestionServiceImpl implements EmployeeExaminationQuestionService {
+    @Autowired
+    private EmployeeExaminationQuestionDao employeeExaminationQuestionDao;
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int insert(EmployeeExaminationQuestion entity) {
+        entity.preInsert();
+        return employeeExaminationQuestionDao.insert(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int update(EmployeeExaminationQuestion entity) {
+        entity.preUpdate();
+        return employeeExaminationQuestionDao.update(entity);
+    }
+
+    @Override
+    public EmployeeExaminationQuestion getById(String id) {
+        return employeeExaminationQuestionDao.getById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int deleteById(String id) {
+        return employeeExaminationQuestionDao.deleteById(id);
+    }
+
+    @Override
+    public List<EmployeeExaminationQuestion> list(EmployeeExaminationQuestionSO so) {
+        return employeeExaminationQuestionDao.list(so);
+    }
+}

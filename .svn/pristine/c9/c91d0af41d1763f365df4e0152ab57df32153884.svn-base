@@ -1,0 +1,134 @@
+package cn.com.enjoystudy.oa.bean.study;
+
+import cn.com.enjoystudy.oa.bean.SOSupport;
+import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
+
+/**
+ * 员工考试作答
+ * @author 广州新咨力科技有限公司-杜永生
+ */
+public class EmployeeExaminationAnswerSO extends SOSupport {
+    /** 员工试卷 */
+    private EmployeeExaminationPaper paper;
+    /** 员工试卷ID */
+    private String paperId;
+    /** 员工试卷标题 */
+    private String paperTitle;
+    /** 员工 */
+    private EmployeeAccount employee;
+    /** 员工ID */
+    private String employeeId;
+    /** 员工名称 */
+    private String employeeName;
+    /** 试题 */
+    private ExaminationQuestion question;
+    /** 试题ID */
+    private String questionId;
+    /** 试题标题 */
+    private String questionTitle;
+    /** 答题选项 */
+    private ExaminationQuestionItem item;
+    /** 答题选项ID */
+    private String itemId;
+    /** 答题选项标题 */
+    private String itemTitle;
+
+    public EmployeeExaminationAnswerSO() {
+    }
+
+    public EmployeeExaminationPaper getPaper() {
+        return paper;
+    }
+
+    public void setPaper(EmployeeExaminationPaper paper) {
+        this.paper = paper;
+    }
+
+    public String getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(String paperId) {
+        this.paperId = paperId;
+    }
+
+    public String getPaperTitle() {
+        return paperTitle;
+    }
+
+    public void setPaperTitle(String paperTitle) {
+        this.paperTitle = paperTitle;
+    }
+
+    public EmployeeAccount getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(EmployeeAccount employee) {
+        this.employee = employee;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    public ExaminationQuestion getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(ExaminationQuestion question) {
+        this.question = question;
+    }
+
+    public String getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
+
+    public String getQuestionTitle() {
+        return questionTitle;
+    }
+
+    public void setQuestionTitle(String questionTitle) {
+        this.questionTitle = questionTitle;
+    }
+
+    public ExaminationQuestionItem getItem() {
+        return item;
+    }
+
+    public void setItem(ExaminationQuestionItem item) {
+        this.item = item;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getItemTitle() {
+        return itemTitle;
+    }
+
+    public void setItemTitle(String itemTitle) {
+        this.itemTitle = itemTitle;
+    }
+}
