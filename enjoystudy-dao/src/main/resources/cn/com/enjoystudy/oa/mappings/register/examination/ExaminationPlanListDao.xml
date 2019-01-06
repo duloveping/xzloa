@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.register.examination.ExaminationPlanListDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlanList" >
+        insert into examination_plan_list (id, create_time, update_time, flag, status,
+        plan_id, certificate_id, certificate_name, course_id, course_name, show_state, entry_state, entry_start_time,
+        entry_end_time, test_state, test_start_time, test_end_time)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{planId}::uuid, #{certificateId}::uuid, #{certificateName}, #{courseId}::uuid, #{courseName}, #{showState},
+        #{entryState}, #{entryStartTime}, #{entryEndTime}, #{testState}, #{testStartTime}, #{testEndTime})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlanList" >
+        update examination_plan_list set update_time = #{updateTime},
+        plan_id = #{planId}::uuid, certificate_id = #{certificateId}::uuid, certificate_name = #{certificateName},
+        course_id = #{courseId}::uuid, course_name = #{courseName}, show_state = #{showState},
+        entry_state = #{entryState}, entry_start_time= #{entryStartTime}, entry_end_time = #{entryEndTime},
+        test_state = #{testState}, test_start_time = #{testStartTime}, est_end_time = #{testEndTime}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlanList">
+        select id, title, show_state, content
+        from examination_plan_list where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update examination_plan_list set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <delete id="deleteByPlanId">
+        delete from examination_plan_list where plan_id = #{id}::uuid
+    </delete>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlanList"
+            parameterType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlanListSO">
+        select id, plan_id, certificate_id, certificate_name, course_id, course_name, show_state, entry_state, entry_start_time,
+        entry_end_time, test_state, test_start_time, test_end_time
+        from examination_plan_list
+        where flag = true and status = true
+        <if test="null != showState"> and show_state = #{showState} </if>
+        <if test="null != entryState"> and entry_state = #{entryState} </if>
+        <if test="null != testState"> and test_state = #{testState} </if>
+        <if test="null != planId and '' != planId"> and plan_id = #{planId}::uuid </if>
+        <if test="null != certificateId and '' != certificateId"> and certificate_id = #{certificateId}::uuid </if>
+        <if test="null != courseId and '' != courseId"> and course_id = #{courseId}::uuid </if>
+        <if test="null != entryStartTimeStart"><![CDATA[ and entry_start_time >= #{entryStartTimeStart} ]]></if>
+        <if test="null != entryStartTimeEnd"><![CDATA[ and entry_start_time < #{entryStartTimeEnd} ]]></if>
+        <if test="null != entryEndTimeStart"><![CDATA[ and entry_end_time >= #{entryEndTimeStart} ]]></if>
+        <if test="null != entryEndTimeEnd"><![CDATA[ and entry_end_time < #{entryEndTimeEnd} ]]></if>
+        <if test="null != testStartTimeStart"><![CDATA[ and test_start_time >= #{testStartTimeStart} ]]></if>
+        <if test="null != testStartTimeEnd"><![CDATA[ and test_start_time < #{testStartTimeEnd} ]]></if>
+        <if test="null != testEndTimeStart"><![CDATA[ and test_end_time >= #{testEndTimeStart} ]]></if>
+        <if test="null != testEndTimeEnd"><![CDATA[ and test_end_time < #{testEndTimeEnd} ]]></if>
+    </select>
+
+    <update id="updateShowState">
+        update examination_plan_list set show_state = #{showState} where id = #{id}::uuid
+    </update>
+</mapper>

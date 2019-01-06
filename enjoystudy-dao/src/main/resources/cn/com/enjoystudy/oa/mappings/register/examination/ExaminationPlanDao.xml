@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.register.examination.ExaminationPlanDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlan" >
+        insert into examination_plan (id, create_time, update_time, flag, status,
+        title, show_state, content)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{title}, #{showState},  #{content})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlan" >
+        update examination_plan set update_time = #{updateTime},
+        title = #{title}, show_state = #{showState}, content = #{content}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlan">
+        select id, title, show_state, content
+        from examination_plan where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update examination_plan set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlan"
+            parameterType="cn.com.enjoystudy.oa.bean.register.examination.ExaminationPlanSO">
+        select id, title, show_state
+        from examination_plan
+        where flag = true and status = true
+        <if test="null != showState"> and show_state = #{showState} </if>
+        <if test="null != title and '' != title">
+            <bind name="likeTitle" value="'%' + title + '%'"/>
+            and title like #{likeTitle}
+        </if>
+    </select>
+
+    <update id="updateShowState">
+        update examination_plan set show_state = #{showState} where id = #{id}::uuid
+    </update>
+</mapper>

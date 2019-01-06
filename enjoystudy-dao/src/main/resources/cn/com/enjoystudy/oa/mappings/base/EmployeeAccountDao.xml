@@ -5,8 +5,14 @@
         <where>
             flag = true and status = true
             <if test="null != lockState"> and lock_state = #{lockState}</if>
+            <if test="null != identityType"> and identity_type = #{identityType}</if>
+            <if test="null != identityCode"> and identity_code = #{identityCode}</if>
+            <if test="null != maritalStatus"> and marital_status = #{maritalStatus}</if>
+            <if test="null != sex"> and sex = #{sex}</if>
+            <if test="null != category"> and category = #{category}</if>
             <if test="null != departmentId and '' != departmentId"> and department_id = #{departmentId}::uuid</if>
             <if test="null != positionId and '' != positionId"> and position_id = #{positionId}::uuid</if>
+            <if test="null != birthday and '' != birthday"> and birthday = #{birthday}::uuid</if>
             <if test="null != code and '' != code"> and code = #{code}</if>
             <if test="null != fullName and '' != fullName">
                 <choose>
@@ -50,22 +56,28 @@
 
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
         insert into employee_account (id, create_time, update_time, flag, status,
-        department_id, position_id, code, full_name, login_password, lock_state)
+        department_id, position_id, code, full_name, login_password, lock_state,
+        identity_type, identity_code, question, answer, education, school, major,
+        sex, birthday, native_place, marital_status, category)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
-        #{departmentId}::uuid, #{positionId}::uuid, #{code}, #{fullName}, #{loginPassword}, #{lockState})
+        #{departmentId}::uuid, #{positionId}::uuid, #{code}, #{fullName}, #{loginPassword}, #{lockState},
+        #{identityType}, #{identityCode}, #{question}, #{answer}, #{education}, #{school}, #{major},
+        #{sex}, #{birthday}, #{nativePlace}, #{maritalStatus}, #{category})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
         update employee_account set update_time = #{updateTime},
-        department_id = #{departmentId}::uuid, position_id = #{positionId}::uuid, code = #{code},
-        full_name = #{fullName}, login_password = #{loginPassword}, lock_state = #{lockState}
-        where id = #{id}::uuid
+        department_id = #{departmentId}::uuid, code = #{code}, full_name = #{fullName}, login_password = #{loginPassword},
+        lock_state = #{lockState}, position_id = #{positionId}::uuid, identity_type = #{identityType},
+        identity_code = #{identityCode}, question = #{question}, answer = #{answer}, education = #{education},
+        school = #{school}, major = #{major}, sex = #{sex}, birthday = #{birthday}, native_place = #{nativePlace},
+        marital_status = #{maritalStatus}, category = #{category} where id = #{id}::uuid
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount">
-        select e.id, e.code, e.full_name, e.lock_state, e.login_password,
-        d.id department_id, d.name department_name,
-        p.id position_id, p.name position_name
+        select e.id, e.code, full_name, e.login_password, e.lock_state, e.identity_type, e.identity_code,
+        e.question, e.answer, e.education, e.school, e.major, e.sex, e.birthday, e.native_place, e.marital_status,
+        e.category, d.id department_id, d.name department_name, p.id position_id, p.name position_name
         from employee_account e
         left join department d on d.id = e.department_id
         left join base_position p on p.id = e.position_id
@@ -78,14 +90,19 @@
 
     <select id="list" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount"
             parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccountSO">
-        select e.id, e.code, e.full_name, e.lock_state, e.login_password,
-        d.id department_id, d.name department_name,
-        p.id position_id, p.name position_name
+        select e.id, e.code, full_name, e.login_password, e.lock_state, e.identity_type, e.identity_code,
+        e.question, e.answer, e.education, e.school, e.major, e.sex, e.birthday, e.native_place, e.marital_status,
+        e.category, d.id department_id, d.name department_name, p.id position_id, p.name position_name
         from employee_account e
         left join department d on d.id = e.department_id
         left join base_position p on p.id = e.position_id
         where e.flag = true and e.status = true
         <if test="null != lockState"> and e.lock_state = #{lockState}</if>
+        <if test="null != identityType"> and e.identity_type = #{identityType}</if>
+        <if test="null != identityCode"> and e.identity_code = #{identityCode}</if>
+        <if test="null != sex"> and e.category = #{category}</if>
+        <if test="null != sex"> and e.sex = #{sex}</if>
+        <if test="null != maritalStatus"> and e.marital_status = #{maritalStatus}</if>
         <if test="null != departmentId and '' != departmentId"> and d.id = #{departmentId}::uuid</if>
         <if test="null != positionId and '' != positionId"> and p.id = #{positionId}::uuid</if>
         <if test="null != code and '' != code"> and e.code = #{code}</if>
@@ -98,7 +115,6 @@
                 </otherwise>
             </choose>
         </if>
-        order by e.update_time desc
     </select>
 
     <select id="getDepartment" resultType="cn.com.enjoystudy.oa.bean.base.Department">

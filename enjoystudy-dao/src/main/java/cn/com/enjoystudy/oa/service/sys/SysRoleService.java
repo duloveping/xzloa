@@ -33,6 +33,8 @@ public interface SysRoleService {
      */
     SysRole getById(@Param("id") String id);
 
+    SysRole getByCode(String code);
+
     /**
      * 根据ID删除
      * @param id

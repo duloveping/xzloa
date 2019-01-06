@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.base.EmployeeCommunicationDao" >
+    <sql id="columns">
+         id, category, employee_id, province_id, province_code, province_name, city_id, city_code, city_name,
+         town_id, town_code, town_name, address, post_code, mobile, phone, fax, email
+     </sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != category"> and category = #{category} </if>
+            <if test="null != employeeId and '' != employeeId"> and employee_id = #{employeeId}::uuid </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeCommunication" >
+        insert into employee_communication (id, create_time, update_time, flag, status,
+        category, employee_id, province_id, province_code, province_name, city_id, city_code, city_name,
+        town_id, town_code, town_name, address, post_code, mobile, phone, fax, email)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{category}, #{employeeId}::uuid, #{provinceId}::uuid, #{provinceCode}, #{provinceName}, #{cityId}::uuid, #{cityCode}, #{cityName},
+        #{townId}::uuid, #{townCode}, #{townName}, #{address}, #{postCode}, #{mobile}, #{phone}, #{fax}, #{email})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeCommunication" >
+        update employee_communication set update_time = #{updateTime},
+        category = #{category}, employee_id = #{employeeId}::uuid, province_id = #{provinceId}::uuid,
+        province_code = #{provinceCode}, province_name = #{provinceName}, city_id = #{cityId}::uuid,
+        city_code = #{cityCode}, city_name = #{cityName}, town_id = #{townId}::uuid,
+        town_code = #{townCode}, town_name = #{townName}, address = #{address},
+        post_code = #{postCode}, mobile = #{mobile}, phone = #{phone}, fax = #{fax}, email = #{email}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeCommunication">
+        select <include refid="columns"/> from employee_communication where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update employee_communication set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeCommunication"
+            parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeCommunicationSO">
+        select <include refid="columns"/>
+        from employee_communication <include refid="wheres"/>
+    </select>
+</mapper>

@@ -1,12 +1,17 @@
 package cn.com.enjoystudy.oa.bean.base;
 
 import cn.com.enjoystudy.oa.bean.EntitySupport;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * 员工账号
  * @author 广州新咨力科技有限公司-杜永生
  */
 public class EmployeeAccount extends EntitySupport {
+    /** 用户类型 */
+    private Integer category;
     /** 所属单位 */
     private Company company;
     /** 所属单位ID */
@@ -29,12 +34,51 @@ public class EmployeeAccount extends EntitySupport {
     private String code;
     /** 员工姓名 */
     private String fullName;
+    /** 性别 */
+    private Integer sex;
+    /** 出生日期 */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
     /** 登录密码 */
     private String loginPassword;
     /** 锁定状态 */
     private Boolean lockState;
+    /** 证件类型：
+     * 99.其他
+     * 1.居民身份证
+     * 2.军官证
+     * 3.香港特区护照/身份证明
+     * 4.澳门特区护照/身份证明
+     * 5.台湾居民来往大陆通行证
+     * 6.境外永久居住证
+     */
+    private Integer identityType;
+    /** 证件号码 */
+    private String identityCode;
+    /** 密码找回问题 */
+    private String question;
+    /** 密码找回答案 */
+    private String answer;
+    /** 学历 */
+    private String education;
+    /** 毕业学院 */
+    private String school;
+    /** 主修专业 */
+    private String major;
+    /** 籍贯 */
+    private String nativePlace;
+    /** 婚姻状况 */
+    private Integer maritalStatus;
 
     public EmployeeAccount() {
+    }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
     }
 
     public Company getCompany() {
@@ -125,6 +169,22 @@ public class EmployeeAccount extends EntitySupport {
         this.fullName = fullName;
     }
 
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     public String getLoginPassword() {
         return loginPassword;
     }
@@ -139,5 +199,77 @@ public class EmployeeAccount extends EntitySupport {
 
     public void setLockState(Boolean lockState) {
         this.lockState = lockState;
+    }
+
+    public Integer getIdentityType() {
+        return identityType;
+    }
+
+    public void setIdentityType(Integer identityType) {
+        this.identityType = identityType;
+    }
+
+    public String getIdentityCode() {
+        return identityCode;
+    }
+
+    public void setIdentityCode(String identityCode) {
+        this.identityCode = identityCode;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getNativePlace() {
+        return nativePlace;
+    }
+
+    public void setNativePlace(String nativePlace) {
+        this.nativePlace = nativePlace;
+    }
+
+    public Integer getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(Integer maritalStatus) {
+        this.maritalStatus = maritalStatus;
     }
 }

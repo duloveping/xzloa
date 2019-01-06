@@ -26,6 +26,8 @@ public class EmployeeCertificateSO extends SOSupport {
     private String certificateName;
     /** 证书日期 */
     private Date certificateDate;
+    /** 证书状态：1正常，2过期，3作废 */
+    private Integer certificateState;
     /** 公章图片地址 */
     private String sealPhoto;
     /** 机构编号 */
@@ -36,6 +38,8 @@ public class EmployeeCertificateSO extends SOSupport {
     private String teacherId;
     /** 发证人姓名 */
     private String teacherName;
+    private Date startDate;
+    private Date endDate;
 
     public EmployeeCertificateSO() {
     }
@@ -112,6 +116,14 @@ public class EmployeeCertificateSO extends SOSupport {
         this.certificateDate = certificateDate;
     }
 
+    public Integer getCertificateState() {
+        return certificateState;
+    }
+
+    public void setCertificateState(Integer certificateState) {
+        this.certificateState = certificateState;
+    }
+
     public String getSealPhoto() {
         return sealPhoto;
     }
@@ -150,5 +162,21 @@ public class EmployeeCertificateSO extends SOSupport {
 
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

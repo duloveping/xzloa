@@ -41,6 +41,11 @@ public class BasePositionServiceImpl implements BasePositionService {
     }
 
     @Override
+    public BasePosition getByCode(String code) {
+        return basePositionDao.getByCode(code);
+    }
+
+    @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int deleteById(String id) {
         return basePositionDao.deleteById(id);

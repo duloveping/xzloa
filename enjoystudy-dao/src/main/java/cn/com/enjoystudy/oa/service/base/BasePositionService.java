@@ -32,6 +32,8 @@ public interface BasePositionService {
      */
     BasePosition getById(String id);
 
+    BasePosition getByCode(String code);
+
     /**
      * 根据ID删除
      * @param id

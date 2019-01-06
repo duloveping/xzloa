@@ -31,11 +31,11 @@
 
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
         insert into employee_role (id, create_time, update_time, flag, status, employee_id, role_id)
-        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{roleId}, #{menuId})
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{employeeId}::uuid, #{roleId}::uuid)
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
-        update employee_role set update_time = #{updateTime}, role_id = #{roleId}, employee_id = #{employeeId} where id = #{id}::uuid
+        update employee_role set update_time = #{updateTime}, role_id = #{roleId}, employee_id = #{employeeId}::uuid where id = #{id}::uuid
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount">

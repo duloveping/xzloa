@@ -26,6 +26,8 @@ public class EmployeeCertificate extends EntitySupport {
     private String certificateName;
     /** 证书日期 */
     private Date certificateDate;
+    /** 证书状态：1正常，2过期，3作废 */
+    private Integer certificateState;
     /** 公章图片地址 */
     private String sealPhoto;
     /** 机构编号 */
@@ -110,6 +112,14 @@ public class EmployeeCertificate extends EntitySupport {
 
     public void setCertificateDate(Date certificateDate) {
         this.certificateDate = certificateDate;
+    }
+
+    public Integer getCertificateState() {
+        return certificateState;
+    }
+
+    public void setCertificateState(Integer certificateState) {
+        this.certificateState = certificateState;
     }
 
     public String getSealPhoto() {

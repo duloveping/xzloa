@@ -1,13 +1,12 @@
-package cn.com.enjoystudy.oa.dao.study;
+package cn.com.enjoystudy.oa.service.study;
 
 import cn.com.enjoystudy.oa.bean.study.EmployeeCertificate;
 import cn.com.enjoystudy.oa.bean.study.EmployeeCertificateSO;
-import org.springframework.stereotype.Repository;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
-@Repository
-public interface EmployeeCertificateDao {
+public interface EmployeeCertificateService {
     int insert(EmployeeCertificate entity);
 
     int update(EmployeeCertificate entity);
@@ -17,4 +16,6 @@ public interface EmployeeCertificateDao {
     int deleteById(String id);
 
     List<EmployeeCertificate> list(EmployeeCertificateSO so);
+
+    PageInfo<EmployeeCertificate> findPag(EmployeeCertificateSO so);
 }

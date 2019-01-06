@@ -39,6 +39,11 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    public SysRole getByCode(String code) {
+        return sysRoleDao.getByCode(code);
+    }
+
+    @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void deleteById(String id) {
         sysRoleDao.deleteById(id);

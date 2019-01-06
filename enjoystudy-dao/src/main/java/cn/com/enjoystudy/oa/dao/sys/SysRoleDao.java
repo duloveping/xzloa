@@ -34,6 +34,8 @@ public interface SysRoleDao {
      */
     SysRole getById(@Param("id") String id);
 
+    SysRole getByCode(@Param("code") String code);
+
     /**
      * 根据ID删除
      * @param id

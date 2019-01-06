@@ -23,6 +23,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<spring.version>5.0.3.RELEASE</spring.version>
+		<jackson.version>2.9.4</jackson.version>
 		<mybatis.version>3.4.6</mybatis.version>
 		<pagehelper.version>5.1.2</pagehelper.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
@@ -41,6 +42,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 
 		<dependency>
@@ -82,5 +89,11 @@
 			<artifactId>enjoystudy-common</artifactId>
 			<version>${enjoystudy.version}</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

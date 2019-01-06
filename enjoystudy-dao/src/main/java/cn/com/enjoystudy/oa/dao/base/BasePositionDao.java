@@ -35,6 +35,8 @@ public interface BasePositionDao {
      */
     BasePosition getById(@Param("id") String id);
 
+    BasePosition getByCode(@Param("code") String code);
+
     /**
      * 根据ID删除
      * @param id

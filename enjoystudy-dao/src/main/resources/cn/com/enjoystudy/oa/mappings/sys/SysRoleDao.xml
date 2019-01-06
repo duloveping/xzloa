@@ -46,6 +46,10 @@
         select <include refid="columns"/> from sys_role where id = #{id}::uuid and flag = true and status = true
     </select>
 
+    <select id="getByCode" resultType="cn.com.enjoystudy.oa.bean.sys.SysRole">
+        select <include refid="columns"/> from sys_role where code = #{code} and flag = true and status = true
+    </select>
+
     <update id="deleteById">
         update sys_role set flag = false, status = false where id = #{id}::uuid
     </update>

@@ -48,6 +48,10 @@
         select <include refid="columns"/> from base_position where id = #{id}::uuid and flag = true and status = true
     </select>
 
+    <select id="getByCode" resultType="cn.com.enjoystudy.oa.bean.base.BasePosition">
+        select <include refid="columns"/> from base_position where code = #{code} and flag = true and status = true
+    </select>
+
     <update id="deleteById">
         update base_position set flag = false, status = false where id = #{id}::uuid
     </update>

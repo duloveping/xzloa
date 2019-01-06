@@ -23,12 +23,14 @@ public class EmployeeRoleServiceImpl implements EmployeeRoleService {
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int insert(EmployeeRole entity) {
+        entity.preInsert();
         return employeeRoleDao.insert(entity);
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int update(EmployeeRole entity) {
+        entity.preUpdate();
         return employeeRoleDao.update(entity);
     }
 
