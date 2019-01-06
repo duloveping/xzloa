@@ -1,3 +1,5 @@
+pg_ctl -D E:\PostgreSQL\pgsql\data -l E:\PostgreSQL\pgsql\log\20181227.log start
+
 POSTGRESQL 数据库导入导出
 导入整个数据库
 

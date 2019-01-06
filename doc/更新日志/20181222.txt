@@ -1,4 +1,161 @@
 alter table course_video add column show_state boolean default false;
 comment on column course_video.show_state is '显示状态';
 
-<i class="Hui-iconfont Hui-iconfont-lunzi"></i>
+alter table employee_account add column identity_type integer;
+comment on column employee_account.identity_type is '证件类型：1.居民身份证，2.军官证，3.香港特区护照/身份证明，4.澳门特区护照/身份证明，5.台湾居民来往大陆通行证，6.境外永久居住证，7.居民身份证';
+alter table employee_account add column identity_code character varying(50);
+comment on column employee_account.identity_code is '证件号码';
+alter table employee_account add column question character varying(150);
+comment on column employee_account.question is '密码找回问题';
+alter table employee_account add column answer character varying(150);
+comment on column employee_account.answer is '密码找回答案';
+alter table employee_account add column education character varying(10);
+comment on column employee_account.education is '学历';
+alter table employee_account add column school character varying(200);
+comment on column employee_account.school is '毕业院校';
+alter table employee_account add column major character varying(200);
+comment on column employee_account.major is '主修专业';
+
+create table employee_communication
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    employee_id uuid,
+    province_id uuid,
+    province_code character varying(30),
+    province_name character varying(50),
+    city_id uuid,
+    city_code character varying(30),
+    city_name character varying(50),
+    town_id uuid,
+    town_code character varying(30),
+    town_name character varying(50),
+    address character varying(200),
+    post_code character varying(6),
+    mobile character varying(6),
+    phone character varying(20),
+    fax character varying(20),
+    email character varying(200),
+    primary key (id),
+    foreign key (employee_id) references employee_account(id)
+) with (oids = false);
+comment on table employee_communication is '员工通讯方式';
+comment on column employee_communication.id is '流水号';
+comment on column employee_communication.create_time is '创建时间';
+comment on column employee_communication.flag is '标记';
+comment on column employee_communication.status is '状态';
+comment on column employee_communication.employee_id is '申请人';
+comment on column employee_communication.province_id is '省ID';
+comment on column employee_communication.province_code is '省编号';
+comment on column employee_communication.province_name is '省名称';
+comment on column employee_communication.city_id is '市ID';
+comment on column employee_communication.city_code is '市编号';
+comment on column employee_communication.city_name is '市名称';
+comment on column employee_communication.town_id is '镇ID';
+comment on column employee_communication.town_code is '镇编号';
+comment on column employee_communication.town_name is '镇名称';
+comment on column employee_communication.address is '详细地址';
+comment on column employee_communication.post_code is '邮政编码';
+comment on column employee_communication.mobile is '手机号码';
+comment on column employee_communication.phone is '固定电话';
+comment on column employee_communication.fax is '传真';
+comment on column employee_communication.email is '邮箱';
+
+create table employee_communication
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    employee_id uuid,
+    province_id uuid,
+    province_code character varying(30),
+    province_name character varying(50),
+    city_id uuid,
+    city_code character varying(30),
+    city_name character varying(50),
+    town_id uuid,
+    town_code character varying(30),
+    town_name character varying(50),
+    address character varying(200),
+    post_code character varying(6),
+    mobile character varying(6),
+    phone character varying(20),
+    fax character varying(20),
+    email character varying(200),
+    primary key (id),
+    foreign key (employee_id) references employee_account(id)
+) with (oids = false);
+comment on table employee_communication is '员工通讯方式';
+comment on column employee_communication.id is '流水号';
+comment on column employee_communication.create_time is '创建时间';
+comment on column employee_communication.flag is '标记';
+comment on column employee_communication.status is '状态';
+comment on column employee_communication.employee_id is '申请人';
+comment on column employee_communication.province_id is '省ID';
+comment on column employee_communication.province_code is '省编号';
+comment on column employee_communication.province_name is '省名称';
+comment on column employee_communication.city_id is '市ID';
+comment on column employee_communication.city_code is '市编号';
+comment on column employee_communication.city_name is '市名称';
+comment on column employee_communication.town_id is '镇ID';
+comment on column employee_communication.town_code is '镇编号';
+comment on column employee_communication.town_name is '镇名称';
+comment on column employee_communication.address is '详细地址';
+comment on column employee_communication.post_code is '邮政编码';
+comment on column employee_communication.mobile is '手机号码';
+comment on column employee_communication.phone is '固定电话';
+comment on column employee_communication.fax is '传真';
+comment on column employee_communication.email is '邮箱';
+
+create table examinee_communication
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    employee_id uuid,
+    province_id uuid,
+    province_code character varying(30),
+    province_name character varying(50),
+    city_id uuid,
+    city_code character varying(30),
+    city_name character varying(50),
+    town_id uuid,
+    town_code character varying(30),
+    town_name character varying(50),
+    address character varying(200),
+    post_code character varying(6),
+    mobile character varying(6),
+    phone character varying(20),
+    fax character varying(20),
+    email character varying(200),
+    primary key (id),
+    foreign key (employee_id) references employee_account(id)
+) with (oids = false);
+comment on table examinee_communication is '考生通讯方式';
+comment on column examinee_communication.id is '流水号';
+comment on column examinee_communication.create_time is '创建时间';
+comment on column examinee_communication.flag is '标记';
+comment on column examinee_communication.status is '状态';
+comment on column examinee_communication.employee_id is '申请人';
+comment on column examinee_communication.province_id is '省ID';
+comment on column examinee_communication.province_code is '省编号';
+comment on column examinee_communication.province_name is '省名称';
+comment on column examinee_communication.city_id is '市ID';
+comment on column examinee_communication.city_code is '市编号';
+comment on column examinee_communication.city_name is '市名称';
+comment on column examinee_communication.town_id is '镇ID';
+comment on column examinee_communication.town_code is '镇编号';
+comment on column examinee_communication.town_name is '镇名称';
+comment on column examinee_communication.address is '详细地址';
+comment on column examinee_communication.post_code is '邮政编码';
+comment on column examinee_communication.mobile is '手机号码';
+comment on column examinee_communication.phone is '固定电话';
+comment on column examinee_communication.fax is '传真';
+comment on column examinee_communication.email is '邮箱';

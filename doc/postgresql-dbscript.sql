@@ -1392,6 +1392,70 @@ comment on column sys_sequence.seq_code is '序号编号';
 comment on column sys_sequence.seq_name is '序号名称';
 comment on column sys_sequence.seq_value is '序号值';
 
+drop table examination_plan;
+create table examination_plan
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    title character varying(300),
+    show_state boolean default false,
+    content text,
+    primary key (id)
+) with (oids = false);
+comment on table examination_plan is '考试计划';
+comment on column examination_plan.id is '流水号';
+comment on column examination_plan.create_time is '创建时间';
+comment on column examination_plan.update_time is '更新时间';
+comment on column examination_plan.flag is '标记';
+comment on column examination_plan.status is '状态';
+comment on column examination_plan.status is '状态';
+comment on column examination_plan.title is '标题';
+comment on column examination_plan.show_state is '显示状态';
+comment on column examination_plan.content is '内容';
+
+drop table examination_plan_list;
+create table examination_plan_list
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    plan_id uuid,
+    certificate_id uuid,
+    certificate_name character varying(300),
+    course_id uuid,
+    course_name character varying(300),
+    show_state boolean default false,
+    entry_state integer,
+    entry_start_time timestamp without time zone,
+    entry_end_time timestamp without time zone,
+    test_state integer,
+    test_start_time timestamp without time zone,
+    test_end_time timestamp without time zone,
+    primary key (id),
+    foreign key (plan_id) references examination_plan(id),
+) with (oids = false);
+comment on table examination_plan_list is '考试计划明细';
+comment on column examination_plan_list.id is '流水号';
+comment on column examination_plan_list.create_time is '创建时间';
+comment on column examination_plan_list.update_time is '更新时间';
+comment on column examination_plan_list.flag is '标记';
+comment on column examination_plan_list.status is '状态';
+comment on column examination_plan_list.certificate_id is '证书ID';
+comment on column examination_plan_list.certificate_name is '证书名称';
+comment on column examination_plan_list.course_id is '课程ID';
+comment on column examination_plan_list.course_name is '课程名称';
+comment on column examination_plan_list.show_state is '显示状态';
+comment on column examination_plan_list.entry_start_time is '报名开始时间';
+comment on column examination_plan_list.entry_end_time is '报名卡截止时间';
+comment on column examination_plan_list.test_state is '考试状态：1待考试，2开始考试，3结束考试';
+comment on column examination_plan_list.test_start_time is '考试截止时间';
+comment on column examination_plan_list.test_end_time is '考试结束时间';
+
 drop table employee_examination_apply;
 create table employee_examination_apply
 (
@@ -1424,3 +1488,173 @@ comment on column employee_examination_apply.auditor_id is '审核人ID';
 comment on column employee_examination_apply.auditor_name is '审核人名称';
 comment on column employee_examination_apply.audit_state is '审核状态，1待审核，2通过，3不通过';
 comment on column employee_examination_apply.auditor_mind is '审核意见';
+
+drop table employee_communication;
+create table employee_communication
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    category integer,
+    employee_id uuid,
+    province_id uuid,
+    province_code character varying(30),
+    province_name character varying(50),
+    city_id uuid,
+    city_code character varying(30),
+    city_name character varying(50),
+    town_id uuid,
+    town_code character varying(30),
+    town_name character varying(50),
+    address character varying(200),
+    post_code character varying(6),
+    mobile character varying(6),
+    phone character varying(20),
+    fax character varying(20),
+    email character varying(200),
+    primary key (id),
+    foreign key (employee_id) references employee_account(id)
+) with (oids = false);
+comment on table employee_communication is '员工通讯方式';
+comment on column employee_communication.id is '流水号';
+comment on column employee_communication.create_time is '创建时间';
+comment on column employee_communication.flag is '标记';
+comment on column employee_communication.status is '状态';
+comment on column employee_communication.category is '类型：1本人，2单位，3户籍';
+comment on column employee_communication.employee_id is '申请人';
+comment on column employee_communication.province_id is '省ID';
+comment on column employee_communication.province_code is '省编号';
+comment on column employee_communication.province_name is '省名称';
+comment on column employee_communication.city_id is '市ID';
+comment on column employee_communication.city_code is '市编号';
+comment on column employee_communication.city_name is '市名称';
+comment on column employee_communication.town_id is '镇ID';
+comment on column employee_communication.town_code is '镇编号';
+comment on column employee_communication.town_name is '镇名称';
+comment on column employee_communication.address is '详细地址';
+comment on column employee_communication.post_code is '邮政编码';
+comment on column employee_communication.mobile is '手机号码';
+comment on column employee_communication.phone is '固定电话';
+comment on column employee_communication.fax is '传真';
+comment on column employee_communication.email is '邮箱';
+
+drop table examinee_communication;
+create table examinee_communication
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    employee_id uuid,
+    province_id uuid,
+    province_code character varying(30),
+    province_name character varying(50),
+    city_id uuid,
+    city_code character varying(30),
+    city_name character varying(50),
+    town_id uuid,
+    town_code character varying(30),
+    town_name character varying(50),
+    address character varying(200),
+    post_code character varying(6),
+    mobile character varying(6),
+    phone character varying(20),
+    fax character varying(20),
+    email character varying(200),
+    primary key (id),
+    foreign key (employee_id) references employee_account(id)
+) with (oids = false);
+comment on table examinee_communication is '考生通讯方式';
+comment on column examinee_communication.id is '流水号';
+comment on column examinee_communication.create_time is '创建时间';
+comment on column examinee_communication.flag is '标记';
+comment on column examinee_communication.status is '状态';
+comment on column examinee_communication.employee_id is '申请人';
+comment on column examinee_communication.province_id is '省ID';
+comment on column examinee_communication.province_code is '省编号';
+comment on column examinee_communication.province_name is '省名称';
+comment on column examinee_communication.city_id is '市ID';
+comment on column examinee_communication.city_code is '市编号';
+comment on column examinee_communication.city_name is '市名称';
+comment on column examinee_communication.town_id is '镇ID';
+comment on column examinee_communication.town_code is '镇编号';
+comment on column examinee_communication.town_name is '镇名称';
+comment on column examinee_communication.address is '详细地址';
+comment on column examinee_communication.post_code is '邮政编码';
+comment on column examinee_communication.mobile is '手机号码';
+comment on column examinee_communication.phone is '固定电话';
+comment on column examinee_communication.fax is '传真';
+comment on column examinee_communication.email is '邮箱';
+
+drop table examinee;
+create table examinee
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    employee_id uuid,
+    full_name character varying(50) not null,
+    sex integer,
+    birthday date,
+    identity_type integer,
+    identity_code character varying(50),
+    education character varying(20),
+    school character varying(200),
+    major character varying(200),
+    native_place  character varying(100),
+    marital_status integer,
+    province_id uuid,
+    province_code character varying(30),
+    province_name character varying(50),
+    city_id uuid,
+    city_code character varying(30),
+    city_name character varying(50),
+    town_id uuid,
+    town_code character varying(30),
+    town_name character varying(50),
+    address character varying(200),
+    post_code character varying(6),
+    mobile character varying(6),
+    phone character varying(20),
+    fax character varying(20),
+    email character varying(200),
+    primary key (id),
+    foreign key (department_id) references department(id),
+    foreign key (position_id) references base_position(id)
+) with (oids = false);
+comment on table examinee is '员工通讯方式';
+comment on column examinee.id is '流水号';
+comment on column examinee.create_time is '创建时间';
+comment on column examinee.update_time is '更新时间';
+comment on column examinee.flag is '标记';
+comment on column examinee.status is '状态';
+comment on column examinee.full_name is '姓名';
+comment on column examinee.sex is '性别';
+comment on column examinee.birthday is '出生日期';
+comment on column examinee.identity_type is '证件类型：1.居民身份证，2.军官证，3.香港特区护照/身份证明，4.澳门特区护照/身份证明，5.台湾居民来往大陆通行证，6.境外永久居住证';
+comment on column examinee.identity_code is '证件号码';
+comment on column examinee.education is '学历';
+comment on column examinee.school is '毕业院校';
+comment on column examinee.major is '主修专业';
+comment on column examinee.native_place is '籍贯';
+comment on column examinee.marital_status is '婚姻状况';
+comment on column examinee.province_id is '省ID';
+comment on column examinee.province_code is '省编号';
+comment on column examinee.province_name is '省名称';
+comment on column examinee.city_id is '市ID';
+comment on column examinee.city_code is '市编号';
+comment on column examinee.city_name is '市名称';
+comment on column examinee.town_id is '镇ID';
+comment on column examinee.town_code is '镇编号';
+comment on column examinee.town_name is '镇名称';
+comment on column examinee.address is '详细地址';
+comment on column examinee.post_code is '邮政编码';
+comment on column examinee.mobile is '手机号码';
+comment on column examinee.phone is '固定电话';
+comment on column examinee.fax is '传真';
+comment on column examinee.email is '邮箱';
