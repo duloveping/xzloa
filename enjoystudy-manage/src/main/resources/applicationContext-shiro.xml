@@ -26,6 +26,10 @@
                 /manage/login/index.jhtml = anon
                 /manage/login/login.jhtml = anon
                 /manage/login/logout.jhtml = anon
+                /manage/login/register.jhtml = anon
+                /manage/login/entry.jhtml = anon
+                /manage/login/check.jhtml = anon
+                /manage/login/preview.jhtml = anon
                 /manage/** = authc
             </value>
         </property>

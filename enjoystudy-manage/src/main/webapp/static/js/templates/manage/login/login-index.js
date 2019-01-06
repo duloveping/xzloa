@@ -6,6 +6,8 @@ function keyDown(){
 var cookie_login_name = "default_enjoystudy_username";
 
 $(function(){
+	$("#register").click(register);
+
     $("#inputForm").validate({
 		rules : {
 			username : {
@@ -54,5 +56,9 @@ $(function(){
     	$(this).attr('src', '../../images/kaptcha.jpg?' + Math.floor(Math.random()*100)); 
     });
 });
+
+function register() {
+	document.location.href = ctx + "/manage/login/register.jhtml";
+}
 
 

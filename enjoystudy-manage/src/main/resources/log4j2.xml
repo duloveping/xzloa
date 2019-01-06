@@ -8,7 +8,7 @@ monitorInterval : Log4j能够自动检测修改配置文件和重新配置本身
 
     <Properties>
         <!-- 配置日志文件输出目录 -->
-        <Property name="LOG_HOME">E:/temp/log.log</Property>
+        <Property name="LOG_HOME">E:/temp</Property>
     </Properties>
 
     <Appenders>

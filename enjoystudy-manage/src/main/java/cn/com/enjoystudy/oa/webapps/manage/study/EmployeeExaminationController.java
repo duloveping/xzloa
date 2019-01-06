@@ -4,6 +4,7 @@ import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
 import cn.com.enjoystudy.oa.bean.study.*;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.service.study.*;
+import cn.com.enjoystudy.oa.service.sys.SysSequenceService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
@@ -45,6 +46,10 @@ public class EmployeeExaminationController extends BaseController {
     private StoreQuestionAnalysisService storeQuestionAnalysisService;
     @Autowired
     private StoreQuestionItemService storeQuestionItemService;
+    @Autowired
+    private EmployeeCertificateService employeeCertificateService;
+    @Autowired
+    private SysSequenceService sysSequenceService;
 
     @RequestMapping("course-index")
     public ModelAndView courseIndex() {
@@ -306,6 +311,14 @@ public class EmployeeExaminationController extends BaseController {
             paper.setTestScore(testScore);
             if (testScore >= paper.getPassScore()) {
                 paper.setPassState(true);
+
+//                String certificateCode = sysSequenceService.getYearSeqVal("EmployeeCertificate", 10);
+//
+//                EmployeeCertificate certificate = new EmployeeCertificate();
+//                certificate.setCertificateCode(certificateCode);
+//                certificate.setCertificateName(paper.getCourseName());
+//                certificate.setCertificateDate(paper.getSubmitTime());
+//                certificate.setCertificateId();
             } else {
                 paper.setPassState(false);
             }

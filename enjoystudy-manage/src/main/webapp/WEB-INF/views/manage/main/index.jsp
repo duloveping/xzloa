@@ -39,6 +39,7 @@
 							<li>${manage_login_user.departmentName }</li>
 							<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">${manage_login_user.fullName } <i class="Hui-iconfont">&#xe6d5;</i></a>
 								<ul class="dropDown-menu menu radius box-shadow">
+									<li><a href="<c:url value='/manage/employee/account/edit-data.jhtml'/>" target="mainFrame">修改资料</a></li>
 									<li><a href="<c:url value='/manage/employee/account/edit-password.jhtml'/>" target="mainFrame">修改密码</a></li>
 									<li><a href="<c:url value='/manage/login/logout.jhtml'/>" target="_parent">退出</a></li>
 								</ul>

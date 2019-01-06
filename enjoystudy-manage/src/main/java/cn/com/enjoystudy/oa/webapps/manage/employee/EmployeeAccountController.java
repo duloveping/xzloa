@@ -1,9 +1,11 @@
 package cn.com.enjoystudy.oa.webapps.manage.employee;
 
 import cn.com.enjoystudy.oa.bean.base.*;
+import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.service.base.BasePositionService;
 import cn.com.enjoystudy.oa.service.base.EmployeeAccountService;
+import cn.com.enjoystudy.oa.service.base.EmployeeCommunicationService;
 import cn.com.enjoystudy.oa.service.base.EmployeePositionService;
 import cn.com.enjoystudy.oa.util.JsUtils;
 import cn.com.enjoystudy.oa.validation.manage.employee.EmployeeAccountValidator;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -35,6 +38,8 @@ public class EmployeeAccountController extends BaseController {
     private EmployeePositionService employeePositionService;
     @Autowired
     private BasePositionService basePositionService;
+    @Autowired
+    private EmployeeCommunicationService employeeCommunicationService;
 
     @RequestMapping("index")
     public ModelAndView index() {
@@ -45,6 +50,7 @@ public class EmployeeAccountController extends BaseController {
     @RequestMapping("list")
     @ResponseBody
     public JSONObject list(EmployeeAccountSO so) {
+        so.setCategory(Constants.ACCOUNT_CATEGORY_SYSTEM);
         PageInfo<EmployeeAccount> pageInfo = employeeAccountService.findPage(so);
         List<EmployeeAccount> datas = pageInfo.getList();
         JSONArray array = new JSONArray();
@@ -93,6 +99,7 @@ public class EmployeeAccountController extends BaseController {
                 account = employeeAccountService.getById(so.getId());
             } else {
                 account = new EmployeeAccount();
+                account.setCategory(Constants.ACCOUNT_CATEGORY_SYSTEM);
             }
             account.setDepartmentId(so.getDepartmentId());
             account.setPositionId(so.getPositionId());
@@ -176,6 +183,95 @@ public class EmployeeAccountController extends BaseController {
         } else {
             return resultError("您输入两次的密码不相同！");
         }
+    }
+
+    @RequestMapping("edit-data")
+    public ModelAndView editDate() {
+        Subject subject = SecurityUtils.getSubject();
+        Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
+        EmployeeAccount account = (EmployeeAccount) object;
+        account = employeeAccountService.getById(account.getId());
+
+        EmployeeCommunicationSO communicationSO = new EmployeeCommunicationSO();
+        communicationSO.setEmployeeId(account.getId());
+        communicationSO.setCategory(Constants.COMMUNICATION_CATEGORY_MYSELF);
+
+        List<EmployeeCommunication> communicationList = employeeCommunicationService.list(communicationSO);
+
+        ModelAndView mv = new ModelAndView("manage/employee/account/edit-data");
+        mv.getModel().put("so", account);
+        if (null != communicationList && communicationList.size() > 0) {
+            mv.getModel().put("communication", communicationList.get(0));
+        }
+        return mv;
+    }
+
+    @RequestMapping("save-data")
+    @ResponseBody
+    public JSONObject saveData(
+            @RequestParam(value = "education", required = false) String education,
+            @RequestParam(value = "school", required = false) String school,
+            @RequestParam(value = "major", required = false) String major,
+            @RequestParam(value = "nativePlace", required = false) String nativePlace,
+            @RequestParam(value = "maritalStatus", required = false) Integer maritalStatus,
+            @RequestParam(value = "provinceId", required = false) String provinceId,
+            @RequestParam(value = "provinceCode", required = false) String provinceCode,
+            @RequestParam(value = "provinceName", required = false) String provinceName,
+            @RequestParam(value = "cityId", required = false) String cityId,
+            @RequestParam(value = "cityCode", required = false) String cityCode,
+            @RequestParam(value = "cityName", required = false) String cityName,
+            @RequestParam(value = "townId", required = false) String townId,
+            @RequestParam(value = "townCode", required = false) String townCode,
+            @RequestParam(value = "townName", required = false) String townName,
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "postCode", required = false) String postCode,
+            @RequestParam(value = "mobile", required = false) String mobile,
+            @RequestParam(value = "phone", required = false) String phone,
+            @RequestParam(value = "fax", required = false) String fax,
+            @RequestParam(value = "email", required = false) String email) {
+        Subject subject = SecurityUtils.getSubject();
+        Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
+        EmployeeAccount account = (EmployeeAccount) object;
+        account = employeeAccountService.getById(account.getId());
+        account.setEducation(StringUtils.trimToNull(education));
+        account.setSchool(StringUtils.trimToNull(school));
+        account.setMajor(StringUtils.trimToNull(major));
+        account.setNativePlace(StringUtils.trimToNull(nativePlace));
+        account.setMaritalStatus(maritalStatus);
+        employeeAccountService.update(account);
+
+        EmployeeCommunicationSO communicationSO = new EmployeeCommunicationSO();
+        communicationSO.setEmployeeId(account.getId());
+        communicationSO.setCategory(Constants.COMMUNICATION_CATEGORY_MYSELF);
+        EmployeeCommunication communication = new EmployeeCommunication();
+        List<EmployeeCommunication> communicationList = employeeCommunicationService.list(communicationSO);
+        if (null != communicationList && communicationList.size() > 0) {
+            communication = communicationList.get(0);
+        }
+        communication.setProvinceId(StringUtils.trimToNull(provinceId));
+        communication.setProvinceCode(StringUtils.trimToNull(provinceCode));
+        communication.setProvinceName(StringUtils.trimToNull(provinceName));
+        communication.setCityId(StringUtils.trimToNull(cityId));
+        communication.setCityCode(StringUtils.trimToNull(cityCode));
+        communication.setCityName(StringUtils.trimToNull(cityName));
+        communication.setTownId(StringUtils.trimToNull(townId));
+        communication.setTownCode(StringUtils.trimToNull(townCode));
+        communication.setTownName(StringUtils.trimToNull(townName));
+        communication.setAddress(StringUtils.trimToNull(address));
+        communication.setPostCode(StringUtils.trimToNull(postCode));
+        communication.setMobile(StringUtils.trimToNull(mobile));
+        communication.setFax(StringUtils.trimToNull(fax));
+        communication.setEmail(StringUtils.trimToNull(email));
+        communication.setPhone(StringUtils.trimToNull(phone));
+        if (null != communicationList && communicationList.size() > 0) {
+            employeeCommunicationService.update(communication);
+        } else {
+            communication.setEmployeeId(account.getId());
+            communication.setCategory(Constants.COMMUNICATION_CATEGORY_MYSELF);
+            employeeCommunicationService.insert(communication);
+        }
+
+        return resultSuccess();
     }
 
     private JSONObject beanToJson(EmployeeAccount bean) {

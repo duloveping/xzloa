@@ -28,7 +28,11 @@ public class ManageSessionFilter extends OncePerRequestFilter {
         String[] notFilter = new String[] {
                 "/manage/login/index.jhtml",
                 "/manage/login/login.jhtml",
-                "/manage/login/logout.jhtml"};
+                "/manage/login/register.jhtml",
+                "/manage/login/entry.jhtml",
+                "/manage/login/check.jhtml",
+                "/manage/login/preview.jhtml",
+                "/manage/login/activation.jhtml"};
 
         // 请求的uri
         String ctxpath = req.getContextPath();

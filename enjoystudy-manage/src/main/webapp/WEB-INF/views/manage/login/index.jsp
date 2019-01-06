@@ -29,6 +29,9 @@
     <script type="text/javascript" src="<c:url value='/static/js/common/H-ui.admin_v3.0/lib/jquery.validation/1.14.0/messages_zh.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/static/js/common/H-ui.admin_v3.0/lib/layer/2.4/layer.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/static/js/templates/manage/common/base.js'/>"></script>
+    <script type="text/javascript">
+        var ctx = "${pageContext.request.contextPath}";
+    </script>
     <title>${sysBaseConfig.systemName} - 登录</title>
 </head>
 <body>
@@ -59,9 +62,7 @@
 
             <div class="row cl">
                 <div class="formControls col-xs-8 col-xs-offset-3">
-                    <label for="remember">
-                        <input type="checkbox" name="remember" id="remember" value="false">
-                        记住用户名</label>
+                    <label for="remember"><input type="checkbox" name="remember" id="remember" value="false">记住用户名</label>
                 </div>
             </div>
 
@@ -69,6 +70,7 @@
                 <div class="formControls col-xs-8 col-xs-offset-3">
                     <input type="submit" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
                     <input type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
+                    <input id="register" type="button" class="btn btn-primary radius size-L" value="&nbsp;注&nbsp;&nbsp;&nbsp;&nbsp;册&nbsp;">
                 </div>
             </div>
         </form>
