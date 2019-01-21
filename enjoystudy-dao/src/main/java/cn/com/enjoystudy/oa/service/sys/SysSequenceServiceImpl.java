@@ -20,60 +20,64 @@ public class SysSequenceServiceImpl implements SysSequenceService {
     private SysSequenceDao sysSequenceDao;
 
     @Override
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public Integer getSequenceValue(String code) {
+    public SysSequence getSequenceValue(String code) {
         if (StringUtils.isBlank(code)) {
             throw new NullPointerException("code is null.");
         }
         SysSequenceSO so = new SysSequenceSO();
         so.setSeqCode(code);
 
-        Integer value = 0;
         List<SysSequence> list = sysSequenceDao.list(so);
         if (null != list && list.size() > 0) {
-            SysSequence sequence = list.get(0);
-            value = sequence.getSeqValue();
-            sequence.setSeqValue(sequence.getSeqValue() + 1);
-            sequence.preUpdate();
-            sysSequenceDao.update(sequence);
-        } else {
-            SysSequence sequence = new SysSequence();
-            sequence.setSeqValue(value + 1);
-            sequence.preInsert();
-            sysSequenceDao.insert(sequence);
+            return list.get(0);
         }
-        return value;
+        return null;
     }
 
     @Override
-    public String getSequenceValue(String code, int digit) {
-        Integer val = getSequenceValue(code);
-        return fillZero(val.toString(), digit);
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int insert(SysSequence entity) {
+        entity.preInsert();
+        return sysSequenceDao.insert(entity);
     }
 
     @Override
-    public String getYearSeqVal(String enname, int digit) {
-        String date = DateFormatUtils.format(new Date(), "yyyy");
-        String code = (enname + "_" + date).toUpperCase();
-        Integer val = getSequenceValue(code);
-        return date + fillZero(val.toString(), digit);
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int update(SysSequence entity){
+        entity.preUpdate();
+        return sysSequenceDao.update(entity);
+
     }
 
-    @Override
-    public String getMonthSeqVal(String enname, int digit) {
-        String date = DateFormatUtils.format(new Date(), "yyyyMM");
-        String code = (enname + "_" + date).toUpperCase();
-        Integer val = getSequenceValue(code);
-        return date + fillZero(val.toString(), digit);
-    }
-
-    @Override
-    public String getDateSeqVal(String enname, int digit) {
-        String date = DateFormatUtils.format(new Date(), "yyyyMMdd");
-        String code = (enname + "_" + date).toUpperCase();
-        Integer val = getSequenceValue(code);
-        return date + fillZero(val.toString(), digit);
-    }
+//    @Override
+//    public String getSequenceValue(String code, int digit) {
+//        Integer val = getSequenceValue(code);
+//        return fillZero(val.toString(), digit);
+//    }
+//
+//    @Override
+//    public String getYearSeqVal(String enname, int digit) {
+//        String date = DateFormatUtils.format(new Date(), "yyyy");
+//        String code = (enname + "_" + date).toUpperCase();
+//        Integer val = getSequenceValue(code);
+//        return date + fillZero(val.toString(), digit);
+//    }
+//
+//    @Override
+//    public String getMonthSeqVal(String enname, int digit) {
+//        String date = DateFormatUtils.format(new Date(), "yyyyMM");
+//        String code = (enname + "_" + date).toUpperCase();
+//        Integer val = getSequenceValue(code);
+//        return date + fillZero(val.toString(), digit);
+//    }
+//
+//    @Override
+//    public String getDateSeqVal(String enname, int digit) {
+//        String date = DateFormatUtils.format(new Date(), "yyyyMMdd");
+//        String code = (enname + "_" + date).toUpperCase();
+//        Integer val = getSequenceValue(code);
+//        return date + fillZero(val.toString(), digit);
+//    }
 
 
     /**
@@ -82,7 +86,8 @@ public class SysSequenceServiceImpl implements SysSequenceService {
      * @param digit
      * @return
      */
-    public static String fillZero(String num,int digit){
+    @Override
+    public String fillZero(String num,int digit){
         if(num.length() < digit){
             // 最多这么50位
             String zero = "00000000000000000000000000000000000000000000000000";

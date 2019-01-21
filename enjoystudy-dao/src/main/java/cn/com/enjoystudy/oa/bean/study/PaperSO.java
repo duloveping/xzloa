@@ -19,6 +19,8 @@ public class PaperSO extends SOSupport {
     private String employeeId;
     /** 员工名称 */
     private String employeeName;
+    /** 是否需要通过学习完课程后方可考试 */
+    private Boolean studyToExamState;
     /** 考试时长（单位：分钟） */
     private Integer duration;
     /** 考试类型：1课程学习完成后自动考试，2由教师统计安排统计 */
@@ -107,6 +109,14 @@ public class PaperSO extends SOSupport {
 
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
+    }
+
+    public Boolean getStudyToExamState() {
+        return studyToExamState;
+    }
+
+    public void setStudyToExamState(Boolean studyToExamState) {
+        this.studyToExamState = studyToExamState;
     }
 
     public Integer getDuration() {

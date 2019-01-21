@@ -13,6 +13,12 @@ public class SysSequence extends EntitySupport {
     public SysSequence() {
     }
 
+    public SysSequence(String seqCode, String seqName, Integer seqValue) {
+        this.seqCode = seqCode;
+        this.seqName = seqName;
+        this.seqValue = seqValue;
+    }
+
     public String getSeqCode() {
         return seqCode;
     }

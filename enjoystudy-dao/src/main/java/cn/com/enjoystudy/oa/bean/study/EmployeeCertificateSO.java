@@ -15,7 +15,7 @@ public class EmployeeCertificateSO extends SOSupport {
     /** 员工性别 */
     private String employeeSex;
     /** 员工出生日期 */
-    private String employeeBorn;
+    private Date employeeBorn;
     /** 员工身份证号 */
     private String identityCode;
     /** 证书ID */
@@ -68,11 +68,11 @@ public class EmployeeCertificateSO extends SOSupport {
         this.employeeSex = employeeSex;
     }
 
-    public String getEmployeeBorn() {
+    public Date getEmployeeBorn() {
         return employeeBorn;
     }
 
-    public void setEmployeeBorn(String employeeBorn) {
+    public void setEmployeeBorn(Date employeeBorn) {
         this.employeeBorn = employeeBorn;
     }
 

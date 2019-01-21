@@ -1,13 +1,21 @@
 package cn.com.enjoystudy.oa.service.sys;
 
+import cn.com.enjoystudy.oa.bean.sys.SysSequence;
+
 public interface SysSequenceService {
-    Integer getSequenceValue(String code);
+    int insert(SysSequence entity);
 
-    String getSequenceValue(String code, int digit);
+    int update(SysSequence entity);
 
-    String getYearSeqVal(String enname, int digit);
+    SysSequence getSequenceValue(String code);
 
-    String getMonthSeqVal(String enname, int digit);
+//    String getSequenceValue(String code, int digit);
+//
+//    String getYearSeqVal(String enname, int digit);
+//
+//    String getMonthSeqVal(String enname, int digit);
+//
+//    String getDateSeqVal(String enname, int digit);
 
-    String getDateSeqVal(String enname, int digit);
+    String fillZero(String num,int digit);
 }

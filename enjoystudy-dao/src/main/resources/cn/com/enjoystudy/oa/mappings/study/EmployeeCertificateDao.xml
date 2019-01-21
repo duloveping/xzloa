@@ -3,24 +3,24 @@
 <mapper namespace="cn.com.enjoystudy.oa.dao.study.EmployeeCertificateDao" >
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate" >
         insert into employee_certificate (id, create_time, update_time, flag, status,
-        employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_id, certificate_code,
+        employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_code,
         certificate_name, certificate_date, seal_photo, organization_code, organization_name, teacher_id, teacher_name)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
-        #{employeeId}::uuid, #{employeeName}, #{employeeSex}, #{employeeBorn}, #{identityCode}, #{certificateId}::uuid, #{certificateCode},
+        #{employeeId}::uuid, #{employeeName}, #{employeeSex}, #{employeeBorn}, #{identityCode}, #{certificateCode},
         #{certificateName}, #{certificateDate}, #{sealPhoto}, #{organizationCode}, #{organizationName}, #{teacherId}::uuid, #{teacherName})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate" >
         update employee_certificate set update_time = #{updateTime},
         employee_id = #{employeeId}, employee_name = #{employeeName}, employee_sex = #{employeeSex},
-        employee_born = #{employeeBorn}, identity_code = #{identityCode}, certificate_id = #{certificateId},
+        employee_born = #{employeeBorn}, identity_code = #{identityCode},
         certificate_code = #{certificateCode}, certificate_name = #{certificateName}, certificate_date = #{certificateDate},
         seal_photo = #{sealPhoto}, organization_code = #{organizationCode}, organization_name = #{organizationName},
         teacher_id = #{teacherId}, teacher_name = #{teacherName} where id = #{id}::uuid
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate">
-        select id, employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_id, certificate_code,
+        select id, employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_code,
             certificate_name, certificate_date, seal_photo, organization_code, organization_name, teacher_id, teacher_name
         from employee_certificate
         where id = #{id}::uuid and flag = true and status = true
@@ -32,14 +32,13 @@
 
     <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate"
             parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificateSO">
-        select id, employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_id, certificate_code,
+        select id, employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_code,
         certificate_name, certificate_date, seal_photo, organization_code, organization_name, teacher_id, teacher_name
         from employee_certificate
         where flag = true and status = true
         <if test="null != employeeId and '' != employeeId"> and employee_id = #{employeeId}::uuid </if>
         <if test="null != employeeName and '' != employeeName"> and employee_name = #{employeeName} </if>
         <if test="null != identityCode and '' != identityCode"> and identity_code = #{identityCode} </if>
-        <if test="null != certificateId and '' != certificateId"> and certificate_id = #{certificateId}::uuid </if>
         <if test="null != certificateName and '' != certificateName"> and certificate_name = #{certificateName} </if>
         <if test="null != certificateCode and '' != certificateCode"> and certificate_code = #{certificateCode} </if>
         <if test="null != organizationCode and '' != organizationCode"> and organization_code = #{organizationCode} </if>

@@ -30,16 +30,17 @@
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.Course" >
         insert into course (id, create_time, update_time, flag, status,
         code, name, type_id, teacher_id, introduction, description, total_score, pass_score,test_type, test_state,
-        test_amount, duration, question_amount, question_type, single_amount, multi_amount, judge_amount, check_amount, fill_amount)
+        test_amount, duration, question_amount, question_type, single_amount, multi_amount, judge_amount,
+        check_amount, fill_amount, study_to_exam_state)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{code}, #{name}, #{typeId}::uuid, #{teacherId}::uuid, #{introduction}, #{description}, #{totalScore}, #{passScore},
         #{testType}, #{testState}, #{testAmount}, #{duration}, #{questionAmount}, #{questionType}, #{singleAmount},
-        #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount})
+        #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount}, #{studyToExamState})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.Course" >
         update course set update_time = #{updateTime},
-        code = #{code}, name = #{name}, teacher_id = #{teacherId}::uuid, type_id = #{typeId}::uuid,
+        code = #{code}, name = #{name}, teacher_id = #{teacherId}::uuid, type_id = #{typeId}::uuid, study_to_exam_state = #{studyToExamState},
         introduction = #{introduction}, description = #{description}, total_score = #{totalScore}, pass_score = #{passScore},
         test_type = #{testType}, test_state = #{testState}, test_amount = #{testAmount}, duration = #{duration},
         question_amount = #{questionAmount}, question_type = #{questionType}, single_amount = #{singleAmount},
@@ -48,7 +49,7 @@
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.Course">
-        select id, code, name, type_id, teacher_id, introduction, description, total_score, pass_score, test_type,
+        select id, study_to_exam_state, code, name, type_id, teacher_id, introduction, description, total_score, pass_score, test_type,
         test_state, test_amount, duration, question_amount, question_type, single_amount, multi_amount, judge_amount,
         check_amount, fill_amount
         from course where id = #{id}::uuid and flag = true and status = true
@@ -60,7 +61,7 @@
 
     <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.Course"
             parameterType="cn.com.enjoystudy.oa.bean.study.CourseSO">
-        select c.id, c.code, c.name, t.id type_id, t.name type_name, c.introduction,
+        select c.id, c.code, c.name, t.id type_id, t.name type_name, c.introduction, c.study_to_exam_state,
         e.id teacher_id, e.full_name teacher_name, c.total_score, c.pass_score, c.test_type, c.test_state, c.test_amount,
         c.duration, c.question_amount, c.question_type, c.single_amount, c.multi_amount, c.judge_amount, c.check_amount,
         c.fill_amount from course c

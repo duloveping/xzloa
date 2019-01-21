@@ -7,6 +7,8 @@ import cn.com.enjoystudy.oa.bean.EntitySupport;
  * @author 广州新咨力科技有限公司-杜永生
  */
 public class ExaminationConfig extends EntitySupport {
+    /** 是否需要通过学习完课程后方可考试 */
+    private Boolean studyToExamState;
     /** 考试时长（单位：分钟） */
     private Integer duration;
     /** 考试类型：1课程学习完成后自动考试，2由教师统计安排统计 */
@@ -45,6 +47,14 @@ public class ExaminationConfig extends EntitySupport {
     private Integer fillAmount;
 
     public ExaminationConfig() {
+    }
+
+    public Boolean getStudyToExamState() {
+        return studyToExamState;
+    }
+
+    public void setStudyToExamState(Boolean studyToExamState) {
+        this.studyToExamState = studyToExamState;
     }
 
     public Integer getDuration() {
