@@ -92,6 +92,7 @@ public class CourseController extends UploadController {
                     config = configList.get(0);
                 } else {
                     config = new ExaminationConfig();
+                    config.setStudyToExamState(false);
                     config.setDuration(100);
                     config.setTestType(1);
                     config.setPaperType(1);
@@ -109,6 +110,7 @@ public class CourseController extends UploadController {
                 }
 
                 course = new Course();
+                course.setStudyToExamState(config.getStudyToExamState());
                 course.setTotalScore(config.getTotalScore());
                 course.setPassScore(config.getPassScore());
                 course.setTestAmount(config.getTestAmount());
@@ -177,6 +179,7 @@ public class CourseController extends UploadController {
     @ResponseBody
     public JSONObject examinationS(CourseSO so) {
         Course course = courseService.getById(so.getId());
+        course.setStudyToExamState(so.getStudyToExamState());
         course.setTotalScore(so.getTotalScore());
         course.setPassScore(so.getPassScore());
         course.setTestAmount(so.getTestAmount());

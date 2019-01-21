@@ -1,14 +1,22 @@
 package cn.com.enjoystudy.oa.webapps.manage.study;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
+import cn.com.enjoystudy.oa.bean.base.EmployeeCommunication;
+import cn.com.enjoystudy.oa.bean.base.EmployeeCommunicationSO;
 import cn.com.enjoystudy.oa.bean.study.*;
+import cn.com.enjoystudy.oa.bean.sys.SysSequence;
+import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
+import cn.com.enjoystudy.oa.service.base.EmployeeCommunicationService;
 import cn.com.enjoystudy.oa.service.study.*;
 import cn.com.enjoystudy.oa.service.sys.SysSequenceService;
+import cn.com.enjoystudy.oa.util.IdGenerateUtils;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,66 +80,72 @@ public class EmployeeExaminationController extends BaseController {
     @RequestMapping("check-test")
     @ResponseBody
     public JSONObject checkTest(@RequestParam("courseId") String courseId) {
+        /*
+         * 1.判断该课程是否处于开始考试状态；
+         * 2.判断该课程是否需要学习完成后方可考试；
+         * 3.判断学习是否参与过该课程的考试；
+         * 4.判断考试次数是否超过该课程补考次数（注意：-1为无限次数补考机会）
+         */
+        JSONObject json = null;
         Course course = courseService.getById(courseId);
         if (null != course && course.getTestState().equals(2)) {
             Subject subject = SecurityUtils.getSubject();
             Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
             EmployeeAccount account = (EmployeeAccount) object;
 
-            EmployeeExaminationPaperSO paperSO = new EmployeeExaminationPaperSO();
-            paperSO.setCourseId(course.getId());
-            List<EmployeeExaminationPaper> list = employeeExaminationPaperService.list(paperSO);
+            boolean studyFlag = false;
 
-            if (null != list && list.size() > 0) {
-                boolean flag = false;
-                String paperId = "";
-                for (EmployeeExaminationPaper paper : list) {
-                    if (paper.getTestState().equals(1) || paper.getTestState().equals(2)) {
-                        paperId = paper.getId();
-                        flag = true;
-                        break;
-                    } else if (paper.getTestScore() < paper.getPassScore()) {
-                        flag = true;
-                        break;
-                    }
+            if (course.getStudyToExamState() == false) {
+                studyFlag = true;
+            } else {
+                CourseVideoSO videoSO = new CourseVideoSO();
+                videoSO.setCourseId(course.getId());
+                long videoAmount = courseVideoService.getCount(videoSO);
+                long studyAmount = employeeCourseStudyService.getStudyAmount(account.getId(), course.getId());
+                if (studyAmount >= videoAmount) {
+                    studyFlag = true;
                 }
+            }
 
-                if (StringUtils.isBlank(paperId)) {
-                    if (flag) {
-                        if (list.size() <= course.getTestAmount()) {
-                            CourseVideoSO videoSO = new CourseVideoSO();
-                            videoSO.setCourseId(course.getId());
-                            long videoAmount = courseVideoService.getCount(videoSO);
-                            long studyAmount = employeeCourseStudyService.getStudyAmount(account.getId(), course.getId());
+            if (studyFlag) {
+                EmployeeExaminationPaperSO paperSO = new EmployeeExaminationPaperSO();
+                paperSO.setCourseId(course.getId());
+                paperSO.setEmployeeId(account.getId());
+                List<EmployeeExaminationPaper> list = employeeExaminationPaperService.list(paperSO);
 
-                            if (studyAmount >= videoAmount) {
-                                paperId = saveEmployeeExaminationPaper(account, course);
-                                JSONObject json = resultSuccess("成功领取考卷。");
-                                json.put("paperId", paperId);
-                                return json;
-                            } else {
-                                return resultError("课程视频尚未学习完成，暂不能参加该课程考试。");
-                            }
-                        } else {
-                            return resultError("您已经超过补考次数！不能再进行考试，请您回去复习再申请考试，加油！");
+                String paperId = "";
+                if (null != list && list.size() > 0) {
+
+                    boolean testFlag = false;
+                    for (EmployeeExaminationPaper paper : list) {
+                        if (paper.getTestState().equals(1) || paper.getTestState().equals(2)) {
+                            testFlag = true;
+                            break;
+                        } else if (paper.getTestScore() < paper.getPassScore()) {
+                            testFlag = true;
+                            break;
                         }
-                    } else {
-                        return resultError("您不需要参与本课程的考试！");
+                    }
+
+                    if (testFlag) {
+                        if (course.getTestAmount().equals(-1) || list.size() <= course.getTestAmount()) {
+                            paperId = saveEmployeeExaminationPaper(account, course);
+                            json = resultSuccess("成功领取考卷。");
+                            json.put("paperId", paperId);
+                        } else {
+                            json = resultError("您已经超过补考次数！不能再进行考试，请您回去复习再申请考试，加油！");
+                        }
                     }
                 } else {
-                    JSONObject json = resultSuccess("成功领取考卷。");
+                    paperId = saveEmployeeExaminationPaper(account, course);
+                    json = resultSuccess("成功领取考卷。");
                     json.put("paperId", paperId);
-                    return json;
                 }
-            } else {
-                String paperId = saveEmployeeExaminationPaper(account, course);
-                JSONObject json = resultSuccess("成功领取考卷。");
-                json.put("paperId", paperId);
-                return json;
             }
         } else {
-            return resultError("考试尚未开始或已经结束");
+            json = resultError("考试尚未开始或已经结束");
         }
+        return json;
     }
 
     private String saveEmployeeExaminationPaper(EmployeeAccount account, Course course) {
@@ -270,62 +284,91 @@ public class EmployeeExaminationController extends BaseController {
 
         EmployeeExaminationPaper paper = employeeExaminationPaperService.getById(so.getId());
         if (account.getId().equals(paper.getEmployeeId())) {
-            int testScore = 0;
+            if (!paper.getTestState().equals(3)) {
+                int testScore = 0;
 
-            for (EmployeeExaminationQuestion oq : paper.getQuestionList()) {
-                for (EmployeeExaminationQuestion nq : so.getQuestionList()) {
-                    if (oq.getId().equals(nq.getId())) {
-                        Boolean[] r = new Boolean[paper.getQuestionList().size()];
-                        Boolean[] c = new Boolean[paper.getQuestionList().size()];
+                for (EmployeeExaminationQuestion oq : paper.getQuestionList()) {
+                    for (EmployeeExaminationQuestion nq : so.getQuestionList()) {
+                        if (oq.getId().equals(nq.getId())) {
+                            Boolean[] r = new Boolean[paper.getQuestionList().size()];
+                            Boolean[] c = new Boolean[paper.getQuestionList().size()];
 
-                        int i = 0;
-                        for (EmployeeExaminationQuestionItem oi : oq.getItemList()) {
-                            for (EmployeeExaminationQuestionItem ni : nq.getItemList()) {
-                                if (oi.getId().equals(ni.getId())) {
-                                    oi.setCheckState(ni.getCheckState());
-                                    employeeExaminationQuestionItemService.update(oi);
+                            int i = 0;
+                            for (EmployeeExaminationQuestionItem oi : oq.getItemList()) {
+                                for (EmployeeExaminationQuestionItem ni : nq.getItemList()) {
+                                    if (oi.getId().equals(ni.getId())) {
+                                        oi.setCheckState(ni.getCheckState());
+                                        employeeExaminationQuestionItemService.update(oi);
 
-                                    r[i] = oi.getAnswer();
-                                    c[i] = ni.getCheckState();
+                                        r[i] = oi.getAnswer();
+                                        c[i] = ni.getCheckState();
 
-                                    i++;
-                                    break;
+                                        i++;
+                                        break;
+                                    }
                                 }
                             }
-                        }
 
-                        boolean right = Arrays.equals(r, c);
+                            boolean right = Arrays.equals(r, c);
 
-                        oq.setAnswerState(3);
-                        oq.setRightState(right);
-                        if (right) {
-                            testScore += oq.getScore();
+                            oq.setAnswerState(3);
+                            oq.setRightState(right);
+                            if (right) {
+                                testScore += oq.getScore();
+                            }
+                            employeeExaminationQuestionService.update(oq);
+                            break;
                         }
-                        employeeExaminationQuestionService.update(oq);
-                        break;
                     }
                 }
-            }
 
-            paper.setSubmitTime(new Date());
-            paper.setTestScore(testScore);
-            if (testScore >= paper.getPassScore()) {
-                paper.setPassState(true);
+                paper.setSubmitTime(new Date());
+                paper.setTestScore(testScore);
+                if (testScore >= paper.getPassScore()) {
+                    paper.setPassState(true);
 
-//                String certificateCode = sysSequenceService.getYearSeqVal("EmployeeCertificate", 10);
-//
-//                EmployeeCertificate certificate = new EmployeeCertificate();
-//                certificate.setCertificateCode(certificateCode);
-//                certificate.setCertificateName(paper.getCourseName());
-//                certificate.setCertificateDate(paper.getSubmitTime());
-//                certificate.setCertificateId();
+                    Integer value = 1;
+                    String seqCode = "EmployeeCertificate";
+                    String date = DateFormatUtils.format(paper.getSubmitTime(), "yyyy");
+                    String md = DateFormatUtils.format(paper.getSubmitTime(), "MMdd");
+
+                    String code = (seqCode + "_" + date).toUpperCase();
+                    SysSequence sequence = sysSequenceService.getSequenceValue(code);
+                    if (null == sequence) {
+                        sequence = new SysSequence();
+                        sequence.setSeqCode(code);
+                        sequence.setSeqName(seqCode);
+                        sequence.setSeqValue(value);
+                        sysSequenceService.insert(sequence);
+                    } else {
+                        value = sequence.getSeqValue() + 1;
+                        sequence.setSeqValue(value);
+                        sysSequenceService.update(sequence);
+                    }
+
+                    String rnd1 = RandomStringUtils.randomNumeric(5);
+                    String certificateCode = date + rnd1 + sysSequenceService.fillZero(value.toString(), 7) + md;
+                    EmployeeCertificate certificate = new EmployeeCertificate();
+                    certificate.setCertificateCode(certificateCode);
+                    certificate.setCertificateName(paper.getCourseName());
+                    certificate.setCertificateDate(paper.getSubmitTime());
+                    certificate.setCertificateState(1);
+                    certificate.setEmployeeId(account.getId());
+                    certificate.setEmployeeName(account.getFullName());
+                    certificate.setIdentityCode(account.getIdentityCode());
+                    certificate.setEmployeeBorn(account.getBirthday());
+                    employeeCertificateService.insert(certificate);
+
+                } else {
+                    paper.setPassState(false);
+                }
+                paper.setTestState(3);
+                employeeExaminationPaperService.update(paper);
+
+                return resultSuccess("本次考试成绩为：" + testScore + "，考试为：" + (paper.getPassState() ? "及格" : "不及格"));
             } else {
-                paper.setPassState(false);
+                return resultError("请不要重复交卷！");
             }
-            paper.setTestState(3);
-            employeeExaminationPaperService.update(paper);
-
-            return resultSuccess("本次考试成绩为：" + testScore + "，考试为：" + (paper.getPassState() ? "不及格" : "不及格"));
         } else {
             return resultError("不能提交别人的考卷！");
         }

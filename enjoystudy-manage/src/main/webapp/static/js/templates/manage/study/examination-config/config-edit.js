@@ -1,26 +1,48 @@
 $("#inputForm").validate({
     rules : {
-        oldpwd: {
+        studyToExamState: {
             required: true
         },
-        newpwd: {
+        duration: {
             required: true
         },
-        okpwd: {
+        testType: {
             required: true,
-            equalTo: "#newpwd"
+        },
+        paperType: {
+            required: true,
+        },
+        totalScore: {
+            required: true,
+        },
+        passScore: {
+            required: true,
+        },
+        testAmount: {
+            required: true,
         }
     },
     messages: {
-        oldpwd: {
-            required: "当前密码不能为空！"
+        studyToExamState: {
+            required: "是否需要学习完课程方可考试不能为空！"
         },
-        newpwd: {
-            required: "新的密码不能为空！"
+        duration: {
+            required: "考试时长不能为空！"
         },
-        okpwd: {
-            required: "确认密码不能为空！",
-            equalTo: "新的密码与确认密码不相同！"
+        testType: {
+            required: "考试类型不能为空！"
+        },
+        paperType: {
+            required: "考卷类型不能为空！"
+        },
+        totalScore: {
+            required: "考试总成绩不能为空！"
+        },
+        passScore: {
+            required: "考试合格成绩不能为空！"
+        },
+        testAmount: {
+            required: "补考次数不能为空！"
         }
     },
     onkeyup : false,
@@ -29,7 +51,7 @@ $("#inputForm").validate({
     submitHandler : function(form) {
         $.ajax({
             type: "post",
-            url: ctx + "/manage/employee/account/save-password.jhtml",
+            url: ctx + "/manage/study/examination-config/save.jhtml",
             cache: false,
             data: $(form).serialize(),
             dataType: "json",

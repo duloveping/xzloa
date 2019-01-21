@@ -22,6 +22,15 @@
     <form:form id="inputForm" modelAttribute="so" method="post" action="#" cssClass="form form-horizontal">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>是否需要学习完课程方可考试：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:radiobutton path="studyToExamState" label="是" value="true"/>
+                <form:radiobutton path="studyToExamState" label="否" value="false" cssClass="required"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
                 <span class="c-red">*</span>考试时长（单位：分钟）：
             </label>
             <div class="formControls col-xs-8 col-sm-10">

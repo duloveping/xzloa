@@ -21,7 +21,6 @@ function goPage(curr) {
                     var questionType = "";
                     var testState = "";
 
-
                     if (data.testType == 1) {
                         testType = "课程学习完成后自动考试";
                     } else if (data.testType == 2) {
@@ -52,9 +51,9 @@ function goPage(curr) {
                     html += "<td>" + data.questionAmount + "</td>";
                     html += "<td>" + questionType + "</td>";
                     if (data.questionType == 1) {
-                        html += "<td>" + data.singleAmount + "</td>";
-                        html += "<td>" + data.multiAmount + "</td>";
-                        html += "<td>" + data.judgeAmount + "</td>";
+                        html += "<td>" + (null == data.singleAmount ? 0 : data.singleAmount) + "</td>";
+                        html += "<td>" + (null == data.multiAmount ? 0 : data.multiAmount) + "</td>";
+                        html += "<td>" + (null == data.judgeAmount ? 0 : data.judgeAmount) + "</td>";
                     } else if (data.questionType == 2) {
                         html += "<td>0</td>";
                         html += "<td>0</td>";

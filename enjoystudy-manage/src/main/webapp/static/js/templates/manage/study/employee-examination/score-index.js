@@ -17,7 +17,7 @@ function goPage(curr) {
 
                     var startTime = moment(data.startTime).format("YYYY-MM-DD HH:mm:ss");
                     var endTime = moment(data.endTime).format("YYYY-MM-DD HH:mm:ss");
-                    var submitTime = moment(data.endTime).format("YYYY-MM-DD HH:mm:ss");
+                    var submitTime = moment(data.submitTime).format("YYYY-MM-DD HH:mm:ss");
                     var passState = data.passState ? "合格" : "不合格";
 
                     html += "<tr>";

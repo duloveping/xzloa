@@ -28,6 +28,7 @@ public class ExaminationConfigController extends BaseController {
             config = list.get(0);
         } else {
             config = new ExaminationConfig();
+            config.setStudyToExamState(false);
             config.setDuration(100);
             config.setTestType(1);
             config.setPaperType(1);
@@ -57,6 +58,7 @@ public class ExaminationConfigController extends BaseController {
         } else {
             config = new ExaminationConfig();
         }
+        config.setStudyToExamState(so.getStudyToExamState());
         config.setDuration(so.getDuration());
         config.setTestType(so.getTestType());
         config.setPaperType(so.getPaperType());
