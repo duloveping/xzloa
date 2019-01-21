@@ -1215,7 +1215,6 @@ create table employee_certificate
     employee_sex integer,
     employee_born date,
     identity_code character varying(18),
-    certificate_id uuid not null,
     certificate_code character varying(25),
     certificate_name character varying(1000),
     certificate_date date,
@@ -1239,7 +1238,6 @@ comment on column employee_certificate.employee_name is '员工姓名';
 comment on column employee_certificate.employee_sex is '员工性别';
 comment on column employee_certificate.employee_born is '员工出生日期';
 comment on column employee_certificate.identity_code is '员工身份证号';
-comment on column employee_certificate.certificate_id is '证书ID';
 comment on column employee_certificate.certificate_code is '证书编号';
 comment on column employee_certificate.certificate_name is '证书名称';
 comment on column employee_certificate.certificate_date is '证书日期';
@@ -1548,6 +1546,7 @@ create table examinee_communication
     update_time timestamp without time zone,
     flag boolean default true,
     status boolean default true,
+    category integer,
     employee_id uuid,
     province_id uuid,
     province_code character varying(30),
@@ -1658,3 +1657,82 @@ comment on column examinee.mobile is '手机号码';
 comment on column examinee.phone is '固定电话';
 comment on column examinee.fax is '传真';
 comment on column examinee.email is '邮箱';
+
+drop table web_advertisement_place;
+create table web_advertisement_place
+(
+    id uuid not null,
+    create_time timestamp without time zone,
+    update_time timestamp without time zone,
+    flag boolean default true,
+    status boolean default true,
+    show_state boolean default false,
+    code character varying(100) not null,
+    name character varying(300) not null,
+    width integer,
+    height integer,
+    category character varying(50),
+    place_id uuid,
+    css_class character varying(255),
+    css_style character varying(255),
+    description character varying(500),
+    foreign key (place_id) references web_advertisement_place(id),
+    primary key (id)
+) with (oids = false);
+comment on table web_advertisement_place is '数字字典';
+comment on column web_advertisement_place.id is '流水号';
+comment on column web_advertisement_place.create_time is '创建时间';
+comment on column web_advertisement_place.update_time is '更新时间';
+comment on column web_advertisement_place.flag is '标记';
+comment on column web_advertisement_place.status is '状态';
+comment on column web_advertisement_place.show_state is '显示状态';
+comment on column web_advertisement_place.code is '编号';
+comment on column web_advertisement_place.name is '名称';
+comment on column web_advertisement_place.place_id is '所属位置';
+comment on column web_advertisement_place.category is '归类';
+comment on column web_advertisement_place.description is '描述';
+comment on column web_advertisement_place.width is '宽度';
+comment on column web_advertisement_place.height is '高度';
+comment on column web_advertisement_place.css_class is 'html的class属性';
+comment on column web_advertisement_place.css_style is 'html的style属性';
+
+drop table web_advertisement;
+create table web_advertisement
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  place_id uuid not null,
+  show_state boolean default false,
+  css_class character varying(255),
+  css_style character varying(255),
+  category character varying(50),
+  large character varying(50),
+  middle character varying(50),
+  small character varying(50),
+  icon character varying(50),
+  title character varying(300),
+  upload_time timestamp without time zone,
+  serial_number integer default 0,
+  foreign key (place_id) references web_advertisement_place(id),
+  primary key (id)
+) with (oids = false);
+comment on table web_advertisement is '广告';
+comment on column web_advertisement.id is '流水号';
+comment on column web_advertisement.create_time is '创建时间';
+comment on column web_advertisement.update_time is '更新时间';
+comment on column web_advertisement.flag is '标记';
+comment on column web_advertisement.status is '状态';
+comment on column web_advertisement.place_id is '广告位置';
+comment on column web_advertisement.show_state is '显示状态';
+comment on column web_advertisement.css_class is 'html的class属性值';
+comment on column web_advertisement.css_style is 'html的style属性值';
+comment on column web_advertisement.title is '标题';
+comment on column web_advertisement.large is '大图';
+comment on column web_advertisement.middle is '中图';
+comment on column web_advertisement.small is '小图';
+comment on column web_advertisement.icon is '缩略图';
+comment on column web_advertisement.upload_time is '上传时间';
+comment on column web_advertisement.serial_number is '排序号';
