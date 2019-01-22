@@ -165,6 +165,13 @@ public class CourseVideoController extends UploadController {
         }
     }
 
+    @RequestMapping("change-show-state")
+    @ResponseBody
+    public JSONObject changeShowState(@RequestParam Boolean showState, @RequestParam String videoId) {
+        courseVideoService.changeShowState(showState, videoId);
+        return resultSuccess();
+    }
+
     private JSONObject beanToJson(CourseVideo bean) {
         JSONObject obj = new JSONObject();
         obj.put("id", bean.getId());

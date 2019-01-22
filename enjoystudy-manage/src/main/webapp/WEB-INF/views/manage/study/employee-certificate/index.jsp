@@ -25,10 +25,8 @@
         </tr>
         <tr class="text-c">
             <th>证书名称</th>
-            <th width="120">证书编号</th>
+            <th width="200">证书编号</th>
             <th width="120">获得时间</th>
-            <th width="120">发证机构</th>
-            <th width="60">状态</th>
         </tr>
         </thead>
         <tbody></tbody>

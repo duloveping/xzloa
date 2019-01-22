@@ -6,6 +6,7 @@ import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.service.study.CertificateService;
 import cn.com.enjoystudy.oa.service.study.CourseCertificateService;
 import cn.com.enjoystudy.oa.service.study.CourseService;
+import cn.com.enjoystudy.oa.service.study.EmployeeCertificateService;
 import cn.com.enjoystudy.oa.validation.manage.study.CertificateValidator;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
@@ -19,6 +20,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,6 +46,8 @@ public class CertificateController extends BaseController {
     private CertificateService certificateService;
     @Autowired
     private CourseCertificateService courseCertificateService;
+    @Autowired
+    private EmployeeCertificateService employeeCertificateService;
 
     @RequestMapping("index")
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
@@ -95,8 +99,11 @@ public class CertificateController extends BaseController {
     }
 
     @RequestMapping("preview")
-    public ModelAndView preview(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView preview(@RequestParam String id) {
+        EmployeeCertificate certificate = employeeCertificateService.getById(id);
+
         ModelAndView mv = new ModelAndView("manage/study/certificate/preview");
+        mv.getModel().put("certificate", certificate);
         return mv;
     }
 

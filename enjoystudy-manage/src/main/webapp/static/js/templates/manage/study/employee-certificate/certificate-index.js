@@ -17,17 +17,12 @@ function goPage(curr) {
                 for (var i = 0; i < array.length; i++) {
                     var data = array[i];
 
-                    var certificateDate = moment(data.certificateDate).format("YYYY-MM-DD HH:mm:ss");
+                    var certificateDate = moment(data.certificateDate).format("YYYY-MM-DD");
 
                     html += "<tr>";
-                    html += "<td>" + data.certificateName + "</td>";
+                    html += "<td><a href=\"" + ctx  + "/manage/study/certificate/preview.jhtml?id=" + data.id + "\" target=\"_blank\">" + data.certificateName + "</td>";
                     html += "<td>" + data.certificateCode + "</td>";
-                    html += "<td>" + certificateState(data.certificateState) + "</td>";
-                    html += "<td>" + data.organizationName + "</td>";
-                    html += "<td>" + data.certificateDate + "</td>";
-                    html += "<td class=\"td-manage\">";
-                    html += "<a href=\"javascript:void(0);\" onclick=\"question.view('" + data.id + "');\" style=\"text-decoration:none\" class=\"ml-5\" title=\"查看\"><i class=\"fa fa-edit fa-lg\"></i></a>&nbsp;";
-                    html += "</td>";
+                    html += "<td>" + certificateDate + "</td>";
                     html += "</tr>";
                 }
 
