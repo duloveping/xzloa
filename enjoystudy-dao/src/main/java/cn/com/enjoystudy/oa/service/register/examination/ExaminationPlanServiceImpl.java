@@ -19,12 +19,14 @@ public class ExaminationPlanServiceImpl implements ExaminationPlanService {
     private ExaminationPlanDao examinationPlanDao;
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int insert(ExaminationPlan entity) {
         entity.preInsert();
         return examinationPlanDao.insert(entity);
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int update(ExaminationPlan entity) {
         entity.preUpdate();
         return examinationPlanDao.update(entity);
@@ -36,6 +38,7 @@ public class ExaminationPlanServiceImpl implements ExaminationPlanService {
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void deleteById(String id) {
         examinationPlanDao.deleteById(id);
 
@@ -54,6 +57,7 @@ public class ExaminationPlanServiceImpl implements ExaminationPlanService {
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void updateShowState(Boolean showState, String id) {
         if (null == showState) {
             throw new NullPointerException("showState is null.");
