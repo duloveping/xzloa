@@ -2,6 +2,7 @@ package cn.com.enjoystudy.oa.service.study;
 
 import cn.com.enjoystudy.oa.bean.study.CourseVideo;
 import cn.com.enjoystudy.oa.bean.study.CourseVideoSO;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -19,4 +20,9 @@ public interface CourseVideoService {
     long getCount(CourseVideoSO so);
 
     int changeShowState(Boolean showState, String id);
+
+    List<CourseVideo> videoList(CourseVideoSO so);
+
+    PageInfo<CourseVideo> findVideoPage(CourseVideoSO so);
+
 }

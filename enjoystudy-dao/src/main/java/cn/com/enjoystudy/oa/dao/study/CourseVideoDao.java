@@ -31,4 +31,6 @@ public interface CourseVideoDao {
      * @return
      */
     int changeShowState(@Param("showState") Boolean showState, @Param("id") String id);
+
+    List<CourseVideo> videoList(CourseVideoSO so);
 }

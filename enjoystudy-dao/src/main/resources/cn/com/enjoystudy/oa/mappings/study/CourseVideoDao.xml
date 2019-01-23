@@ -87,4 +87,23 @@
     <update id="changeShowState">
         update course_video set show_state = #{showState} where id = #{id}::uuid
     </update>
+
+    <select id="videoList" resultType="cn.com.enjoystudy.oa.bean.study.CourseVideo"
+            parameterType="cn.com.enjoystudy.oa.bean.study.CourseVideoSO">
+        select v.id, v.name, v.image, v.file_path,
+        t.id teacher_id, t.full_name teacher_name,
+        c.id course_id, c.name course_name
+        from course_video v
+        inner join course c on c.id = v.course_id
+        inner join teacher t on t.id = c.teacher_id
+        where v.flag = true and v.status = true
+        <if test="null != showState"> and v.show_state = true </if>
+        <if test="null != teacherId and '' != teacherId"> and t.id = #{teacherId} </if>
+        <if test="null != courseId and '' != courseId"> and c.id = #{courseId} </if>
+        <if test="null != name and '' != name">
+            <bind name="likeName" value="'%' + name + '%'"/>
+            and v.name like #{likeName}
+        </if>
+        order by v.create_time desc
+    </select>
 </mapper>

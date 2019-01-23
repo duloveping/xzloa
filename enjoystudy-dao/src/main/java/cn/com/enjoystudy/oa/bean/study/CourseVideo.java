@@ -9,6 +9,12 @@ import java.util.List;
  * @author 广州新咨力科技有限公司-杜永生
  */
 public class CourseVideo extends BaseFile {
+    /** 老师 */
+    private Teacher teacher;
+    /** 老师ID */
+    private String teacherId;
+    /** 老师名称 */
+    private String teacherName;
     /** 课程*/
     private Course course;
     /** 课程ID */
@@ -27,6 +33,30 @@ public class CourseVideo extends BaseFile {
     private List<CourseAttachment> attachmentList;
 
     public CourseVideo() {
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public Course getCourse() {

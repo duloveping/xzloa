@@ -5,6 +5,8 @@ import cn.com.enjoystudy.oa.bean.study.CourseVideo;
 import cn.com.enjoystudy.oa.bean.study.CourseVideoSO;
 import cn.com.enjoystudy.oa.dao.study.CourseAttachmentDao;
 import cn.com.enjoystudy.oa.dao.study.CourseVideoDao;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,5 +67,17 @@ public class CourseVideoServiceImpl implements CourseVideoService {
             throw new NullPointerException("id is null.");
         }
         return courseVideoDao.changeShowState(showState, id);
+    }
+
+    @Override
+    public List<CourseVideo> videoList(CourseVideoSO so) {
+        return courseVideoDao.videoList(so);
+    }
+
+    @Override
+    public PageInfo<CourseVideo> findVideoPage(CourseVideoSO so) {
+        PageHelper.startPage(so.getPageNum(), so.getPageSize());
+        PageInfo<CourseVideo> pageInfo = new PageInfo(courseVideoDao.videoList(so));
+        return pageInfo;
     }
 }
