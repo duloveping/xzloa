@@ -1,16 +1,26 @@
 package cn.com.enjoystudy.oa.webapps.manage;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
+import cn.com.enjoystudy.oa.bean.study.Course;
+import cn.com.enjoystudy.oa.bean.study.CourseSO;
+import cn.com.enjoystudy.oa.bean.study.CourseVideo;
+import cn.com.enjoystudy.oa.bean.study.CourseVideoSO;
 import cn.com.enjoystudy.oa.bean.sys.SysMenu;
 import cn.com.enjoystudy.oa.bean.sys.SysMenuSO;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
+import cn.com.enjoystudy.oa.service.study.CourseService;
+import cn.com.enjoystudy.oa.service.study.CourseVideoService;
 import cn.com.enjoystudy.oa.service.sys.SysMenuService;
+import cn.com.enjoystudy.oa.webapps.BaseController;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +30,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/manage/main")
-public class MainController {
+public class MainController extends BaseController {
     @Autowired
     private SysMenuService sysMenuService;
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private CourseVideoService courseVideoService;
 
     @RequestMapping("index")
     public ModelAndView index(HttpServletRequest request) {
@@ -82,6 +96,33 @@ public class MainController {
     public ModelAndView welcome(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("manage/main/welcome");
         return mv;
+    }
+
+    @RequestMapping("course-list")
+    @ResponseBody
+    public JSONObject courseList() {
+        CourseVideoSO videoSO = new CourseVideoSO();
+        videoSO.setShowState(true);
+        videoSO.setPageNum(1);
+        videoSO.setPageSize(10);
+
+        List<CourseVideo> videoList = courseVideoService.findVideoPage(videoSO).getList();
+        JSONObject json = resultSuccess();
+        json.put("videoList", videoList);
+        return json;
+    }
+
+    @RequestMapping("examination-list")
+    @ResponseBody
+    public JSONObject examinationList() {
+        CourseSO so  = new CourseSO();
+        so.setTestState(2);
+        so.setPageNum(1);
+        so.setPageSize(10);
+        List<Course> examinationList = courseService.findPag(so).getList();
+        JSONObject json = resultSuccess();
+        json.put("examinationList", examinationList);
+        return json;
     }
 
 }

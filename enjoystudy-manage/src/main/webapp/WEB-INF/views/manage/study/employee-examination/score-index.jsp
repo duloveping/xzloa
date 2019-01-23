@@ -21,7 +21,7 @@
     <table id="dataTableList" class="table table-border table-bordered table-hover table-bg table-sort">
         <thead>
         <tr class="text-c">
-            <th scope="col" colspan="13" align="center">课程管理</th>
+            <th scope="col" colspan="13" align="center">成绩查询</th>
         </tr>
         <tr class="text-c">
             <th>课程名称</th>

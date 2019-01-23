@@ -28,9 +28,6 @@ function goPage(curr) {
                     html += "<td class=\"text-c\">" + passState + "</td>";
 
                     html += "<td class=\"text-c\">" + data.testScore;
-                    if(data.passState) {
-                        html += "<a href=\"/manage/study/certificate/preview.jhtml?courseId=" + data.courseId + "\" target=\"_blank\">打印证书</a>";
-                    }
                     html += "</td></tr>";
                 }
 
