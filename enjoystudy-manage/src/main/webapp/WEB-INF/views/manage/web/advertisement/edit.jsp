@@ -56,7 +56,7 @@
                     <div id="fileList" class="uploader-list">
                         <c:if test="${not empty so.large}">
                             <div class="item upload-state-success">
-                                <div class="pic-box"><img src="<c:url value="${so.icon}"/>"></div>
+                                <div class="pic-box"><img src="<c:url value="${so.icon}" width="100" height="100"/>"></div>
                                 <div class="info">${so.title}</div>
                                 <p class="state">已上传</p>
                                 <div class="progress-box" style="display: none;">

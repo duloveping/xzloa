@@ -65,6 +65,9 @@ public class CourseController extends UploadController {
             course.setTypeName(courseType.getName());
         } else {
             course = new Course();
+            course.setShowState(false);
+            course.setRecommendState(false);
+            course.setHotState(false);
         }
 
         ModelAndView mv = new ModelAndView("manage/study/course/edit");
@@ -125,12 +128,16 @@ public class CourseController extends UploadController {
                 course.setFillAmount(config.getFillAmount());
                 course.setTestState(1);
             }
+            course.setShowState(so.getShowState());
+            course.setHotState(so.getHotState());
+            course.setRecommendState(so.getRecommendState());
             course.setCode(StringUtils.trim(so.getCode()));
             course.setName(StringUtils.trim(so.getName()));
             course.setTeacherId(StringUtils.trimToNull(so.getTeacherId()));
             course.setTypeId(StringUtils.trimToNull(so.getTypeId()));
             course.setIntroduction(StringUtils.trimToNull(so.getIntroduction()));
             course.setDescription(StringUtils.trimToNull(so.getDescription()));
+            course.setImage(StringUtils.trimToNull(so.getImage()));
             if (StringUtils.isNotBlank(so.getId())) {
                 courseService.update(course);
             } else {
