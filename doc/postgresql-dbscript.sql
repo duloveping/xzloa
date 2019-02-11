@@ -1736,3 +1736,125 @@ comment on column web_advertisement.small is '小图';
 comment on column web_advertisement.icon is '缩略图';
 comment on column web_advertisement.upload_time is '上传时间';
 comment on column web_advertisement.serial_number is '排序号';
+
+
+drop table examination_plan_register;
+create table examination_plan_register
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  plan_id uuid,
+  list_id uuid,
+  course_id uuid,
+  course_name character varying(300),
+  employee_id uuid,
+  employee_name character varying(100),
+  identity_type integer,
+  identity_code character varying(50),
+  employee_sex integer,
+  employee_birthday date,
+  native_place character varying(50),
+  marital_status integer,
+  politician character varying(50),
+  school character varying(300),
+  major character varying(150),
+  education integer,
+  graduation_time date,
+  work_experience integer,
+  work_time date,
+  recent_company_name character varying(300),
+  examination_code  character varying(20),
+  primary key (id)
+) with (oids = false);
+comment on table examination_plan_register is '广告';
+comment on column examination_plan_register.id is '流水号';
+comment on column examination_plan_register.create_time is '创建时间';
+comment on column examination_plan_register.update_time is '更新时间';
+comment on column examination_plan_register.flag is '标记';
+comment on column examination_plan_register.status is '状态';
+comment on column examination_plan_register.place_id is '广告位置';
+comment on column examination_plan_register.show_state is '显示状态';
+comment on column examination_plan_register.css_class is 'html的class属性值';
+comment on column examination_plan_register.css_style is 'html的style属性值';
+comment on column examination_plan_register.title is '标题';
+comment on column examination_plan_register.large is '大图';
+comment on column examination_plan_register.middle is '中图';
+comment on column examination_plan_register.small is '小图';
+comment on column examination_plan_register.icon is '缩略图';
+comment on column examination_plan_register.upload_time is '上传时间';
+comment on column examination_plan_register.serial_number is '排序号';
+
+drop table news_type;
+create table news_type
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  code character varying(100),
+  name character varying(100),
+  show_state boolean default false,
+  parent_id uuid,
+  foreign key (parent_id) references news_type(id),
+  primary key (id)
+) with (oids = false);
+comment on table news_type is '新闻类别';
+comment on column news_type.id is '流水号';
+comment on column news_type.create_time is '创建时间';
+comment on column news_type.update_time is '更新时间';
+comment on column news_type.flag is '标记';
+comment on column news_type.status is '状态';
+comment on column news_type.code is '编号';
+comment on column news_type.name is '名称';
+comment on column news_type.show_state is '显示状态';
+comment on column news_type.parent_id is '所属父级ID';
+
+drop table news;
+create table news
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  title character varying(500),
+  author character varying(100),
+  publish_time timestamp without time zone,
+  publisher_id uuid,
+  publisher_name character varying(100),
+  show_state boolean default false,
+  type_id uuid,
+  click_amount integer default 0,
+  love_amount integer default 0,
+  star_amount integer default 0,
+  remark_amount integer default 0,
+  image character varying(50),
+  introduction character varying(500),
+  description text,
+  foreign key (type_id) references news_type(id),
+  primary key (id)
+) with (oids = false);
+comment on table news is '新闻类别';
+comment on column news.id is '流水号';
+comment on column news.create_time is '创建时间';
+comment on column news.update_time is '更新时间';
+comment on column news.flag is '标记';
+comment on column news.status is '状态';
+comment on column news.type_id is '所属类别ID';
+comment on column news.title is '编号';
+comment on column news.author is '作者';
+comment on column news.show_state is '显示状态';
+comment on column news.publish_time is '发布时间';
+comment on column news.publisher_id is '发布人ID';
+comment on column news.publisher_name is '发布人姓名';
+comment on column news.click_amount is '点击次数';
+comment on column news.love_amount is '收藏（关注）次数';
+comment on column news.star_amount is '好评（点赞）次数';
+comment on column news.remark_amount is '评论数';
+comment on column news.image is '图片';
+comment on column news.introduction is '简介';
+comment on column news.description is '详情';

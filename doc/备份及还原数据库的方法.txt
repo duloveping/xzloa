@@ -1,32 +1,32 @@
 pg_ctl -D E:\PostgreSQL\pgsql\data -l E:\PostgreSQL\pgsql\log\20181227.log start
 
-POSTGRESQL ���ݿ⵼�뵼��
-�����������ݿ�
+POSTGRESQL 数据库导入导出
+导入整个数据库
 
-psql -U postgres(�û���)  ���ݿ���(ȱʡʱͬ�û���) < /data/dum.sql
+psql -U postgres(用户名)  数据库名(缺省时同用户名) < /data/dum.sql
 
 psql -U postgres zsxzl < F:/workspace/xzl/enjoystudy/doc/zsxzl20181201.sql
 
- 
-�����������ݿ�
 
-pg_dump -h localhost -U postgres(�û���) ���ݿ���(ȱʡʱͬ�û���)   >/data/dum.sql
+导出整个数据库
 
- 
-����ĳ����
+pg_dump -h localhost -U postgres(用户名) 数据库名(缺省时同用户名)   >/data/dum.sql
 
-pg_dump -h localhost -U postgres(�û���) ���ݿ���(ȱʡʱͬ�û���)  -t table(����) >/data/dum.sql
 
- 
-ѹ������
+导出某个表
 
-һ����dump�������ݻ�Ƚϴ��Ƽ�ʹ��xzѹ��
+pg_dump -h localhost -U postgres(用户名) 数据库名(缺省时同用户名)  -t table(表名) >/data/dum.sql
 
-ѹ������  xz dum.sql ������ dum.sql.xz ���ļ�
 
- 
-xzѹ�����ݵ������ݿⷽ��
+压缩方法
 
-xzcat /data/dum.sql.xz | psql -h localhost -U postgres(�û���) ���ݿ���(ȱʡʱͬ�û���)
+一般用dump导出数据会比较大，推荐使用xz压缩
 
-pg_dump -h localhost -U postgres zsxzl >D:/����/zsxzl20181201.sql
+压缩方法  xz dum.sql 会生成 dum.sql.xz 的文件
+
+
+xz压缩数据倒数数据库方法
+
+xzcat /data/dum.sql.xz | psql -h localhost -U postgres(用户名) 数据库名(缺省时同用户名)
+
+pg_dump -h localhost -U postgres zsxzl >D:/备份/zsxzl20181201.sql
