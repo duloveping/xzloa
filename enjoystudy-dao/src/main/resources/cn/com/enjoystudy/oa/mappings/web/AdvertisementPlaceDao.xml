@@ -43,6 +43,10 @@
         select <include refid="columns"/> from web_advertisement_place where id = #{id}::uuid and flag = true and status = true
     </select>
 
+    <select id="getByCode" resultType="cn.com.enjoystudy.oa.bean.web.AdvertisementPlace">
+        select <include refid="columns"/> from web_advertisement_place where code = #{code} and flag = true and status = true
+    </select>
+
     <update id="deleteById">
         update web_advertisement_place set flag = false, status = false where id = #{id}::uuid
     </update>

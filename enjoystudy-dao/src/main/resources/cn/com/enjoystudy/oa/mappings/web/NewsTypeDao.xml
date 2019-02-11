@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.web.NewsTypeDao" >
+    <sql id="columns">id, code, name, show_state, parent_id</sql>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != showState"> and show_state = #{showState}</if>
+            <if test="null != parentId and '' != parentId">
+                <choose>
+                    <when test="'0'.toString() == parentId">and parent_id is null</when>
+                    <otherwise> and parent_id = #{parentId}::uuid</otherwise>
+                </choose>
+            </if>
+            <if test="null != code and '' != code"> and code = #{code}</if>
+            <if test="null != name and '' != name">
+                <choose>
+                    <when test="null != like and like == true"> and name= #{name}</when>
+                    <otherwise>
+                        <bind name="likeName" value="'%' + name + '%'"/>
+                        and name like #{likeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="null != exceptId and '' != exceptId">
+                <![CDATA[ and id <> #{exceptId}::uuid ]]>
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.web.NewsType">
+        insert into news_type (id, create_time, update_time, flag, status, code, name, show_state, parent_id)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{code}, #{name}, #{showState}, #{parentId})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.web.NewsType">
+        update news_type set update_time = #{updateTime},
+        code = #{code}, name = #{name}, show_state = #{showState}, parent_id = #{parentId}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.web.NewsType">
+        select <include refid="columns"/> from news_type where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <select id="getByCode" resultType="cn.com.enjoystudy.oa.bean.web.NewsType">
+        select <include refid="columns"/> from news_type where code = #{code} and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update news_type set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list"  resultType="cn.com.enjoystudy.oa.bean.web.NewsType"
+            parameterType="cn.com.enjoystudy.oa.bean.web.NewsTypeSO">
+        select <include refid="columns"/> from news_type <include refid="wheres"/>
+    </select>
+</mapper>

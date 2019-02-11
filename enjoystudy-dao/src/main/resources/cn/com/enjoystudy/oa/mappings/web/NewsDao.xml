@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.web.NewsDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.web.News">
+        insert into news (id, create_time, update_time, flag, status,
+         title, author, publish_time, publisher_id, publisher_name, show_state, type_id, click_amount, love_amount,
+         star_amount, remark_amount, image, introduction, description)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{title}, #{author}, #{publishTime}, #{publisherId}::uuid, #{publisherName}, #{showState}, #{typeId}::uuid, #{clickAmount},
+        #{loveAmount}, #{starAmount}, #{remarkAmount}, #{image}, #{introduction}, #{description})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.web.News">
+        update news set update_time = #{updateTime},
+        title = #{title}, author = #{author}, publish_time = #{publishTime}, publisher_id = #{publisherId}::uuid,
+        publisher_name = #{publisherName}, show_state = #{showState}, type_id = #{typeId}::uuid, lick_amount = #{clickAmount},
+        love_amount = #{loveAmount}, star_amount = #{starAmount}, remark_amount = #{remarkAmount},
+        image = #{image}, introduction = #{introduction}, description = #{description}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.web.News">
+        select n.id, n.title, n.author, n.publish_time, n.publisher_id, n.publisher_name, n.show_state,
+        t.id type_id, t.code type_code, t.name type_name, n.click_amount, n.love_amount, n.star_amount,
+        n.remark_amount, n.image, n.introduction, n.description
+        from news n
+        inner join news_type t on n.type_id = t.id
+        where n.id = #{id} and n.flag = true and n.status = true
+    </select>
+
+
+    <update id="deleteById">
+        update news set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list"  resultType="cn.com.enjoystudy.oa.bean.web.News"
+            parameterType="cn.com.enjoystudy.oa.bean.web.NewsSO">
+        select n.id, n.title, n.author, n.publish_time, n.publisher_id, n.publisher_name, n.show_state,
+        t.id type_id, t.code type_code, t.name type_name, n.click_amount, n.love_amount, n.star_amount,
+        n.remark_amount, n.image, n.introduction
+        from news n
+        inner join news_type t on n.type_id = t.id
+        where n.flag = true and n.status = true
+        <if test="null != showState"> and n.show_state = #{showState}</if>
+        <if test="null != typeState"> and t.show_state = #{typeState}</if>
+        <if test="null != typeId and '' != typeId"> and t.id = #{typeId}</if>
+        <if test="null != typeCode and '' != typeCode"> and t.code = #{typeCode}</if>
+        <if test="null != typeState and '' != typeState"> and t.show_state = #{typeState}</if>
+        <if test="null != title and '' != title">
+            <choose>
+                <when test="null != like and like == true"> and ntitle= #{title}</when>
+                <otherwise>
+                    <bind name="likeTitle" value="'%' + title + '%'"/>
+                    and n.title like #{likeTitle}
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+</mapper>

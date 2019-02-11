@@ -20,6 +20,9 @@
                     <otherwise> and type_id = #{typeId}::uuid</otherwise>
                 </choose>
             </if>
+            <if test="null != recommendState"> and recommend_state = #{recommendState} </if>
+            <if test="null != hotState"> and hot_state = #{hotState} </if>
+            <if test="null != showState"> and show_state = #{showState} </if>
             <if test="null != testType"> and test_type = #{testType}</if>
             <if test="null != testState"> and test_state = #{testState}</if>
             <if test="null != questionType"> and question_type = #{questionType}</if>
@@ -31,11 +34,12 @@
         insert into course (id, create_time, update_time, flag, status,
         code, name, type_id, teacher_id, introduction, description, total_score, pass_score,test_type, test_state,
         test_amount, duration, question_amount, question_type, single_amount, multi_amount, judge_amount,
-        check_amount, fill_amount, study_to_exam_state)
+        check_amount, fill_amount, study_to_exam_state, image, recommend_state, hot_state, show_state, templet)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{code}, #{name}, #{typeId}::uuid, #{teacherId}::uuid, #{introduction}, #{description}, #{totalScore}, #{passScore},
         #{testType}, #{testState}, #{testAmount}, #{duration}, #{questionAmount}, #{questionType}, #{singleAmount},
-        #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount}, #{studyToExamState})
+        #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount}, #{studyToExamState} #{image},#{recommendState},
+        #{hotState}, #{showState}, #{templet})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.Course" >
@@ -44,14 +48,15 @@
         introduction = #{introduction}, description = #{description}, total_score = #{totalScore}, pass_score = #{passScore},
         test_type = #{testType}, test_state = #{testState}, test_amount = #{testAmount}, duration = #{duration},
         question_amount = #{questionAmount}, question_type = #{questionType}, single_amount = #{singleAmount},
-        multi_amount = #{multiAmount}, judge_amount = #{judgeAmount}, check_amount = #{checkAmount}, fill_amount = #{fillAmount}
+        multi_amount = #{multiAmount}, judge_amount = #{judgeAmount}, check_amount = #{checkAmount}, fill_amount = #{fillAmount},
+        image = #{image}, recommend_state = #{recommendState}, hot_state = #{hotState}, show_state = #{showState}, templet = #{templet}
         where id = #{id}::uuid
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.Course">
         select id, study_to_exam_state, code, name, type_id, teacher_id, introduction, description, total_score, pass_score, test_type,
         test_state, test_amount, duration, question_amount, question_type, single_amount, multi_amount, judge_amount,
-        check_amount, fill_amount
+        check_amount, fill_amount, image, recommend_state, hot_state, show_state, templet
         from course where id = #{id}::uuid and flag = true and status = true
     </select>
 
@@ -61,10 +66,11 @@
 
     <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.Course"
             parameterType="cn.com.enjoystudy.oa.bean.study.CourseSO">
-        select c.id, c.code, c.name, t.id type_id, t.name type_name, c.introduction, c.study_to_exam_state,
+        select c.id, c.code, c.name, t.id type_id, t.name type_name, c.introduction, c.study_to_exam_state, c.image,
         e.id teacher_id, e.full_name teacher_name, c.total_score, c.pass_score, c.test_type, c.test_state, c.test_amount,
         c.duration, c.question_amount, c.question_type, c.single_amount, c.multi_amount, c.judge_amount, c.check_amount,
-        c.fill_amount from course c
+        c.fill_amount, c.recommend_state, c.hot_state, c.show_state
+        from course c
         left join course_type t on t.id = c.type_id
         left join teacher e on e.id = c.teacher_id
         where c.flag = true and c.status = true
@@ -78,6 +84,9 @@
                 </otherwise>
             </choose>
         </if>
+        <if test="null != recommendState"> and c.recommend_state = #{recommendState} </if>
+        <if test="null != hotState"> and c.hot_state = #{hotState} </if>
+        <if test="null != showState"> and c.show_state = #{showState} </if>
         <if test="null != testType"> and c.test_type = #{testType} </if>
         <if test="null != testState"> and c.test_state = #{testState} </if>
         <if test="null != questionType"> and c.question_type = #{questionType} </if>

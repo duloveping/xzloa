@@ -34,7 +34,9 @@ public interface AdvertisementPlaceDao {
      * @param id
      * @return
      */
-    AdvertisementPlace getById(@Param("id") String id);
+    AdvertisementPlace getById(String id);
+
+    AdvertisementPlace getByCode(String code);
 
     /**
      * 根据ID删除

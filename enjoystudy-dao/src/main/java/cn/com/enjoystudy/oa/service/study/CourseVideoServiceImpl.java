@@ -23,12 +23,14 @@ public class CourseVideoServiceImpl implements CourseVideoService {
     private CourseAttachmentDao courseAttachmentDao;
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int insert(CourseVideo entity) {
         entity.preInsert();
         return courseVideoDao.insert(entity);
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int update(CourseVideo entity) {
         entity.preUpdate();
         return courseVideoDao.update(entity);
@@ -40,6 +42,7 @@ public class CourseVideoServiceImpl implements CourseVideoService {
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int deleteById(String id) {
         CourseAttachmentSO attachmentSO = new CourseAttachmentSO();
         attachmentSO.setVideoId(id);
@@ -79,5 +82,14 @@ public class CourseVideoServiceImpl implements CourseVideoService {
         PageHelper.startPage(so.getPageNum(), so.getPageSize());
         PageInfo<CourseVideo> pageInfo = new PageInfo(courseVideoDao.videoList(so));
         return pageInfo;
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public int updateClickAmount(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new NullPointerException("id is null.");
+        }
+        return courseVideoDao.updateClickAmount(id);
     }
 }

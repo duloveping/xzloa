@@ -32,6 +32,8 @@ public interface AdvertisementPlaceService {
      */
     AdvertisementPlace getById(@Param("id") String id);
 
+    AdvertisementPlace getByCode(String code);
+
     /**
      * 根据ID删除
      * @param id

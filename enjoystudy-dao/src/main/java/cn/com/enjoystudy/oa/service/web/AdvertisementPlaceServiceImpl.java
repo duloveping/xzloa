@@ -5,6 +5,7 @@ import cn.com.enjoystudy.oa.bean.web.AdvertisementPlaceSO;
 import cn.com.enjoystudy.oa.dao.web.AdvertisementPlaceDao;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,18 @@ public class AdvertisementPlaceServiceImpl implements AdvertisementPlaceService 
 
     @Override
     public AdvertisementPlace getById(String id) {
-        return advertisementPlaceDao.getById(id);
+        if (StringUtils.isBlank(id)) {
+            throw new NullPointerException("id is null.");
+        }
+        return advertisementPlaceDao.getById(StringUtils.trim(id));
+    }
+
+    @Override
+    public AdvertisementPlace getByCode(String code) {
+        if (StringUtils.isBlank(code)) {
+            throw new NullPointerException("code is null.");
+        }
+        return advertisementPlaceDao.getByCode(StringUtils.trim(code));
     }
 
     @Override

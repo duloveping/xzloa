@@ -25,4 +25,6 @@ public interface CourseVideoService {
 
     PageInfo<CourseVideo> findVideoPage(CourseVideoSO so);
 
+    int updateClickAmount(String id);
+
 }
