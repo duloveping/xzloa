@@ -38,7 +38,7 @@
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{code}, #{name}, #{typeId}::uuid, #{teacherId}::uuid, #{introduction}, #{description}, #{totalScore}, #{passScore},
         #{testType}, #{testState}, #{testAmount}, #{duration}, #{questionAmount}, #{questionType}, #{singleAmount},
-        #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount}, #{studyToExamState} #{image},#{recommendState},
+        #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount}, #{studyToExamState}, #{image},#{recommendState},
         #{hotState}, #{showState}, #{templet})
     </insert>
 
