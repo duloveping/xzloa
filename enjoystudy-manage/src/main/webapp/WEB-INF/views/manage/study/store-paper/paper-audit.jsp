@@ -57,6 +57,6 @@
         </div>
     </form:form>
 </article>
-<script type="text/javascript" src="<c:url value='/static/js/templates/manage/study/store-paper/paper-edit.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/js/templates/manage/study/store-paper/audit-edit.js'/>"></script>
 </body>
 </html>

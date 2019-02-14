@@ -33,7 +33,7 @@
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
-                <span class="c-red">*</span>考题分配情况：
+                <span class="c-red">*</span>显示状态：
             </label>
             <div class="formControls col-xs-8 col-sm-10">
                 <form:radiobutton path="showState" label="显示" value="true"/>

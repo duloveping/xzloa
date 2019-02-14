@@ -23,9 +23,9 @@
         </div>
     </c:if>
 
-    <%--
-    <xzlTag:advertisementListTag varid="hotCourseList" pageSize="4" placeCode="index-hot-course" />
-    <c:if test="${not empty hotCourseList}">
+    <xzlTag:courseListTag varid="hotRecList" pageSize="4" showState="true" hotState="true" recommendState="true"/>
+
+    <c:if test="${not empty hotRecList}">
         <div class="met-index-hot met-index-body" id="hot">
             <div class="title">
                 <h2 class="">热门推荐课程</h2>
@@ -34,18 +34,18 @@
             </div>
             <div class="container">
                 <ul class="blocks-100 blocks-sm-2 blocks-md-4 blocks-xlg-4 " data-scale=''>
-                    <c:forEach var="hotCourse" items="${hotCourseList}">
+                    <c:forEach var="hotCourse" items="${hotRecList}">
                         <li class="">
                             <div class="widget widget-article widget-shadow">
                                 <div class="widget-header cover overlay overlay-hover">
-                                    <img class="cover-image overlay-scale" src="<c:url value="${hotCourse.large}"/>" alt="<c:url value="${hotCourse.title}"/>">
+                                    <img class="cover-image overlay-scale" src="<c:url value="${hotCourse.image}"/>" width="298" height="222" alt="<c:url value="${hotCourse.name}"/>">
                                 </div>
                                 <div class="widget-body">
-                                    <h3 class="widget-title">${hotCourse.title}</h3>
-                                    <p class="des">${hotCourse.title}</p>
+                                    <h3 class="widget-title">${hotCourse.name}</h3>
+                                    <p class="des">${hotCourse.name}</p>
                                     <div class="widget-body-footer">
-                                        <a class="btn btn-info waves-effect waves-light" href="productshow.html">查看详情</a>
-                                        <div class="widget-actions pull-right"><a href="#"​>关注人数：121</a></div>
+                                        <a class="btn btn-info waves-effect waves-light" href="<c:url value="/web/course-video/list.jhtml?courseId=${hotCourse.id}"/>">查看详情</a>
+                                        <div class="widget-actions pull-right"><a href="javascript:void(0);"​>关注人数：${hotCourse.loveAmount}</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +56,6 @@
             </div>
         </div>
     </c:if>
-    --%>
 
     <%--
     <!--string(4) "news" string(4) "news" -->
@@ -140,7 +139,7 @@
             <p class="desc"></p>
         </div>
         <div class="container">
-            <xzlTag:courseListTag varid="courseList"/>
+            <xzlTag:courseListTag varid="courseList" pageSize="20" showState="true"/>
             <c:if test="${not empty courseList}">
                 <div class=''>
                     <ul class="nav nav-tabs">

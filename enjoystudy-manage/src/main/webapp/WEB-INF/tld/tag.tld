@@ -203,6 +203,12 @@
             <description>课程编号</description>
         </attribute>
         <attribute>
+            <name>pageSize</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>显示数量</description>
+        </attribute>
+        <attribute>
             <name>name</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
@@ -231,6 +237,24 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>老师名称</description>
+        </attribute>
+        <attribute>
+            <name>showState</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>显示状态</description>
+        </attribute>
+        <attribute>
+            <name>recommendState</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>推荐状态</description>
+        </attribute>
+        <attribute>
+            <name>hotState</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>热门状态</description>
         </attribute>
     </tag>
 

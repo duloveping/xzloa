@@ -2,30 +2,54 @@ $(function () {
     $("#inputForm").validate({
         rules : {
             title: {
-                auditorName : true
-            },
-            auditState: {
                 required : true
             },
-            auditTime: {
+            courseId: {
                 required : true
             },
-            auditorMind: {
+            showState: {
                 required : true
+            },
+            duration: {
+                required : true
+            },
+            totalScore: {
+                required : true
+            },
+            passScore: {
+                required: true
+            },
+            testAmount: {
+                required: true
+            },
+            questionAmount: {
+                required: true
             }
         },
         messages: {
-            auditorName: {
-                required: "审核人不能为空！"
+            title: {
+                required: "标题不能为空！"
             },
-            auditState: {
-                required: "审核状态不能为空！"
+            courseId: {
+                required: "课程不能为空！"
             },
-            auditTime: {
-                required: "审核时间不能为空！"
+            showState: {
+                required: "显示状态不能为空！"
             },
-            auditorMind: {
-                required: "审核意见不能为空！"
+            duration: {
+                required: "考试时长不能为空！"
+            },
+            totalScore: {
+                required: "总成绩不能为空！"
+            },
+            passScore: {
+                required: "合格分数不能为空！"
+            },
+            testAmount: {
+                required: "补考次数不能为空！"
+            },
+            questionAmount: {
+                required: "考试试题总数不能为空！"
             }
         },
         onkeyup : false,

@@ -1,0 +1,8 @@
+alter table course add column click_amount integer default 0,
+add column love_amount integer default 0,
+add column star_amount integer default 0,
+add column remark_amount integer default 0;
+comment on column course.click_amount is '点击次数';
+comment on column course.love_amount is '收藏（关注）次数';
+comment on column course.star_amount is '好评（点赞）次数';
+comment on column course.remark_amount is '评论数';

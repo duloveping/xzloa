@@ -17,7 +17,7 @@
     <div class="container">
         <div class="row">
             <div class="sidebar-tile">
-                <xzlTag:courseListTag varid="courseList"/>
+                <xzlTag:courseListTag varid="courseList" pageSize="10" showState="true"/>
                 <c:if test="${not empty courseList}">
                     <ul class="met-column-nav-ul invisible-xs">
                         <c:forEach var="course" items="${courseList}">

@@ -19,10 +19,10 @@
             <li class="right">
                 <ul>
                     <li>
-                        <span>登录</span>
+                        <span> <a href="<c:url value="/manage/login/index.jhtml"/>"​ title="网站首页">登录</a></span>
                     </li>
                     <li>
-                        <span>注册</span>
+                        <span> <a href="<c:url value="/manage/login/register.jhtml"/>"​ title="网站首页">注册</a></span>
                     </li>
                 </ul>
                 <%--
