@@ -1,0 +1,111 @@
+ALTER TABLE course ADD COLUMN current_price double precision default 0.00,
+ADD COLUMN market_price double precision default 0.00,
+ADD COLUMN sale_price double precision default 0.00,
+add column buy_amount integer default 0;
+COMMENT ON COLUMN course.current_price IS '现价';
+COMMENT ON COLUMN course.market_price IS '市场价';
+COMMENT ON COLUMN course.sale_price IS '促销价';
+COMMENT ON COLUMN course.buy_amount IS '购买数量';
+
+create table shopping_cart
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  account_id uuid not null,
+  course_id uuid not null,
+  buy_amount integer default 1,
+  foreign key (account_id) references employee_account(id),
+  foreign key (course_id) references course(id),
+  primary key (id)
+);
+comment on table shopping_cart is '购物车';
+comment on column shopping_cart.id is '流水号';
+comment on column shopping_cart.create_time is '创建时间';
+comment on column shopping_cart.update_time is '更新时间';
+comment on column shopping_cart.flag is '标记';
+comment on column shopping_cart.status is '状态';
+comment on column shopping_cart.account_id is '用户ID';
+comment on column shopping_cart.course_id is '课程ID';
+comment on column shopping_cart.buy_amount is '购买数量';
+
+create table shopping_order
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  order_sign character(40),
+  order_code character(18),
+  account_id uuid not null,
+  full_name character varying(200),
+  order_time timestamp without time zone,
+  expire_time timestamp without time zone,
+  pay_time timestamp without time zone,
+  total_amount integer default 1,
+  total_price double precision default 0.00,
+  pay_state integer default 0,
+  pay_type integer default 0,
+  order_state integer default 0,
+  foreign key (account_id) references employee_account(id),
+  primary key (id)
+);
+comment on table shopping_order is '购物订单';
+comment on column shopping_order.id is '流水号';
+comment on column shopping_order.create_time is '创建时间';
+comment on column shopping_order.update_time is '更新时间';
+comment on column shopping_order.flag is '标记';
+comment on column shopping_order.status is '状态';
+comment on column shopping_order.order_sign is '订单标识';
+comment on column shopping_order.order_code is '订单编号';
+comment on column shopping_order.account_id is '用户ID';
+comment on column shopping_order.full_name is '用户姓名';
+comment on column shopping_order.order_time is '下单时间';
+comment on column shopping_order.expire_time is '过期时间';
+comment on column shopping_order.pay_time is '支付时间';
+comment on column shopping_order.total_amount is '购买总数';
+comment on column shopping_order.total_price is '总金额';
+comment on column shopping_order.pay_state is '支付状态：0待支付，1已支付';
+comment on column shopping_order.pay_type is '支付类型：1微信，2支付宝，3网银';
+comment on column shopping_order.order_state is '订单状态：0待付款，1待发货，2待收货，3待评价，4完成，5关闭，6无效，7删除';
+
+create table shopping_order_item
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  order_id uuid not null,
+  account_id uuid,
+  course_id uuid,
+  course_code character varying(50),
+  course_name character varying(200),
+  current_price double precision default 0.00,
+  market_price double precision default 0.00,
+  sale_price double precision default 0.00,
+  total_price double precision default 0.00,
+  total_amount integer default 1,
+  foreign key (order_id) references shopping_order(id),
+  foreign key (account_id) references employee_account(id),
+  primary key (id)
+);
+comment on table shopping_order_item is '购物订单明细';
+comment on column shopping_order_item.id is '流水号';
+comment on column shopping_order_item.create_time is '创建时间';
+comment on column shopping_order_item.update_time is '更新时间';
+comment on column shopping_order_item.flag is '标记';
+comment on column shopping_order_item.status is '状态';
+comment on column shopping_order_item.order_id is '订单ID';
+comment on column shopping_order_item.account_id is '用户ID';
+comment on column shopping_order_item.course_id is '课程ID';
+comment on column shopping_order_item.course_code is '课程编号';
+comment on column shopping_order_item.course_name is '课程名称';
+comment on column shopping_order_item.current_price is '现价';
+comment on column shopping_order_item.market_price is '市价';
+comment on column shopping_order_item.sale_price is '促销价';
+comment on column shopping_order_item.total_price is '全计金额';
+comment on column shopping_order_item.total_amount is '购买数量';

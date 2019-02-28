@@ -1,11 +1,11 @@
-pg_ctl -D E:\PostgreSQL\pgsql\data -l E:\PostgreSQL\pgsql\log\20181227.log start
+pg_ctl -D E:/PostgreSQL/pgsql/data -l E:/PostgreSQL/pgsql/log/20181227.log start
 
 POSTGRESQL 数据库导入导出
 导入整个数据库
 
 psql -U postgres(用户名)  数据库名(缺省时同用户名) < /data/dum.sql
 
-psql -U postgres zsxzl < F:/workspace/xzl/enjoystudy/doc/zsxzl20181201.sql
+psql -U postgres zsxzl < F:/workspace/xzl/enjoystudy/doc/zsxzl20190214.sql
 
 
 导出整个数据库
