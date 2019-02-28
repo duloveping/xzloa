@@ -36,4 +36,43 @@ public class Constants {
     /** 用户类型 - 个人 */
     public static final Integer ACCOUNT_CATEGORY_PERSONAL = 9;
 
+    /** 考试状态 - 等待考试 */
+    public static final Integer TEST_STATE_WAIT = 1;
+    /** 考试状态 - 开始考试 */
+    public static final Integer TEST_STATE_START = 2;
+    /** 考试状态 - 结束考试 */
+    public static final Integer TEST_STATE_END = 3;
+
+    /** 购物订单支付状态 - 待支付 */
+    public static final Integer PAY_STATE_NO = 0;
+    /** 购物订单支付状态 - 已支付 */
+    public static final Integer PAY_STATE_YES = 1;
+
+    /** 购物订单支付类型 - 其他 */
+    public static final Integer PAY_STATE_OTHER = 0;
+    /** 购物订单支付类型 - 微信 */
+    public static final Integer PAY_STATE_WECHAT = 1;
+    /** 购物订单支付类型 - 支付宝 */
+    public static final Integer PAY_STATE_ALIPAY = 2;
+    /** 购物订单支付类型 - 银联 */
+    public static final Integer PAY_STATE_UNIONPAY = 3;
+
+
+    /** 购物订单状态 - 待付款 */
+    public static final Integer ORDER_STATE_PAY = 0;
+    /** 购物订单状态 - 待发货 */
+    public static final Integer ORDER_STATE_SEND = 1;
+    /** 购物订单状态 - 待收货 */
+    public static final Integer ORDER_STATE_RECEIVE = 2;
+    /** 购物订单状态 - 待评价 */
+    public static final Integer ORDER_STATE_REMARK = 3;
+    /** 购物订单状态 - 完成 */
+    public static final Integer ORDER_STATE_FINISH= 4;
+    /** 购物订单状态 - 关闭 */
+    public static final Integer ORDER_STATE_CLOSE = 5;
+    /** 购物订单状态 - 无效 */
+    public static final Integer ORDER_STATE_DISABLED = 6;
+    /** 购物订单状态 - 删除 */
+    public static final Integer ORDER_STATE_DELETE = 7;
+
 }
