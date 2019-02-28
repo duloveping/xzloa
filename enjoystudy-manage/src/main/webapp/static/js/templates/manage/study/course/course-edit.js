@@ -19,6 +19,15 @@ $("#inputForm").validate({
         },
         typeName: {
             required : true
+        },
+        marketPrice: {
+            required : true
+        },
+        currentPrice: {
+            required : true
+        },
+        salePrice: {
+            required : true
         }
     },
     messages: {
@@ -33,6 +42,15 @@ $("#inputForm").validate({
         },
         typeName: {
             required: "课程分类不能为空！"
+        },
+        marketPrice: {
+            required : "市价不能为空"
+        },
+        currentPrice: {
+            required : "现价不能为空"
+        },
+        salePrice: {
+            required : "促销价不能为空"
         }
     },
     onkeyup : false,

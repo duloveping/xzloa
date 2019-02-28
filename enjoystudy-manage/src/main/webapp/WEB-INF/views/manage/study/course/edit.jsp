@@ -81,6 +81,30 @@
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>市价：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="marketPrice" path="marketPrice" placeholder="市价" maxlength="200" cssClass="required input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>现价：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="currentPrice" path="currentPrice" placeholder="现价" maxlength="200" cssClass="required input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>促销价：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="salePrice" path="salePrice" placeholder="促销价" maxlength="200" cssClass="required input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
                 <span class="c-red">*</span>显示状态：
             </label>
             <div class="formControls col-xs-8 col-sm-10">

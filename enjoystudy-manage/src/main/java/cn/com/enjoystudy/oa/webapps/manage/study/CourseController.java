@@ -117,6 +117,7 @@ public class CourseController extends UploadController {
                 course.setTotalScore(config.getTotalScore());
                 course.setPassScore(config.getPassScore());
                 course.setTestAmount(config.getTestAmount());
+                course.setBuyAmount(0);
                 course.setDuration(config.getDuration());
                 course.setTestType(config.getTestType());
                 course.setQuestionType(config.getQuestionType());
@@ -138,6 +139,9 @@ public class CourseController extends UploadController {
             course.setIntroduction(StringUtils.trimToNull(so.getIntroduction()));
             course.setDescription(StringUtils.trimToNull(so.getDescription()));
             course.setImage(StringUtils.trimToNull(so.getImage()));
+            course.setCurrentPrice(so.getCurrentPrice());
+            course.setSalePrice(so.getSalePrice());
+            course.setMarketPrice(so.getMarketPrice());
             if (StringUtils.isNotBlank(so.getId())) {
                 courseService.update(course);
             } else {

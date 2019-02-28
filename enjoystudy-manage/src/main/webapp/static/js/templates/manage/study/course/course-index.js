@@ -22,6 +22,9 @@ function goPage(curr) {
                     html += "<td>" + data.typeName + "</td>";
                     html += "<td>" + data.code + "</td>";
                     html += "<td>" + data.name + "</td>";
+                    html += "<td>" + data.marketPrice + "</td>";
+                    html += "<td>" + data.currentPrice + "</td>";
+                    html += "<td>" + data.salePrice + "</td>";
                     html += "<td>" + data.teacherName + "</td>";
                     html += "<td>" + data.introduction + "</td>";
                     html += "<td class=\"td-manage\">";

@@ -34,7 +34,7 @@ public class CourseListTag extends BaseTagSupport {
     protected int doStartTagInternal() throws Exception {
         CourseSO so = new CourseSO();
         so.setPageNum(1);
-        so.setPageSize(pageSize);
+        so.setPageSize(null == pageSize ? 20 : pageSize);
         so.setCode(code);
         so.setName(name);
         so.setTypeId(typeId);

@@ -41,6 +41,9 @@
 		<quartz.version>2.2.3</quartz.version>
 		<jedis.version>2.9.0</jedis.version>
 		<spring-data-redis.version>2.0.12.RELEASE</spring-data-redis.version>
+		<pay-java-common.version>2.12.6</pay-java-common.version>
+		<weixin-java-pay.version>3.3.4.B</weixin-java-pay.version>
+		<alipay-sdk-java.version>3.6.0.ALL</alipay-sdk-java.version>
 	</properties>
 
 	<dependencies>
@@ -302,6 +305,34 @@
 			<groupId>cn.com.enjoystudy</groupId>
 			<artifactId>enjoystudy-dao</artifactId>
 			<version>${enjoystudy.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.egzosn</groupId>
+			<artifactId>pay-java-common</artifactId>
+			<version>${pay-java-common.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.egzosn</groupId>
+				<artifactId>pay-java-ali</artifactId>
+			<version>${pay-java-common.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.egzosn</groupId>
+			<artifactId>pay-java-wx</artifactId>
+			<version>${pay-java-common.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-pay</artifactId>
+			<version>${weixin-java-pay.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alipay.sdk</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>${alipay-sdk-java.version}</version>
 		</dependency>
 
 		<dependency><!-- JUnit单元测试框架 -->

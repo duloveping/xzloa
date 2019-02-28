@@ -117,7 +117,25 @@ public class EmployeeExaminationController extends BaseController {
                 if (null != list && list.size() > 0) {
 
                     boolean testFlag = false;
+                    Integer testState = Constants.TEST_STATE_WAIT;
+
                     for (EmployeeExaminationPaper paper : list) {
+                        // 判断考生的考卷是否处于考试中
+                        if (paper.getTestState().equals(Constants.TEST_STATE_WAIT) || paper.getTestState().equals(Constants.TEST_STATE_START)) {
+                            if (paper.getEndTime().before(new Date())) {
+                                paperId = paper.getId();
+                                testState = paper.getTestState();
+                                testFlag = true;
+                                break;
+                            }
+                        }
+
+                        if (paper.getTestScore() < paper.getPassScore()) {
+                            testState = Constants.TEST_STATE_END;
+                            testFlag = true;
+                            break;
+                        }
+
                         if (paper.getTestState().equals(1) || paper.getTestState().equals(2)) {
                             testFlag = true;
                             break;
@@ -129,7 +147,10 @@ public class EmployeeExaminationController extends BaseController {
 
                     if (testFlag) {
                         if (course.getTestAmount().equals(-1) || list.size() <= course.getTestAmount()) {
-                            paperId = saveEmployeeExaminationPaper(account, course);
+                            if (testState.equals(Constants.TEST_STATE_END)) {
+                                paperId = saveEmployeeExaminationPaper(account, course);
+                            }
+
                             json = resultSuccess("成功领取考卷。");
                             json.put("paperId", paperId);
                         } else {

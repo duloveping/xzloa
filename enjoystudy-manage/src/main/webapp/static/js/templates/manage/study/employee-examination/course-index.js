@@ -65,7 +65,11 @@ Course.prototype = {
             dataType: "json",
             success: function (res) {
                 if (res.status == true) {
-                    course.test(res.paperId);
+                    if (res.paperId) {
+                        course.test(res.paperId);
+                    } else {
+                        top.layer.alert('系统出错了，请联系系统管理员！');
+                    }
                 } else {
                     top.layer.alert(res.info);
                 }

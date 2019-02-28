@@ -4,7 +4,6 @@ function videoList() {
         url: ctx + "/manage/main/course-list.jhtml?rnd=" + Math.random(),
         dataType: "json",
         success: function (res) {
-            console.log(res);
             if (res.status) {
                 var html = "";
                 var array = res.videoList;

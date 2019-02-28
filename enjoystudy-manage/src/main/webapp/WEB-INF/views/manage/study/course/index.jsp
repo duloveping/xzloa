@@ -45,13 +45,16 @@
     <table id="dataTableList" class="table table-border table-bordered table-hover table-bg table-sort">
         <thead>
         <tr class="text-c">
-            <th scope="col" colspan="6" align="center">课程管理</th>
+            <th scope="col" colspan="9" align="center">课程管理</th>
         </tr>
         <tr class="text-c">
             <th width="150">分类名称</th>
             <th width="150">课程编号</th>
             <th width="150">课程名称</th>
             <th width="150">授课老师</th>
+            <th width="100">市价</th>
+            <th width="100">现价</th>
+            <th width="100">促销价</th>
             <th>简介</th>
             <th width="100">操作</th>
         </tr>
