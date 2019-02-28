@@ -75,7 +75,10 @@
         <if test="paperId != null and '' != paperId"> and paper_id = #{paperId}::uuid </if>
         <if test="courseId != null and '' != courseId"> and course_id = #{courseId}::uuid </if>
         <if test="testState != null"> and test_state = #{testState} </if>
-        <if test="passState != null"> and test_state = #{passState} </if>
+        <if test="passState != null"> and pass_state = #{passState} </if>
+        <if test="null != testStates and testStates.length > 0">
+            and test_state in <foreach collection="testStates" item="state" index="index" open="(" close=")" separator=",">#{state}</foreach>
+        </if>
     </select>
 
     <select id="count" resultType="long">

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.shop.ShoppingOrderDao" >
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.shop.ShoppingOrder" >
+        insert into shopping_order (id, create_time, update_time, flag, status,
+        order_sign, order_code, account_id, full_name, order_time, expire_time, pay_time, total_amount, total_price,
+        pay_state, pay_type, order_state)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{orderSign}, #{orderCode}, #{accountId}::uuid, #{fullName}, #{orderTime}, #{expireTime}, #{payTime}, #{totalAmount},
+        #{totalPrice}, #{payState}, #{payType}, #{orderState})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.shop.ShoppingOrder" >
+        update shopping_order set update_time = #{updateTime},
+        order_sign = #{orderSign}, order_code = #{orderCode}, account_id = #{accountId}::uuid, full_name = #{fullName}
+        order_time = #{orderTime}, expire_time = #{expireTime}, pay_time = #{payTime},
+        total_amount = #{totalAmount}, total_price = #{totalPrice}, pay_state = #{payState},
+        pay_type = #{payType}, order_state = #{orderState} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.shop.ShoppingOrder">
+        select id, order_sign, order_code, account_id, full_name, order_time, expire_time, pay_time, total_amount,
+        total_price, pay_state, pay_type, order_state
+        from shopping_order
+        where flag = true and status = true and id = #{id}::uuid
+    </select>
+
+    <update id="deleteById">
+        update shopping_order set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.shop.ShoppingOrder"
+            parameterType="cn.com.enjoystudy.oa.bean.shop.ShoppingOrderSO">
+        select id, order_sign, order_code, account_id, full_name, order_time, expire_time, pay_time, total_amount,
+        total_price, pay_state, pay_type, order_state
+        from shopping_order
+        where flag = true and status = true
+        <if test="null != accountId and '' != accountId"> and account_id = #{accountId}::uuid </if>
+        <if test="null != orderCode and '' != orderCode"> and order_code = #{orderCode} </if>
+        <if test="null != payState"> and pay_state = #{payState} </if>
+        <if test="null != payType"> and pay_type = #{payType} </if>
+        <if test="null != orderState"> and order_state = #{orderState} </if>
+    </select>
+
+    <update id="updatePayState">
+        update shopping_order set pay_time = #{payTime}, pay_state = #{payState}, pay_type = #{payType},
+        order_state = #{orderState} where id = #{orderId}::uuid
+    </update>
+
+    <update id="updateOrderState">
+        update shopping_order set order_state = #{orderState} where id = #{orderId}::uuid
+    </update>
+</mapper>

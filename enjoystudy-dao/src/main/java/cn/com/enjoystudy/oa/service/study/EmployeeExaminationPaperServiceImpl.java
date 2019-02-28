@@ -5,6 +5,7 @@ import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaperSO;
 import cn.com.enjoystudy.oa.dao.study.EmployeeExaminationPaperDao;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,9 @@ public class EmployeeExaminationPaperServiceImpl implements EmployeeExaminationP
 
     @Override
     public EmployeeExaminationPaper getById(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new NullPointerException("id is null.");
+        }
         return employeeExaminationPaperDao.getById(id);
     }
 

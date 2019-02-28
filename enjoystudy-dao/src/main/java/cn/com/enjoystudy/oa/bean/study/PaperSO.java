@@ -59,6 +59,7 @@ public class PaperSO extends SOSupport {
     private Integer fillType;
     /** 填空题数量 */
     private Integer fillAmount;
+    private Integer[] testStates;
 
     public PaperSO() {
     }
@@ -269,5 +270,13 @@ public class PaperSO extends SOSupport {
 
     public void setFillAmount(Integer fillAmount) {
         this.fillAmount = fillAmount;
+    }
+
+    public Integer[] getTestStates() {
+        return testStates;
+    }
+
+    public void setTestStates(Integer[] testStates) {
+        this.testStates = testStates;
     }
 }

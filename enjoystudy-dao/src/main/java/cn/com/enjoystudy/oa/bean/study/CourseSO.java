@@ -31,6 +31,12 @@ public class CourseSO extends PaperSO {
     private Boolean hotState;
     /** 图片 */
     private String image;
+    /** 现价 */
+    private Double currentPrice;
+    /** 市价 */
+    private Double marketPrice;
+    /** 促销价 */
+    private Double salePrice;
     /** 课程简介 */
     private String introduction;
     /** 课程描述 */
@@ -45,6 +51,14 @@ public class CourseSO extends PaperSO {
     private Integer starAmount;
     /** 评论次数 */
     private Integer remarkAmount;
+    /** 购买次数 */
+    private Integer buyAmount;
+    private Double startCurrentPrice;
+    private Double endCurrentPrice;
+    private Double startMarketPrice;
+    private Double endMarketPrice;
+    private Double startSalePrice;
+    private Double endSalePrice;
 
     public CourseSO() {
     }
@@ -153,6 +167,30 @@ public class CourseSO extends PaperSO {
         this.image = image;
     }
 
+    public Double getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public Double getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(Double marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+
+    public Double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(Double salePrice) {
+        this.salePrice = salePrice;
+    }
+
     public String getIntroduction() {
         return introduction;
     }
@@ -207,5 +245,61 @@ public class CourseSO extends PaperSO {
 
     public void setRemarkAmount(Integer remarkAmount) {
         this.remarkAmount = remarkAmount;
+    }
+
+    public Integer getBuyAmount() {
+        return buyAmount;
+    }
+
+    public void setBuyAmount(Integer buyAmount) {
+        this.buyAmount = buyAmount;
+    }
+
+    public Double getStartCurrentPrice() {
+        return startCurrentPrice;
+    }
+
+    public void setStartCurrentPrice(Double startCurrentPrice) {
+        this.startCurrentPrice = startCurrentPrice;
+    }
+
+    public Double getEndCurrentPrice() {
+        return endCurrentPrice;
+    }
+
+    public void setEndCurrentPrice(Double endCurrentPrice) {
+        this.endCurrentPrice = endCurrentPrice;
+    }
+
+    public Double getStartMarketPrice() {
+        return startMarketPrice;
+    }
+
+    public void setStartMarketPrice(Double startMarketPrice) {
+        this.startMarketPrice = startMarketPrice;
+    }
+
+    public Double getEndMarketPrice() {
+        return endMarketPrice;
+    }
+
+    public void setEndMarketPrice(Double endMarketPrice) {
+        this.endMarketPrice = endMarketPrice;
+    }
+
+    public Double getStartSalePrice() {
+        return startSalePrice;
+    }
+
+    public void setStartSalePrice(Double startSalePrice) {
+        this.startSalePrice = startSalePrice;
+    }
+
+    public Double getEndSalePrice() {
+        return endSalePrice;
+    }
+
+    public void setEndSalePrice(Double endSalePrice) {
+        this.endSalePrice = endSalePrice;
     }
 }

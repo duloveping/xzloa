@@ -33,6 +33,12 @@ public class CourseVideo extends BaseFile {
     private String name;
     /** 视频图片 */
     private String image;
+    /** 现价 */
+    private Double currentPrice;
+    /** 市价 */
+    private Double marketPrice;
+    /** 促销价 */
+    private Double salePrice;
     /** 视频简介 */
     private String introduction;
     /** 视频描述 */
@@ -47,6 +53,8 @@ public class CourseVideo extends BaseFile {
     private Integer starAmount;
     /** 评论次数 */
     private Integer remarkAmount;
+    /** 购买次数 */
+    private Integer buyAmount;
 
     public CourseVideo() {
     }
@@ -147,6 +155,30 @@ public class CourseVideo extends BaseFile {
         this.image = image;
     }
 
+    public Double getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public Double getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(Double marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+
+    public Double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(Double salePrice) {
+        this.salePrice = salePrice;
+    }
+
     public String getIntroduction() {
         return introduction;
     }
@@ -201,5 +233,13 @@ public class CourseVideo extends BaseFile {
 
     public void setRemarkAmount(Integer remarkAmount) {
         this.remarkAmount = remarkAmount;
+    }
+
+    public Integer getBuyAmount() {
+        return buyAmount;
+    }
+
+    public void setBuyAmount(Integer buyAmount) {
+        this.buyAmount = buyAmount;
     }
 }
