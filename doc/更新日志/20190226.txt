@@ -1,3 +1,29 @@
+ALTER TABLE web_advertisement
+ADD COLUMN url character varying(255),
+ADD COLUMN width integer,
+ADD COLUMN height integer,
+ADD COLUMN current_price double precision default 0.00,
+ADD COLUMN market_price double precision default 0.00,
+ADD COLUMN sale_price double precision default 0.00;
+COMMENT ON COLUMN web_advertisement.url IS '链接地址';
+COMMENT ON COLUMN web_advertisement.width IS '宽度';
+COMMENT ON COLUMN web_advertisement.height IS '高度';
+COMMENT ON COLUMN web_advertisement.current_price IS '现价';
+COMMENT ON COLUMN web_advertisement.market_price IS '市场价';
+COMMENT ON COLUMN web_advertisement.sale_price IS '促销价';
+
+ALTER TABLE web_advertisement_place
+ADD COLUMN more_url character varying(255),
+ADD COLUMN icon character varying(255),
+ADD COLUMN serial_number integer default 0,
+ADD COLUMN width integer,
+ADD COLUMN height integer;
+COMMENT ON COLUMN web_advertisement_place.more_url IS '更多的链接地址';
+COMMENT ON COLUMN web_advertisement_place.icon IS '图标';
+COMMENT ON COLUMN web_advertisement_place.serial_number IS '排序号';
+
+COMMENT ON COLUMN web_advertisement_place.more_url IS '链接地址';
+
 ALTER TABLE course ADD COLUMN current_price double precision default 0.00,
 ADD COLUMN market_price double precision default 0.00,
 ADD COLUMN sale_price double precision default 0.00,

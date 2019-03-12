@@ -1963,3 +1963,101 @@ comment on column shopping_order_item.market_price is '市价';
 comment on column shopping_order_item.sale_price is '促销价';
 comment on column shopping_order_item.total_price is '全计金额';
 comment on column shopping_order_item.total_amount is '购买数量';
+
+drop table course_train_plan;
+create table course_train_plan
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  show_state boolean default true,
+  train_state integer default 0,
+  course_name character varying(300),
+  register_start_time timestamp without time zone,
+  register_end_time timestamp without time zone,
+  train_start_time timestamp without time zone,
+  train_end_time timestamp without time zone,
+  admission_start_time timestamp without time zone,
+  admission_end_time timestamp without time zone,
+  exam_start_time timestamp without time zone,
+  exam_end_time timestamp without time zone,
+  score_start_time timestamp without time zone,
+  score_end_time timestamp without time zone,
+  issue_start_time timestamp without time zone,
+  issue_end_time timestamp without time zone,
+  register_type integer default 0,
+  register_amount integer default 0,
+  register_address character varying(300),
+  admission_address character varying(300),
+  train_address character varying(300),
+  exam_address character varying(300),
+  issue_address character varying(300),
+  company_name character varying(100),
+  company_phone character varying(100),
+  company_fax character varying(100),
+  company_email character varying(100),
+  train_teacher_name character varying(100),
+  train_teacher_mobile character varying(100),
+  train_teacher_phone character varying(100),
+  train_teacher_qq character varying(100),
+  train_teacher_email character varying(100),
+  link_man_name character varying(100),
+  link_man_mobile character varying(100),
+  link_man_phone character varying(100),
+  link_man_qq character varying(100),
+  link_man_email character varying(100),
+  class_teacher_name character varying(100),
+  class_teacher_mobile character varying(100),
+  class_teacher_phone character varying(100),
+  class_teacher_qq character varying(100),
+  class_teacher_email character varying(100),
+  primary key (id)
+);
+comment on table course_train_plan is '课程培训计划';
+comment on column course_train_plan.id is '流水号';
+comment on column course_train_plan.create_time is '创建时间';
+comment on column course_train_plan.update_time is '更新时间';
+comment on column course_train_plan.flag is '标记';
+comment on column course_train_plan.status is '状态';
+comment on column course_train_plan.show_state is '显示状态';
+comment on column course_train_plan.train_state is '培训状态';
+comment on column course_train_plan.course_name is '培训名称';
+comment on column course_train_plan.register_start_time is '报名开始时间';
+comment on column course_train_plan.register_end_time is '报名结束时间';
+comment on column course_train_plan.train_start_time is '培训开始时间';
+comment on column course_train_plan.train_end_time is '培训结束时间';
+comment on column course_train_plan.admission_start_time is '打印准备证开始时间';
+comment on column course_train_plan.admission_end_time is '打印准备证结束时间';
+comment on column course_train_plan.exam_start_time is '考试开始时间';
+comment on column course_train_plan.exam_end_time is '考试结束时间';
+comment on column course_train_plan.score_start_time is '成绩查询开始时间';
+comment on column course_train_plan.score_end_time is '成绩查询结束时间';
+comment on column course_train_plan.issue_start_time is '颁发证书开始时间';
+comment on column course_train_plan.issue_end_time is '颁发证书结束时间';
+comment on column course_train_plan.register_amount is '报名人数';
+comment on column course_train_plan.register_type is '报名方式';
+comment on column course_train_plan.register_address is '报名地点';
+comment on column course_train_plan.train_address is '培训地点';
+comment on column course_train_plan.exam_address is '考试地点';
+comment on column course_train_plan.issue_address is '发证地点';
+comment on column course_train_plan.company_name is '课程提供单位名称';
+comment on column course_train_plan.company_phone is '课程提供单位电话';
+comment on column course_train_plan.company_fax is '课程提供单位传真';
+comment on column course_train_plan.company_email is '课程提供单位邮箱';
+comment on column course_train_plan.train_teacher_name is '培训师姓名';
+comment on column course_train_plan.train_teacher_mobile is '培训师手机';
+comment on column course_train_plan.train_teacher_phone is '培训师电话';
+comment on column course_train_plan.train_teacher_qq is '培训师QQ号码';
+comment on column course_train_plan.train_teacher_email is '培训师邮箱';
+comment on column course_train_plan.link_man_name is '联系人姓名';
+comment on column course_train_plan.link_man_mobile is '联系人手机';
+comment on column course_train_plan.link_man_phone is '联系人电话';
+comment on column course_train_plan.link_man_qq is '联系人QQ号码';
+comment on column course_train_plan.link_man_email is '联系人邮箱';
+comment on column course_train_plan.class_teacher_name is '班主任姓名';
+comment on column course_train_plan.class_teacher_mobile is '班主任手机';
+comment on column course_train_plan.class_teacher_phone is '班主任电话';
+comment on column course_train_plan.class_teacher_qq is '班主任QQ号码';
+comment on column course_train_plan.class_teacher_email is '班主任邮箱';
