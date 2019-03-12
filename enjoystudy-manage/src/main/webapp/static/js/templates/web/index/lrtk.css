@@ -1,0 +1,174 @@
+.row-content {
+	margin: 0px auto; width: 1200px; text-align: left; clear: both;
+}
+.showcase.cloud {
+	height: 366px; position: relative;
+}
+.showcase.cloud .container {
+	width: 1200px; height: 364px; overflow: hidden; position: relative;
+}
+.showcase.cloud .slide {
+	left: 0px; top: 0px; width: 1200px; height: 364px; position: absolute; z-index: 0;
+}
+.showcase.cloud .slide .content-main-visual {
+	width: 1020px; height: 364px; overflow: hidden; position: relative;
+}
+.showcase.cloud .slide .content-main-visual a {
+	left: 0px; top: 0px; width: 1020px; height: 364px; overflow: hidden; display: none; position: absolute; z-index: 0;
+}
+.showcase.cloud .slide .content-main-visual a.pc {
+	display: block;
+}
+.showcase.cloud .slide .content-main-visual a.tablet {
+	display: none;
+}
+.showcase.cloud .slide .content-main-visual a.smartphone {
+	display: none;
+}
+.showcase.cloud .slide .content-main-visual a img {
+	width: 1020px; height: 364px;
+}
+.showcase.cloud .slide .content-main-feature {
+	left: 1020px; top: 0px; width: 180px; height: 366px; position: absolute;
+}
+.showcase.cloud .slide .content-main-feature .feature {
+	width: 180px; height: 91px; text-align: center; overflow: hidden; position: relative;
+}
+.showcase.cloud .slide .content-main-feature .feature a {
+	width: 180px; height: 91px; color: rgb(0, 0, 0); padding-top: 0px; display: block; position: relative; opacity: 0.4; background-image: none;
+}
+.showcase.cloud .slide .content-main-feature .feature a:hover {
+	background-image: none;
+}
+.showcase.cloud .slide .content-main-feature .feature a:hover {
+	opacity: 1;
+}
+.showcase.cloud .slide .content-main-feature .feature a.current {
+	background: none;
+}
+.showcase.cloud .slide .content-main-feature .feature a img {
+	margin: 0px auto; left: 18px; top: 18px; width: 56px; height: 57px; position: absolute;
+}
+.showcase.cloud .slide .content-main-feature .feature a img.tablet {
+	display: none;
+}
+.showcase.cloud .slide .content-main-feature .feature a img.mobile {
+	display: none;
+}
+.showcase.cloud .slide .content-main-feature .feature a span {
+	padding: 0px; left: 92px; top: 32px; width: 70px; height: auto; text-align: left; color: rgb(255, 255, 255); font-size: 15px; display: block; position: absolute;
+}
+.showcase.cloud .slide .content-main-feature .azure {
+	background-color: transparent;
+}
+.showcase.cloud .slide .content-main-feature .black {
+	background-color: transparent;
+}
+.showcase.cloud .slide .content-main-feature .brick {
+	background-color: transparent;
+}
+.showcase.cloud .slide .content-main-feature .gray {
+	background-color: transparent;
+}
+.showcase.cloud .slide .content-main-feature .green {
+	background-color: transparent;
+}
+.showcase.cloud .slide .content-main-feature .dark-azure {
+	background-color: rgb(0, 136, 196);
+}
+.showcase.cloud .slide .content-main-feature .dark-black {
+	background-color: rgb(55, 54, 54);
+}
+.showcase.cloud .slide .content-main-feature .dark-brick {
+	background-color: rgb(111, 11, 1);
+}
+.showcase.cloud .slide .content-main-feature .dark-gray {
+	background-color: rgb(39, 39, 39);
+}
+.showcase.cloud .slide .content-main-feature .dark-green {
+	background-color: rgb(48, 137, 0);
+}
+.showcase.cloud .slide .content-main-feature .azure a {
+	background-color: rgb(73, 184, 218);
+}
+.showcase.cloud .slide .content-main-feature .black a {
+	background-color: rgb(55, 54, 54);
+}
+.showcase.cloud .slide .content-main-feature .brick a {
+	background-color: rgb(168, 53, 19);
+}
+.showcase.cloud .slide .content-main-feature .gray a {
+	background-color: rgb(100, 100, 100);
+}
+.showcase.cloud .slide .content-main-feature .green a {
+	background-color: rgb(133, 187, 35);
+}
+.showcase.cloud .slide .content-main-feature .azure a:hover {
+	color: rgb(255, 255, 255); background-color: rgb(117, 195, 239);
+}
+.showcase.cloud .slide .content-main-feature .azure a.current {
+	color: rgb(255, 255, 255); background-color: rgb(117, 195, 239);
+}
+.showcase.cloud .slide .content-main-feature .azure a:hover span {
+	color: rgb(255, 255, 255); background-color: rgb(117, 195, 239);
+}
+.showcase.cloud .slide .content-main-feature .azure a.current span {
+	color: rgb(255, 255, 255); background-color: rgb(117, 195, 239);
+}
+.showcase.cloud .slide .content-main-feature .black a:hover {
+	color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);
+}
+.showcase.cloud .slide .content-main-feature .azure a.current {
+	color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);
+}
+.showcase.cloud .slide .content-main-feature .black a:hover span {
+	color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);
+}
+.showcase.cloud .slide .content-main-feature .azure a.current span {
+	color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);
+}
+.showcase.cloud .slide .content-main-feature .brick a:hover {
+	color: rgb(255, 255, 255); background-color: rgb(168, 53, 19);
+}
+.showcase.cloud .slide .content-main-feature .brick a.current {
+	color: rgb(255, 255, 255); background-color: rgb(168, 53, 19);
+}
+.showcase.cloud .slide .content-main-feature .brick a:hover span {
+	color: rgb(255, 255, 255); background-color: rgb(168, 53, 19);
+}
+.showcase.cloud .slide .content-main-feature .brick a.current span {
+	color: rgb(255, 255, 255); background-color: rgb(168, 53, 19);
+}
+.showcase.cloud .slide .content-main-feature .gray a:hover {
+	color: rgb(255, 255, 255); background-color: rgb(100, 100, 100);
+}
+.showcase.cloud .slide .content-main-feature .gray a.current {
+	color: rgb(255, 255, 255); background-color: rgb(100, 100, 100);
+}
+.showcase.cloud .slide .content-main-feature .gray a:hover span {
+	color: rgb(255, 255, 255); background-color: rgb(100, 100, 100);
+}
+.showcase.cloud .slide .content-main-feature .gray a.current span {
+	color: rgb(255, 255, 255); background-color: rgb(100, 100, 100);
+}
+.showcase.cloud .slide .content-main-feature .green a:hover {
+	color: rgb(255, 255, 255); background-color: rgb(111, 187, 0);
+}
+.showcase.cloud .slide .content-main-feature .green a.current {
+	color: rgb(255, 255, 255); background-color: rgb(111, 187, 0);
+}
+.showcase.cloud .slide .content-main-feature .green a:hover span {
+	color: rgb(255, 255, 255); background-color: rgb(111, 187, 0);
+}
+.showcase.cloud .slide .content-main-feature .green a.current span {
+	color: rgb(255, 255, 255); background-color: rgb(111, 187, 0);
+}
+.showcase.cloud .slide .content-main-feature .feature a.current {
+	opacity: 1;
+}
+.showcase.cloud .slide .content-main-feature .feature a .timerLine {
+	left: 0px; width: 122px; height: 7px; bottom: 0px; display: none; position: absolute;
+}
+.showcase.cloud .slide .content-main-feature .feature a.current .timerLine {
+	display: block;
+}

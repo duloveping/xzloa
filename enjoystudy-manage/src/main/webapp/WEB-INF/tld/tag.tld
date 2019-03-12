@@ -165,7 +165,8 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>显示数量</description>
-        </attribute><attribute>
+        </attribute>
+        <attribute>
             <name>placeId</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
@@ -182,6 +183,12 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>类型</description>
+        </attribute>
+        <attribute>
+            <name>showState</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>显示状态</description>
         </attribute>
     </tag>
 
@@ -393,7 +400,7 @@
         </attribute>
         <attribute>
             <name>typeState</name>
-            <required>true</required>
+            <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>类别状态</description>
         </attribute>

@@ -1,0 +1,36 @@
+#solid {
+	width: 100%; height: 300px; clear: both; position: relative;
+}
+#solid .solid0 {
+	left: 0px; top: 0px; width: 1200px; height: 300px; display: none; position: absolute;
+}
+#solid .solid1 {
+	left: 0px; top: 0px; width: 1200px; height: 300px; display: none; position: absolute;
+}
+#solid .solid2 {
+	left: 0px; top: 0px; width: 1200px; height: 300px; display: none; position: absolute;
+}
+#solid .solid0 {
+	background: rgb(0, 159, 227);
+}
+#solid .solid1 {
+	background: rgb(38, 192, 158);
+}
+#solid .solid2 {
+	background: rgb(38, 192, 158);
+}
+#solid ul {
+	list-style: none; margin: 0px; padding: 0px;
+}
+#solid ul li {
+	left: 50%; top: 0px; width: 900px; height: 300px; margin-left: -600px; display: none; position: absolute; cursor: pointer;
+}
+#solid ul li img {
+	margin-left: 0px;
+}
+#solid #btt {
+	left: 50%; top: 255px; width: 905px; height: 55px; margin-left: -622px; position: relative;
+}
+#solid #btt span {
+	background: rgb(61, 61, 61); margin: 0px 15px; left: 45%; top: 15px; width: 30px; height: 8px; text-align: center; display: block; position: absolute; z-index: 1000; cursor: pointer; opacity: 0.7; -moz-opacity: 0.7;
+}

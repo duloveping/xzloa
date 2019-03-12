@@ -56,7 +56,7 @@
                     <div id="fileList" class="uploader-list">
                         <c:if test="${not empty so.large}">
                             <div class="item upload-state-success">
-                                <div class="pic-box"><img src="<c:url value="${so.icon}" width="100" height="100"/>"></div>
+                                <div class="pic-box"><img src="<c:url value="${so.icon}"/>" width="100" height="100"/></div>
                                 <div class="info">${so.title}</div>
                                 <p class="state">已上传</p>
                                 <div class="progress-box" style="display: none;">
@@ -73,6 +73,36 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">标题：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="title" path="title" placeholder="标题" maxlength="255" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">链接地址：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="url" path="url" placeholder="链接地址" maxlength="255" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">现价：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="currentPrice" path="currentPrice" placeholder="现价" maxlength="10" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">市价：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="marketPrice" path="marketPrice" placeholder="市价" maxlength="10" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">促销价：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="salePrice" path="salePrice" placeholder="促销价" maxlength="10" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">排序号：</label>
             <div class="formControls col-xs-8 col-sm-10">
                 <form:input id="serialNumber" path="serialNumber" placeholder="排序号" maxlength="5" cssClass="input-text"/>
@@ -86,7 +116,8 @@
                 <form:hidden id="middle" path="middle" />
                 <form:hidden id="small" path="small" />
                 <form:hidden id="icon" path="icon" />
-                <form:hidden id="title" path="title" />
+                <form:hidden id="width" path="width" />
+                <form:hidden id="height" path="height" />
             </div>
         </div>
     </form:form>

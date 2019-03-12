@@ -85,6 +85,9 @@ public class AdvertisementPlaceController extends BaseController {
             entity.setCategory(StringUtils.trimToNull(so.getCategory()));
             entity.setPlaceId(StringUtils.trimToNull(so.getPlaceId()));
             entity.setDescription(StringUtils.trimToNull(so.getDescription()));
+            entity.setSerialNumber(so.getSerialNumber());
+            entity.setIcon(StringUtils.trimToNull(so.getIcon()));
+            entity.setMoreUrl(StringUtils.trimToNull(so.getMoreUrl()));
             entity.setShowState(so.getShowState());
             if (StringUtils.isNotBlank(so.getId())) {
                 advertisementPlaceService.update(entity);

@@ -1,0 +1,10 @@
+﻿.setFormLine{min-height:30px; height:auto; margin-left:20px; margin-top:10px; clear:both;}
+.setFormLine div{float:left; margin-right:5px; margin-bottom:10px;}
+.listTitle{ clear:both; margin-left:20px; margin-right:10px; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; margin-top:10px; height:30px;  background-image:url(images/admin_menu_bg.png); background-repeat:repeat-x;}
+.listTitle span{display:inline-block; margin-top:5px; margin-left:5px; font-weight:bold;}
+.listItem{margin-left:20px; margin-right:10px;border-bottom:1px solid #cdcdcd; min-height:22px; height:auto; clear:both;}
+.listItem span{display:inline-block; margin-top:5px;  margin-left:5px;}
+.listItem div{float:left; margin-top:5px;  margin-left:5px;}
+
+a{color:#0000ff; text-decoration:none;}
+a:hover{color:#cdcdcd; text-decoration:none;}

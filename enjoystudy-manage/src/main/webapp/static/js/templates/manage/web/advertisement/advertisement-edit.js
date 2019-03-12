@@ -105,6 +105,9 @@ $(function () {
             placeId : {
                 required : true,
             },
+            url : {
+                required : true
+            },
             large : {
                 required : true
             }
@@ -112,6 +115,9 @@ $(function () {
         messages: {
             placeId: {
                 required: "广告位置不能为空！"
+            },
+            url: {
+                required: "广告链接地址不能为空！"
             },
             large: {
                 required: "广告图不能为空！"

@@ -30,6 +30,12 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">分类：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <form:input id="category" path="category" placeholder="分类" maxlength="50" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">
                 <span class="c-red">*</span>状态：
             </label>
@@ -63,6 +69,18 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">更多链接地址：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <form:input id="moreUrl" path="moreUrl" placeholder="更多链接地址" maxlength="255" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">排序序号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <form:input id="serialNumber" path="serialNumber" placeholder="排序序号" maxlength="4" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <form:textarea id="description" path="description" rows="5" cols="80" maxlength="255" cssClass="textarea valid" onKeyUp="$.Huitextarealength(this,255);" placeholder="备注"></form:textarea>
@@ -73,7 +91,6 @@
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input class="btn btn-primary radius" type="submit" value="提交">
                 <form:hidden id="id" path="id" />
-                <form:hidden id="category" path="category" />
                 <form:hidden id="placeId" path="placeId" />
             </div>
         </div>

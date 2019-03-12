@@ -103,7 +103,13 @@ public class AdvertisementController extends UploadController {
             entity.setCssClass(StringUtils.trimToNull(so.getCssClass()));
             entity.setCssStyle(StringUtils.trimToNull(so.getCssStyle()));
             entity.setShowState(so.getShowState());
+            entity.setUrl(StringUtils.trimToNull(so.getUrl()));
             entity.setSerialNumber(so.getSerialNumber());
+            entity.setWidth(so.getWidth());
+            entity.setHeight(so.getHeight());
+            entity.setCurrentPrice(so.getCurrentPrice());
+            entity.setMarketPrice(so.getMarketPrice());
+            entity.setSalePrice(so.getSalePrice());
             if (StringUtils.isNotBlank(so.getId())) {
                 advertisementService.update(entity);
             } else {
