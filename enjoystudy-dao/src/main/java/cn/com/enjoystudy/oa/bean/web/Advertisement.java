@@ -4,6 +4,10 @@ import cn.com.enjoystudy.oa.bean.EntitySupport;
 
 import java.util.Date;
 
+/**
+ * 广告
+ * @author 广州新咨力科技有限公司-杜永生
+ */
 public class Advertisement extends EntitySupport {
     /** 显示状态 */
     private Boolean showState;
@@ -31,8 +35,22 @@ public class Advertisement extends EntitySupport {
     private String title;
     /** 上传时间 */
     private Date uploadTime;
+    /** url地址 */
+    private String url;
     /** 排序号 */
     private Integer serialNumber;
+    /** 宽度 */
+    private Integer width;
+    /** 高度 */
+    private Integer height;
+    /** 现价 */
+    private Double currentPrice;
+    /** 市价 */
+    private Double marketPrice;
+    /** 促销价 */
+    private Double salePrice;
+    /** 课时数 */
+    private Integer lessonAmount;
 
     public Advertisement() {
     }
@@ -141,11 +159,67 @@ public class Advertisement extends EntitySupport {
         this.uploadTime = uploadTime;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Integer getSerialNumber() {
         return serialNumber;
     }
 
     public void setSerialNumber(Integer serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Double getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public Double getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(Double marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+
+    public Double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(Double salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public Integer getLessonAmount() {
+        return lessonAmount;
+    }
+
+    public void setLessonAmount(Integer lessonAmount) {
+        this.lessonAmount = lessonAmount;
     }
 }

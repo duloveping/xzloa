@@ -56,7 +56,7 @@
         select 
         v.id, c.id course_id, c.name course_name, v.name, v.image, c.current_price, c.market_price, c.sale_price,
         v.file_name, v.file_path, v.file_type, v.file_size, v.upload_time, v.show_state,
-        v.introduction, v.description, v.click_amount, v.love_amount, v.star_amount, v.remark_amount, v.buy_amount
+        v.introduction, v.description, v.click_amount, v.love_amount, v.star_amount, v.remark_amount, c.buy_amount
         from course_video v
         inner join course c on c.id = v.course_id
         where v.id = #{id}::uuid and v.flag = true and v.status = true
@@ -69,7 +69,7 @@
     <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.CourseVideo"
             parameterType="cn.com.enjoystudy.oa.bean.study.CourseVideoSO">
         select id, course_id, name, image, file_name, file_path, file_type, file_size, upload_time, show_state,
-        click_amount, love_amount, star_amount, remark_amount, buy_amount, introduction
+        click_amount, love_amount, star_amount, remark_amount, introduction
         from course_video <include refid="wheres"/>
         order by create_time asc
     </select>

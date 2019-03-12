@@ -25,9 +25,8 @@
         n.remark_amount, n.image, n.introduction, n.description
         from news n
         inner join news_type t on n.type_id = t.id
-        where n.id = #{id} and n.flag = true and n.status = true
+        where n.id = #{id}::uuid and n.flag = true and n.status = true
     </select>
-
 
     <update id="deleteById">
         update news set flag = false, status = false where id = #{id}::uuid

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.com.enjoystudy.oa.dao.web.AdvertisementPlaceDao" >
-    <sql id="columns"> id, code, name, show_state, category, place_id, css_class, css_style, width, height, description </sql>
+    <sql id="columns">
+        id, code, name, show_state, category, place_id, css_class, css_style,
+        width, height, description, more_url, icon, serial_number
+    </sql>
 
     <sql id="wheres">
         <where>
@@ -27,15 +30,18 @@
 
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.web.AdvertisementPlace">
         insert into web_advertisement_place (id, create_time, update_time, flag, status,
-        code, name, show_state, category, place_id, css_class, css_style, width, height, description)
+        code, name, show_state, category, place_id, css_class, css_style, width, height,
+        more_url, icon, serial_number, description)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
-        #{code}, #{name}, #{showState}, #{category}, #{placeId}::uuid, #{cssClass}, #{cssStyle}, #{width}, #{height}, #{description})
+        #{code}, #{name}, #{showState}, #{category}, #{placeId}::uuid, #{cssClass}, #{cssStyle}, #{width}, #{height},
+        #{moreUrl}, #{icon}, #{serialNumber}, #{description})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.web.AdvertisementPlace">
         update web_advertisement_place set update_time = #{updateTime},
         code = #{code}, name = #{name}, show_state = #{showState}, category = #{category}, place_id = #{placeId}::uuid,
-        css_class = #{cssClass}, css_style = #{cssStyle}, width = #{width}, height = #{height}, description = #{description}
+        css_class = #{cssClass}, css_style = #{cssStyle}, width = #{width}, height = #{height},
+        more_url = #{moreUrl}, icon = #{icon}, serial_number = #{serialNumber}, description = #{description}
         where id = #{id}::uuid
     </update>
 
@@ -53,7 +59,7 @@
 
     <select id="list"  resultType="cn.com.enjoystudy.oa.bean.web.AdvertisementPlace"
             parameterType="cn.com.enjoystudy.oa.bean.web.AdvertisementPlaceSO">
-        select <include refid="columns"/> from web_advertisement_place <include refid="wheres"/> order by create_time desc
+        select <include refid="columns"/> from web_advertisement_place <include refid="wheres"/> order by serial_number
     </select>
 
     <select id="count" resultType="long" parameterType="cn.com.enjoystudy.oa.bean.web.AdvertisementPlaceSO">

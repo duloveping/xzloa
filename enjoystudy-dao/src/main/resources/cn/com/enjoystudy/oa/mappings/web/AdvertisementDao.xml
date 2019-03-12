@@ -2,31 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.com.enjoystudy.oa.dao.web.AdvertisementDao" >
     <sql id="columns">
-        id, place_id, show_state, css_class, css_style, category, large, middle, small, icon, title, upload_time, serial_number
+        id, place_id, show_state, css_class, css_style, category, url, width, height, current_price, market_price, sale_price,
+        large, middle, small, icon, title, upload_time, serial_number
     </sql>
 
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.web.Advertisement" >
         insert into web_advertisement (id, create_time, update_time, flag, status,
-        place_id, show_state, css_class, css_style, category, large, middle, small, icon, title, upload_time, serial_number)
+        place_id, show_state, css_class, css_style, category, url,
+        width, height, current_price, market_price, sale_price,
+        large, middle, small, icon, title, upload_time, serial_number)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
-        #{placeId}::uuid, #{showState}, #{cssClass}, #{cssStyle}, #{category}, #{large}, #{middle}, #{small},
+        #{placeId}::uuid, #{showState}, #{cssClass}, #{cssStyle}, #{category}, #{url},
+        #{width}, #{height}, #{currentPrice}, #{marketPrice}, #{salePrice},
+        #{large}, #{middle}, #{small},
         #{icon}, #{title}, #{uploadTime}, #{serialNumber})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.web.Advertisement" >
         update web_advertisement set update_time = #{updateTime},
-        place_id = #{placeId}::uuid,
-        show_state = #{showState},
-        css_class = #{cssClass},
-        css_style = #{cssStyle},
-        category = #{category},
-        large = #{large},
-        middle = #{middle},
-        small = #{small},
-        icon = #{icon},
-        title = #{title},
-        upload_time = #{uploadTime},
-        serial_number = #{serialNumber}
+        place_id = #{placeId}::uuid, show_state = #{showState}, css_class = #{cssClass},
+        css_style = #{cssStyle}, category = #{category}, url = #{url},
+        width = #{width}, height = #{height}, current_price = #{currentPrice}, market_price = #{marketPrice}, sale_price = #{salePrice},
+        large = #{large}, middle = #{middle}, small = #{small}, icon = #{icon},
+        title = #{title}, upload_time = #{uploadTime}, serial_number = #{serialNumber}
         where id = #{id}::uuid
     </update>
 
@@ -40,15 +38,17 @@
 
     <select id="list"  resultType="cn.com.enjoystudy.oa.bean.web.Advertisement"
             parameterType="cn.com.enjoystudy.oa.bean.web.AdvertisementSO">
-        select a.id, a.show_state, a.css_class, a.css_style, a.title,
+        select a.id, a.show_state, a.css_class, a.css_style, a.title, a.url,
+        a.width, a.height, a.current_price, a.market_price, a.sale_price,
         a.large, a.middle, a.small, a.icon, a.upload_time, a.serial_number,
         p.id place_id, p.code place_code, p.name place_name
         from web_advertisement a
         inner join web_advertisement_place p on p.id = a.place_id
         where a.flag = true and a.status = true and p.flag = true and p.status = true
         <if test="null != showState"> and a.show_state = #{showState}</if>
-        <if test="null != placeId and '' != placeId"> and p.place_id = #{placeId}</if>
+        <if test="null != placeId and '' != placeId"> and p.place_id = #{placeId}::uuid</if>
         <if test="null != placeCode and '' != placeCode"> and p.code = #{placeCode}</if>
+        <if test="null != placeState"> and p.show_state = #{placeState}</if>
         order by a.serial_number asc, a.upload_time desc
     </select>
 </mapper>

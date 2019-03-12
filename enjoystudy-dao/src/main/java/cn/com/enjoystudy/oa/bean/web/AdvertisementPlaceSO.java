@@ -28,6 +28,12 @@ public class AdvertisementPlaceSO extends SOSupport {
     private Integer height;
     /** 描述 */
     private String description;
+    /** 更多链接 */
+    private String moreUrl;
+    /** 图标 */
+    private String icon;
+    /** 排序号 */
+    private Integer serialNumber;
 
     public AdvertisementPlaceSO() {
     }
@@ -110,5 +116,29 @@ public class AdvertisementPlaceSO extends SOSupport {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getMoreUrl() {
+        return moreUrl;
+    }
+
+    public void setMoreUrl(String moreUrl) {
+        this.moreUrl = moreUrl;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Integer getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(Integer serialNumber) {
+        this.serialNumber = serialNumber;
     }
 }

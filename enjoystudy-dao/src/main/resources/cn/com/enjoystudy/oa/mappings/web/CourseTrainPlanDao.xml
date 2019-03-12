@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.web.CourseTrainPlanDao" >
+    <sql id="columns">
+        id, show_state, train_state, course_name, register_start_time, register_end_time, train_start_time, train_end_time,
+        admission_start_time, admission_end_time, exam_start_time, exam_end_time, score_start_time, score_end_time,
+        issue_start_time, issue_end_time, register_amount, register_type, register_address, train_address, exam_address,
+        issue_address, company_name, company_phone, company_fax, company_email, train_teacher_name, train_teacher_mobile,
+        train_teacher_phone, train_teacher_qq, train_teacher_email, link_man_name, link_man_mobile, link_man_phone,
+        link_man_qq, link_man_email, class_teacher_name, class_teacher_mobile, class_teacher_phone, class_teacher_qq,
+        class_teacher_email
+    </sql>
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.web.CourseTrainPlan">
+        insert into course_train_plan (id, create_time, update_time, flag, status,
+        show_state, train_state, course_name, register_start_time, register_end_time, train_start_time, train_end_time,
+        admission_start_time, admission_end_time, exam_start_time, exam_end_time, score_start_time, score_end_time,
+        issue_start_time, issue_end_time, register_amount, register_type, register_address, train_address, exam_address,
+        issue_address, company_name, company_phone, company_fax, company_email, train_teacher_name, train_teacher_mobile,
+        train_teacher_phone, train_teacher_qq, train_teacher_email, link_man_name, link_man_mobile, link_man_phone,
+        link_man_qq, link_man_email, class_teacher_name, class_teacher_mobile, class_teacher_phone, class_teacher_qq,
+        class_teacher_email)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{showState}, #{trainState}, #{courseName}, #{registerStartTime}, #{registerEndTime}, #{trainStartTime}, #{trainEndTime},
+        #{admissionStartTime}, #{admissionEndTime}, #{examStartTime}, #{examEndTime}, #{scoreStartTime}, #{scoreEndTime},
+        #{issueStartTime}, #{issueEndTime}, #{registerAmount}, #{registerType}, #{registerAddress}, #{trainAddress}, #{examAddress},
+        #{issueAddress}, #{companyName}, #{companyPhone}, #{companyFax}, #{companyEmail}, #{trainTeacherName}, #{trainTeacherMobile},
+        #{trainTeacherPhone}, #{trainTeacherQq}, #{trainTeacherEmail}, #{linkManName}, #{linkManMobile}, #{linkManPhone},
+        #{linkManQq}, #{linkManEmail}, #{classTeacherName}, #{classTeacherMobile}, #{classTeacherPhone}, #{classTeacherQq},
+        #{classTeacherEmail})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.web.CourseTrainPlan">
+        update course_train_plan set update_time = #{updateTime},
+        show_state = #{showState}, train_state = #{trainState}, course_name = #{courseName}, register_start_time = #{registerStartTime},
+        register_end_time = #{registerEndTime}, train_start_time = #{trainStartTime}, train_end_time = #{trainEndTime},
+        admission_start_time = #{admissionStartTime}, admission_end_time = #{admissionEndTime}, exam_start_time = #{examStartTime},
+        exam_end_time = #{examEndTime}, score_start_time = #{scoreStartTime}, score_end_time = #{scoreEndTime},
+        issue_start_time = #{issueStartTime}, issue_end_time = #{issueEndTime}, register_amount = #{registerAmount},
+        register_type = #{registerType}, register_address = #{registerAddress}, train_address = #{trainAddress}, exam_address = #{examAddress},
+        issue_address = #{issueAddress}, company_name = #{companyName}, company_phone = #{companyPhone}, company_fax = #{companyFax},
+        company_email = #{companyEmail}, train_teacher_name = #{trainTeacherName}, train_teacher_mobile = #{trainTeacherMobile},
+        train_teacher_phone = #{trainTeacherPhone}, train_teacher_qq = #{trainTeacherQq}, train_teacher_email = #{trainTeacherEmail},
+        link_man_name = #{linkManName}, link_man_mobile = #{linkManMobile}, link_man_phone = #{linkManPhone},
+        link_man_qq = #{linkManQq},link_man_email =  #{linkManEmail}, class_teacher_name = #{classTeacherName},
+        class_teacher_mobile = #{classTeacherMobile}, class_teacher_phone = #{classTeacherPhone}, class_teacher_qq = #{classTeacherQq},
+        class_teacher_email = #{classTeacherEmail}
+        where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.web.CourseTrainPlan">
+        select <include refid="columns"/> from course_train_plan
+        where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update course_train_plan set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list"  resultType="cn.com.enjoystudy.oa.bean.web.CourseTrainPlan"
+            parameterType="cn.com.enjoystudy.oa.bean.web.CourseTrainPlanSO">
+        select <include refid="columns"/> from course_train_plan n
+        where n.flag = true and n.status = true
+        <if test="null != showState"> and show_state = #{showState}</if>
+        <if test="null != trainState"> and train_state = #{trainState}</if>
+        <if test="null != courseName and '' != courseName">
+            <choose>
+                <when test="null != like and like == true"> and course_name= #{courseName}</when>
+                <otherwise>
+                    <bind name="likeCourseName" value="'%' + courseName + '%'"/>
+                    and course_name like #{likeCourseName}
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+</mapper>

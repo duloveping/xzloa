@@ -58,7 +58,7 @@
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.Course">
-        select id, study_to_exam_state, code, name, type_id, teacher_id,
+        select id, create_time, update_time, study_to_exam_state, code, name, type_id, teacher_id,
         buy_amount, current_price, market_price, sale_price,
         introduction, description, total_score, pass_score, test_type,
         test_state, test_amount, duration, question_amount, question_type, single_amount, multi_amount, judge_amount,
