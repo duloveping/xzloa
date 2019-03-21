@@ -100,7 +100,7 @@
                             <tr>
                                 <td colspan="4" style="text-align:center; height:40px; line-height:30px;">
                                     <div style="width:280px; height:30px; margin:0px auto;">
-                                        <div style="width:35%; height:30px; line-height:30px; float:left; text-align:center;"><a href="http://pxpt.ccaa.org.cn/User/Register" style="font-size:14px; text-decoration:none; color:#004998;">注册新用户</a></div>
+                                        <div style="width:35%; height:30px; line-height:30px; float:left; text-align:center;"><a href="<c:url value="/manage/login/register.jhtml"/>" style="font-size:14px; text-decoration:none; color:#004998;">注册新用户</a></div>
                                     </div>
                                 </td>
                             </tr>

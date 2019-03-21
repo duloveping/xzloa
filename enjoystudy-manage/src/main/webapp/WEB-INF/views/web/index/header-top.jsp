@@ -7,7 +7,7 @@
 <div class="Banner">
     <div class="Logo">
         <a href="<c:url value='/web/index/index.jhtml'/>">
-            <img src="<c:url value='/static/js/templates/web/index/logo.jpg'/>"/>
+            <%-- <img src="<c:url value='/static/js/templates/web/index/logo.jpg'/>"/> --%>
         </a>
     </div>
     <div class="Search">

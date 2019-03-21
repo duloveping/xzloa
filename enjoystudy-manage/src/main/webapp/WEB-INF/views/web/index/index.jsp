@@ -39,12 +39,12 @@
         <div class="LmAreaHalf">
             <div class="LmIcon"><img src="<c:url value='/static/js/templates/web/index/IconGonggao.png'/>"></div>
             <div class="LmTitle"><span>新闻资讯</span></div>
-            <div class="LmMore"><a href="http://pxpt.ccaa.org.cn/Web/Index/4/">更多</a></div>
+            <div class="LmMore"><a href="<c:url value="/web/news/index.jhtml"/>">更多</a></div>
         </div>
         <div class="LmAreaHalf">
             <div class="LmIcon"><img src="<c:url value='/static/js/templates/web/index/IconPeixun.png'/>"></div>
             <div class="LmTitle"><span>培训资讯</span></div>
-            <div class="LmMore"><a href="http://pxpt.ccaa.org.cn/OffTrain/Total/">更多</a></div>
+            <div class="LmMore"><a href="<c:url value="/web/course-train-plan/index.jhtml"/>">更多</a></div>
         </div>
     </div>
 </div>
@@ -56,7 +56,7 @@
             <c:forEach var="news" items="${ newsList }">
                 <div class="PXItem">
                     <div style="width: 460px; height: 40px; float: left;">
-                        <a href="" target="_blank">·&nbsp;&nbsp;${news.title}</a>
+                        <a href="<c:url value="/web/news/view.jhtml?id=${news.id}"/>" target="_blank">·&nbsp;&nbsp;${news.title}</a>
                     </div>
                     <div style="width: 100px; height: 40px; float: left;">
                         <span style="color: rgb(168, 168, 168);">[<fmt:formatDate value="${news.publishTime}" pattern="yyyy-MM-dd"/>]</span>
@@ -71,7 +71,7 @@
             <c:forEach var="edu" items="${trainList}">
                 <div class="PXItem">
                     <div style="width: 460px; height: 40px; float: left;">
-                        <a href="" target="_blank">·&nbsp;&nbsp;${edu.title}</a>
+                        <a href="<c:url value="/web/news/view.jhtml?id=${edu.id}"/>" target="_blank">·&nbsp;&nbsp;${edu.title}</a>
                     </div>
                     <div style="width: 100px; height: 40px; float: left;">
                         <span style="color: rgb(168, 168, 168);">[<fmt:formatDate value="${edu.publishTime}" pattern="yyyy-MM-dd"/>]</span>
@@ -101,7 +101,7 @@
             <c:forEach var="courseLeft" items="${courseLeftList}">
                 <div class="LeItemBoxNoTop">
                     <div class="LeItemImg" style='background-image: url("<c:url value='${courseLeft.large}'/>"); background-repeat: repeat-x; background-size: contain;' onclick="window.open('<c:url value='${courseLeft.url}'/>')">
-                        <div style="width: 90%; height: 50px; text-align: center; color: rgb(255, 255, 255); font-size: 17px; font-weight: bold; margin-top: 45px; margin-left: 10px; float: left;">${courseLeft.title}</div>
+                        <div style="width: 90%; height: 50px; text-align: center; color: rgb(255, 255, 255); font-size: 17px; font-weight: bold; margin-top: 45px; margin-left: 10px; float: left;"></div>
                     </div>
                     <div class="LeITemTitle">
                         <a href="<c:url value='${courseLeft.url}'/>" target="_blank">${courseLeft.title}</a>

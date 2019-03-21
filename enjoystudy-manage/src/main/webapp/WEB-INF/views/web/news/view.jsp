@@ -38,11 +38,13 @@
             <div class="ContentShort">
                 <div style="width:300px; height:256px; background-color:#eeeeee; margin-top:25px;">
                     <div style="width:300px; height:256px; background-color:#eeeeee; margin-top:25px;">
+                        <%--
                         <div class="PXItem"><a href="http://pxpt.ccaa.org.cn/OffTrain/TotalDetail/402/?serType=sur">·&nbsp;&nbsp;服务认证审查员通用知识培训课程</a></div>
 
                         <div class="PXItem"><a href="http://pxpt.ccaa.org.cn/OffTrain/TotalDetail/401/?serType=sur">·&nbsp;&nbsp;服务认证审查员通用知识培训课程</a></div>
 
                         <div class="PXItem"><a href="http://pxpt.ccaa.org.cn/OffTrain/TotalDetail/399/?serType=sur">·&nbsp;&nbsp;服务认证审查员通用知识培训课程</a></div>
+                        --%>
 
                     </div>
                 </div>
