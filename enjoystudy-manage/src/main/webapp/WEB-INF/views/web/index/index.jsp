@@ -67,14 +67,13 @@
     </div>
     <div class="ContentHalf">
         <div style="width: 590px; height: 260px; margin-top: 30px;">
-            <xzlTag:newsListTag varid="trainList" typeState="true" showState="true" pageSize="6" typeCode="pxzx"/>
             <c:forEach var="edu" items="${trainList}">
                 <div class="PXItem">
                     <div style="width: 460px; height: 40px; float: left;">
-                        <a href="<c:url value="/web/news/view.jhtml?id=${edu.id}"/>" target="_blank">·&nbsp;&nbsp;${edu.title}</a>
+                        <a href="<c:url value="/web/course-train-plan/view.jhtml?id=${edu.id}"/>" target="_blank">·&nbsp;&nbsp;${edu.courseName}</a>
                     </div>
                     <div style="width: 100px; height: 40px; float: left;">
-                        <span style="color: rgb(168, 168, 168);">[<fmt:formatDate value="${edu.publishTime}" pattern="yyyy-MM-dd"/>]</span>
+                        <span style="color: rgb(168, 168, 168);">[<fmt:formatDate value="${edu.trainStartTime}" pattern="yyyy-MM-dd"/>]</span>
                     </div>
                 </div>
             </c:forEach>

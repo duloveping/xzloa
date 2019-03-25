@@ -146,8 +146,8 @@
                             </tr>
                             <c:forEach var="video" items="${videoList}">
                                 <tr>
-                                    <td style="width:21px;"><img src="<c:url value="${video.image}"/>" style="margin-right:5px; vertical-align:middle; width: 50px; height: 50px;"></td>
-                                    <td><span style="font-size:15px; color:#666;">${video.name}</span></td>
+                                    <td style="width:21px;"><a href="<c:url value="/web/course-video/view.jhtml?id=${video.id}"/>" target="_blank"><img src="<c:url value="${video.image}"/>" style="margin-right:5px; vertical-align:middle; width: 50px; height: 50px;"></a></td>
+                                    <td><a href="<c:url value="/web/course-video/view.jhtml?id=${video.id}"/>" target="_blank"><span style="font-size:15px; color:#666;">${video.name}</span></a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

@@ -47,6 +47,26 @@ public class WebCourseVideoController extends BaseController {
         return mv;
     }
 
+    @RequestMapping("view")
+    public ModelAndView view(@RequestParam String id) {
+        ModelAndView mv = new ModelAndView("web/course-video/view");
+        CourseVideo video = courseVideoService.getById(id);
+
+        if (null != video) {
+            CourseVideoSO videoSO = new CourseVideoSO();
+            videoSO.setShowState(true);
+            videoSO.setCourseShowState(true);
+            videoSO.setCourseId(video.getCourseId());
+            videoSO.setPageNum(1);
+            videoSO.setPageSize(10);
+            PageInfo<CourseVideo> pageInfo = courseVideoService.findVideoPage(videoSO);
+            mv.getModel().put("videoList", pageInfo.getList());
+        }
+
+        mv.getModel().put("video", video);
+        return mv;
+    }
+
     @RequestMapping("updateClickAmount")
     @ResponseBody
     public JSONObject updateClickAmount(@RequestParam String id) {
