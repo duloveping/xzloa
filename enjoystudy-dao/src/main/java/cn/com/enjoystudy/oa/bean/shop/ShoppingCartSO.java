@@ -9,12 +9,24 @@ import cn.com.enjoystudy.oa.bean.SOSupport;
 public class ShoppingCartSO extends SOSupport {
     /** 用户ID */
     private String accountId;
+    /** 分类ID */
+    private String typeId;
+    /** 分类编号 */
+    private String typeCode;
+    /** 分类名称 */
+    private String typeName;
+    /** 教师ID */
+    private String teacherId;
+    /** 教师名称 */
+    private String teacherName;
     /** 课程ID */
     private String courseId;
     /** 课程编号 */
     private String courseCode;
     /** 课程名称 */
     private String courseName;
+    /** 图片 */
+    private String image;
     /** 现价 */
     private Double currentPrice;
     /** 市价 */
@@ -35,6 +47,46 @@ public class ShoppingCartSO extends SOSupport {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getCourseId() {
@@ -59,6 +111,14 @@ public class ShoppingCartSO extends SOSupport {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Double getCurrentPrice() {

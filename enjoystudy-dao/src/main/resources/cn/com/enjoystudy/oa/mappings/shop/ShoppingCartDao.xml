@@ -31,7 +31,7 @@
 
     <select id="list" resultType="cn.com.enjoystudy.oa.bean.shop.ShoppingCart"
             parameterType="cn.com.enjoystudy.oa.bean.shop.ShoppingCartSO">
-        select sc.id, ea.id account_id, ea.full_name, 
+        select sc.id, ea.id account_id, ea.full_name, c.image,
         c.id course_id, c.code course_code, c.name course_name,
         c.current_price, c.sale_price, c.market_price, sc.buy_amount
         from shopping_cart sc
@@ -39,7 +39,7 @@
         inner join course c on c.id = sc.course_id
         where sc.flag = true and sc.status = true
         <if test="null != accountId and '' != accountId"> and ea.id = #{accountId}::uuid </if>
-        <if test="null != accountId and '' != accountId"> and c.id = #{courseId}::uuid </if>
+        <if test="null != courseId and '' != courseId"> and c.id = #{courseId}::uuid </if>
     </select>
 
     <delete id="remove">delete from shopping_cart where account_id = #{accountId} and course_id = #{courseId}</delete>

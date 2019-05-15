@@ -32,12 +32,12 @@
 
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.Course" >
         insert into course (id, create_time, update_time, flag, status,
-        code, name, type_id, teacher_id, current_price, market_price, sale_price, buy_amount
+        code, name, type_id, teacher_id, current_price, market_price, sale_price, buy_amount,
         introduction, description, total_score, pass_score,test_type, test_state,
         test_amount, duration, question_amount, question_type, single_amount, multi_amount, judge_amount,
         check_amount, fill_amount, study_to_exam_state, image, recommend_state, hot_state, show_state, templet)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
-        #{code}, #{name}, #{typeId}::uuid, #{teacherId}::uuid, #{currentPrice}, #{marketPrice}, #{salePrice}, #{buyAmount}
+        #{code}, #{name}, #{typeId}::uuid, #{teacherId}::uuid, #{currentPrice}, #{marketPrice}, #{salePrice}, #{buyAmount},
         #{introduction}, #{description}, #{totalScore}, #{passScore},
         #{testType}, #{testState}, #{testAmount}, #{duration}, #{questionAmount}, #{questionType}, #{singleAmount},
         #{multiAmount}, #{judgeAmount}, #{checkAmount}, #{fillAmount}, #{studyToExamState}, #{image},#{recommendState},
