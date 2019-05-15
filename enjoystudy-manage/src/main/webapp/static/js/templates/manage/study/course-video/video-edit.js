@@ -35,7 +35,7 @@ $("#inputForm").validate({
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 } else {
-                    top.layer.alert(res.info,{icon:1,time:3000});
+                    top.layer.alert(res.info);
                 }
             },
             error : function(XmlHttpRequest, textStatus, errorThrown) {

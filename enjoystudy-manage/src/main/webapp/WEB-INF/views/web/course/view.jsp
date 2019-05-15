@@ -81,7 +81,7 @@
                         </tr>
                         <tr>
                             <td class="KCListTableTdValue" style="height:50px;">
-                                <img src="<c:url value="/static/js/templates/web/index/JoinGwcButton.jpg"/>" style="margin-right:20px; cursor:pointer; margin-left:20px;" onclick="BuyIt('169')">
+                                <img src="<c:url value="/static/js/templates/web/index/JoinGwcButton.jpg"/>" style="margin-right:20px; cursor:pointer; margin-left:20px;" onclick="BuyIt('${course.id}')">
                                 <img src="<c:url value="/static/js/templates/web/index/ShoucangButton.jpg"/>" style="margin-right:20px; cursor:pointer;">
                             </td>
                         </tr>
@@ -278,10 +278,11 @@
             $("#BuyCount").val("1");
         }
     }
+
     function BuyIt(id) {
-        var buyCount = $("#BuyCount").val();
-        location.href = "/User/ShopCartAdd?LID=" + id + "&LCount=" + buyCount;
+        location.href = "<c:url value='/web/shop/shopping-cart/add.jhtml'/>?courseId=" + id + "&rnd=" + Math.random();
     }
+
     function commit() {
         var post = new Object();
         var rb = $('input:radio[name="rb"]:checked').val();

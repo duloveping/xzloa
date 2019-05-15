@@ -1,13 +1,23 @@
 <%@ include file="/WEB-INF/views/common/taglibs.jsp" %>
 <div class="TopLineBg">
     <div class="TopLine">
-        <a href="<c:url value='/manage/login/register.jhtml'/>" target="_blank">注册新用户</a>
+        <c:if test="${not empty manage_login_user}">
+            <span>欢迎，${manage_login_user.fullName}</span>
+            <a href="<c:url value="/web/shop/shopping-cart/index.jhtml"/>" style="color:#7f7f7f; font-size:13px; margin-right:15px; margin-left:15px;">[进入学习平台]</a>
+            <a href="<c:url value="/web/shop/shopping-cart/index.jhtml"/>" style="color:#3c8aff; font-size:13px; margin-right:4px;">
+                <img src="<c:url value="/static/js/images/guc.png"/>" style="vertical-align:middle; margin-right:4px; border:0px; width:17px;">购物车
+            </a>
+            <a href="<c:url value="/web/login/logout.jhtml"/>" style="color:#7f7f7f; font-size:13px; margin-left:11px;">[退出]</a>
+        </c:if>
+        <c:if test="${empty manage_login_user}">
+            <a href="<c:url value='/manage/login/register.jhtml'/>" target="_blank">注册新用户</a>
+        </c:if>
     </div>
 </div>
 <div class="Banner">
     <div class="Logo">
         <a href="<c:url value='/web/index/index.jhtml'/>">
-            <%-- <img src="<c:url value='/static/js/templates/web/index/logo.jpg'/>"/> --%>
+            <img src="<c:url value='/static/js/templates/web/index/logo.jpg'/>"/>
         </a>
     </div>
     <div class="Search">
@@ -31,4 +41,5 @@
             <img src="<c:url value='/static/js/templates/web/index/LoginEnterButton.jpg'/>" />
         </a>
     </div>
+</div>v>
 </div>

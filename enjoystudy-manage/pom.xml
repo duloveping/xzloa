@@ -42,8 +42,8 @@
 		<jedis.version>2.9.0</jedis.version>
 		<spring-data-redis.version>2.0.12.RELEASE</spring-data-redis.version>
 		<pay-java-common.version>2.12.6</pay-java-common.version>
-		<weixin-java-pay.version>3.3.4.B</weixin-java-pay.version>
-		<alipay-sdk-java.version>3.6.0.ALL</alipay-sdk-java.version>
+		<weixin-java-pay.version>3.3.5.B</weixin-java-pay.version>
+		<alipay-sdk-java.version>3.7.4.ALL</alipay-sdk-java.version>
 	</properties>
 
 	<dependencies>

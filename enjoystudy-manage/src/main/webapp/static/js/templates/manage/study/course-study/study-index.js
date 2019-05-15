@@ -5,6 +5,7 @@ function goPage(curr) {
         cache: false,
         data: {
             "pageNum": curr,
+            "pageSize": 20,
             "videoName": $.trim($("#videoName").val()),
             "courseId": $("#courseId").val(),
             "rnd": Math.random()

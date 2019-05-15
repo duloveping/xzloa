@@ -5,6 +5,7 @@ function goPage(curr) {
         cache: false,
         data: {
             "pageNum": curr,
+            "pageSize": 20,
             "code": $.trim($("#code").val()),
             "fullName": $.trim($("#fullName").val()),
             "rnd": Math.random()

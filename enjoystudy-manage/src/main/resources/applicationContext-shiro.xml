@@ -31,6 +31,7 @@
                 /manage/login/check.jhtml = anon
                 /manage/login/preview.jhtml = anon
                 /manage/** = authc
+                /web/shop/shopping-cart/** = authc
             </value>
         </property>
     </bean>

@@ -99,7 +99,7 @@
             <xzlTag:advertisementListTag varid="courseLeftList" placeCode="${courseFloor.code}" showState="true" pageSize="8"/>
             <c:forEach var="courseLeft" items="${courseLeftList}">
                 <div class="LeItemBoxNoTop">
-                    <div class="LeItemImg" style='background-image: url("<c:url value='${courseLeft.large}'/>"); background-repeat: repeat-x; background-size: contain;' onclick="window.open('<c:url value='${courseLeft.url}'/>')">
+                    <div class="LeItemImg" style='background-image: url("<c:url value='${courseLeft.large}'/>"); background-repeat: repeat-x; background-size:100% 100%;' onclick="window.open('<c:url value='${courseLeft.url}'/>')">
                         <div style="width: 90%; height: 50px; text-align: center; color: rgb(255, 255, 255); font-size: 17px; font-weight: bold; margin-top: 45px; margin-left: 10px; float: left;"></div>
                     </div>
                     <div class="LeITemTitle">

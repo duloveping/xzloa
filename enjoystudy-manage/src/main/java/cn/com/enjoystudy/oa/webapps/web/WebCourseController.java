@@ -32,6 +32,7 @@ public class WebCourseController extends BaseController {
     @RequestMapping("list")
     public ModelAndView list(CourseSO so) {
         so.setPageSize(20);
+        so.setShowState(true);
         PageInfo<Course> pageInfo = courseService.findPag(so);
 
         ModelAndView mv = new ModelAndView("web/course/list");
@@ -43,6 +44,7 @@ public class WebCourseController extends BaseController {
     @RequestMapping("search")
     @ResponseBody
     public JSONObject search(CourseSO so) {
+        so.setShowState(true);
         PageInfo<Course> pageInfo = courseService.findPag(so);
 
         JSONObject json = resultSuccess();

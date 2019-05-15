@@ -58,7 +58,7 @@ public class WebCourseVideoController extends BaseController {
             videoSO.setCourseShowState(true);
             videoSO.setCourseId(video.getCourseId());
             videoSO.setPageNum(1);
-            videoSO.setPageSize(10);
+            videoSO.setPageSize(5);
             PageInfo<CourseVideo> pageInfo = courseVideoService.findVideoPage(videoSO);
             mv.getModel().put("videoList", pageInfo.getList());
         }
