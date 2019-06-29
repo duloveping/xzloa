@@ -2,6 +2,7 @@ package cn.com.enjoystudy.oa.dao.base;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeCommunication;
 import cn.com.enjoystudy.oa.bean.base.EmployeeCommunicationSO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -42,4 +43,6 @@ public interface EmployeeCommunicationDao {
      * @return
      */
     List<EmployeeCommunication> list(EmployeeCommunicationSO so);
+
+    EmployeeCommunication getCommunication(@Param("employeeId") String employeeId, @Param("category") Integer category);
 }

@@ -22,4 +22,6 @@ public interface CourseTypeService {
     List<CourseType> tree(CourseTypeSO so, List<CourseType> types);
 
     JSONArray listToJsonArray(List<CourseType> types);
+
+    List<CourseType> findRecursive(CourseTypeSO so);
 }

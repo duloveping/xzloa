@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.EmployeeAccountCourseDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourse" >
+        insert into employee_account_course (id, create_time, update_time, flag, status, employee_id, course_id)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{employeeId}::uuid, #{courseId}::uuid)
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourse" >
+        update employee_account_course set update_time = #{updateTime},
+        employee_id = #{employeeId}, course_id = #{courseId} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultMap="resultMap">
+        select id, employee_id, course_id from employee_account_course where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update employee_account_course set flag = false, status = false where id = #{id}::uuid
+    </update>
+    
+    <delete id="delete">
+        delete from employee_account_course <include refid="wheres"/>
+    </delete>
+
+    <select id="list" resultMap="resultMap" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourseSO">
+        select id, employee_id, course_id from employee_account_course <include refid="wheres"/>
+    </select>
+    
+    <select id="count" resultType="long">
+        select count(id) amount from employee_account_course <include refid="wheres"/>
+    </select>
+
+    <sql id="wheres">
+        <where>
+            flag = true and status = true
+            <if test="null != employeeId and '' != employeeId"> and employee_id = #{employeeId}::uuid </if>
+            <if test="null != courseId and '' != courseId"> and course_id = #{courseId}::uuid </if>
+            <if test="null != employeeIds and employeeIds.length > 0">
+                and employee_id in <foreach item="item" index="index" collection="employeeIds" open="(" separator="," close=")">#{item}::uuid</foreach>
+            </if>
+            <if test="null != courseIds and courseIds.length > 0">
+                and course_id in <foreach item="item" index="index" collection="courseIds" open="(" separator="," close=")">#{item}::uuid</foreach>
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="resultMap" type="cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourse">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+        <result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+        <association property="account" column="{id=employee_id}"
+                     select="cn.com.enjoystudy.oa.dao.base.EmployeeAccountDao.getById"
+                     javaType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount"/>
+        <association property="course" column="{id=course_id}"
+                     select="cn.com.enjoystudy.oa.dao.study.CourseDao.getById"
+                     javaType="cn.com.enjoystudy.oa.bean.study.Course"/>
+    </resultMap>
+    
+    <select id="findCourseByEmployeeId" resultType="cn.com.enjoystudy.oa.bean.study.Course">
+        select id, study_to_exam_state, code, name, type_id, teacher_id, buy_amount, current_price, market_price, sale_price,
+        introduction, description, total_score, pass_score, test_type,test_state, test_amount, duration, question_amount,
+        question_type, single_amount, multi_amount, judge_amount, check_amount, fill_amount, image, recommend_state,
+        hot_state, show_state, templet from course c where c.flag = true and c.status = true
+        and exists(select ec.course_id from employee_account_course ec where ec.flag = true and ec.status = true
+        and c.id = ec.course_id and ec.employee_id = #{employeeId}::uuid)
+    </select>
+</mapper>

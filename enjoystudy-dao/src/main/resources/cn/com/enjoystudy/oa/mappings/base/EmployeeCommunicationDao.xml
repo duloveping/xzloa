@@ -46,4 +46,9 @@
         select <include refid="columns"/>
         from employee_communication <include refid="wheres"/>
     </select>
+
+    <select id="getCommunication" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeCommunication">
+        select <include refid="columns"/> from employee_communication
+        where employee_id = #{employeeId}::uuid and category = #{category}and flag = true and status = true
+    </select>
 </mapper>

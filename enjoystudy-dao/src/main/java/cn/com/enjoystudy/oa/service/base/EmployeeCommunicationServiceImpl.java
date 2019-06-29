@@ -3,6 +3,7 @@ package cn.com.enjoystudy.oa.service.base;
 import cn.com.enjoystudy.oa.bean.base.EmployeeCommunication;
 import cn.com.enjoystudy.oa.bean.base.EmployeeCommunicationSO;
 import cn.com.enjoystudy.oa.dao.base.EmployeeCommunicationDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +44,16 @@ public class EmployeeCommunicationServiceImpl implements EmployeeCommunicationSe
     @Override
     public List<EmployeeCommunication> list(EmployeeCommunicationSO so) {
         return employeeCommunicationDao.list(so);
+    }
+
+    @Override
+    public EmployeeCommunication getCommunication(String employeeId, Integer category) {
+        if (StringUtils.isBlank(employeeId)) {
+            throw new NullPointerException("employeeId is null.");
+        }
+        if (null == category) {
+            throw new NullPointerException("category is null.");
+        }
+        return employeeCommunicationDao.getCommunication(employeeId, category);
     }
 }

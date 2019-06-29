@@ -36,6 +36,8 @@ public class EmployeeCourseStudySO extends SOSupport {
     private Date studyTime;
     /** 学习次数 */
     private Integer studyAmount;
+    private String[] courseIds;
+    private String[] courseNames;
 
     public EmployeeCourseStudySO() {
     }
@@ -142,5 +144,21 @@ public class EmployeeCourseStudySO extends SOSupport {
 
     public void setStudyAmount(Integer studyAmount) {
         this.studyAmount = studyAmount;
+    }
+
+    public String[] getCourseIds() {
+        return courseIds;
+    }
+
+    public void setCourseIds(String[] courseIds) {
+        this.courseIds = courseIds;
+    }
+
+    public String[] getCourseNames() {
+        return courseNames;
+    }
+
+    public void setCourseNames(String[] courseNames) {
+        this.courseNames = courseNames;
     }
 }

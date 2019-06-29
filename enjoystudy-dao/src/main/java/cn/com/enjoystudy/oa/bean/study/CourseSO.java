@@ -59,6 +59,7 @@ public class CourseSO extends PaperSO {
     private Double endMarketPrice;
     private Double startSalePrice;
     private Double endSalePrice;
+    private String[] typeIds;
 
     public CourseSO() {
     }
@@ -301,5 +302,13 @@ public class CourseSO extends PaperSO {
 
     public void setEndSalePrice(Double endSalePrice) {
         this.endSalePrice = endSalePrice;
+    }
+
+    public String[] getTypeIds() {
+        return typeIds;
+    }
+
+    public void setTypeIds(String[] typeIds) {
+        this.typeIds = typeIds;
     }
 }

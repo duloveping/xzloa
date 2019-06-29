@@ -56,4 +56,39 @@
         select count(id) amount
         from course_type <include refid="wheres"/>
     </select>
+    
+    <select id="findRecursive" resultType="cn.com.enjoystudy.oa.bean.study.CourseType"
+            parameterType="cn.com.enjoystudy.oa.bean.study.CourseTypeSO">
+        with recursive t (id, code, name, parent_id) as (
+        select id, code, name, parent_id from course_type
+        where flag = true and status = true
+        <if test="null != code and '' != code"> and code = #{code}</if>
+        <if test="null != name and '' != name">
+            <choose>
+                <when test="like == false"> and name= #{name}</when>
+                <otherwise>
+                    <bind name="likeName" value="'%' + name + '%'"/>
+                    and name like #{likeName}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="null != parentId and '' != parentId">
+            <choose>
+                <when test="'0'.toString() == parentId"> and parent_id is null </when>
+                <otherwise> and parent_id = #{parentId}::uuid</otherwise>
+            </choose>
+        </if>
+        <if test="null != parentIds and parentIds.length > 0">
+            and id in <foreach item="item" index="index" collection="parentIds" open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        <if test="null != exceptId and '' != exceptId"><![CDATA[ and id <> #{exceptId}::uuid ]]></if>
+        <if test="null != exceptIds and exceptIds.length > 0">
+            and id not in <foreach item="item" index="index" collection="exceptIds" open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        union all
+        select t1.id, t1.code, t1.name, t1.parent_id
+        from course_type t1 join t on t1.parent_id = t.id
+        where t1.flag = true and t1.status = true
+        ) select id, code, name, parent_id from t
+    </select>
 </mapper>

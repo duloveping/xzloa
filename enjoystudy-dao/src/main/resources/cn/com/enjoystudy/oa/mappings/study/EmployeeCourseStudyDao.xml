@@ -38,6 +38,12 @@
         inner join course c on c.id = v.course_id
         where v.flag = true and v.status = true
         <if test="null != courseId and '' != courseId"> and c.id = #{courseId}::uuid</if>
+        <if test="null != courseIds and courseIds.length > 0">
+            and c.id in
+            <foreach collection="courseIds" item="item" index="index" open="(" close=")" separator=",">
+                #{item}::uuid
+            </foreach>
+        </if>
         <if test="null != courseName and '' != courseName">
             <bind name="likeCourseName" value="'%' + courseName + '%'"/>
             and c.name like #{likeCourseName}

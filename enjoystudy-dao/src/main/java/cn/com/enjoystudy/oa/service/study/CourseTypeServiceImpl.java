@@ -87,4 +87,9 @@ public class CourseTypeServiceImpl implements CourseTypeService {
         }
         return types;
     }
+
+    @Override
+    public List<CourseType> findRecursive(CourseTypeSO so) {
+        return courseTypeDao.findRecursive(so);
+    }
 }

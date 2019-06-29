@@ -25,7 +25,6 @@ public interface CourseTypeDao {
 
     long count(CourseTypeSO so);
 
-    @Repository
-    interface CourseVideoDao {
-    }
+    List<CourseType> findRecursive(CourseTypeSO so);
+
 }

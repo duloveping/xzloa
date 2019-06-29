@@ -19,6 +19,16 @@ public class SysSequence extends EntitySupport {
         this.seqValue = seqValue;
     }
 
+    public static String autoGenericCode(String code, int num) {
+        /*
+         * 保留num的位数
+         * 0 代表前面补充0
+         * num 代表长度为4
+         * d 代表参数为正数型
+         */
+        return String.format("%0" + num + "d", Integer.parseInt(code) + 1);
+    }
+
     public String getSeqCode() {
         return seqCode;
     }

@@ -40,4 +40,6 @@ public interface EmployeeCommunicationService {
      * @return
      */
     List<EmployeeCommunication> list(EmployeeCommunicationSO so);
+
+    EmployeeCommunication getCommunication(String employeeId, Integer category);
 }

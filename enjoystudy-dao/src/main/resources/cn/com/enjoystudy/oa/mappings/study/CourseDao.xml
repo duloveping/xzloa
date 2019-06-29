@@ -98,8 +98,11 @@
         <if test="null != testType"> and c.test_type = #{testType} </if>
         <if test="null != testState"> and c.test_state = #{testState} </if>
         <if test="null != questionType"> and c.question_type = #{questionType} </if>
-        <if test="null != typeId and '' != typeId"> t.id = #{typeId} </if>
-        <if test="null != teacherId and '' != teacherId"> e.id = #{teacherId} </if>
+        <if test="null != typeId and '' != typeId"> and t.id = #{typeId} </if>
+        <if test="null != typeIds and typeIds.length > 0">
+            and t.id in <foreach item="item" index="index" collection="typeIds" open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        <if test="null != teacherId and '' != teacherId"> and e.id = #{teacherId} </if>
         <if test="null != exceptId and '' != exceptId"><![CDATA[ and c.id <> #{exceptId}::uuid ]]></if>
         order by c.update_time desc
     </select>
