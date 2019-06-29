@@ -82,13 +82,12 @@ Student.prototype = {
         });
         layer.full(index);
     },
-    delete: function (obj, id) {
+    delete: function (id) {
         layer.confirm('确认要删除吗？',function(index){
             $.ajax({
-                type : "post",
-                url : ctx + "/manage/study/student/delete.jhtml",
+                type : "get",
+                url : ctx + "/manage/study/student/delete.jhtml?id=" + id + '&rnd=' + Math.random(),
                 cache : false,
-                data : {"id" : id, "rnd" : Math.random()},
                 dataType : "json",
                 success : function(res){
                     if (res.status) {

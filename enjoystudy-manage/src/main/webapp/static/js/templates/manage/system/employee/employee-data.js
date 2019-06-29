@@ -60,7 +60,6 @@ $("#inputForm").validate({
             data: $(form).serialize(),
             dataType: "json",
             success: function (res) {
-                console.log(res);
                 top.layer.msg(res.info,{icon:1,time:3000});
             },
             error : function(XmlHttpRequest, textStatus, errorThrown) {

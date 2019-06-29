@@ -1,10 +1,7 @@
 package cn.com.enjoystudy.oa.webapps.manage.study;
 
 import cn.com.enjoystudy.oa.bean.study.*;
-import cn.com.enjoystudy.oa.service.study.CourseService;
-import cn.com.enjoystudy.oa.service.study.CourseTypeService;
-import cn.com.enjoystudy.oa.service.study.ExaminationConfigService;
-import cn.com.enjoystudy.oa.service.study.TeacherService;
+import cn.com.enjoystudy.oa.service.study.*;
 import cn.com.enjoystudy.oa.util.JsUtils;
 import cn.com.enjoystudy.oa.validation.manage.study.CourseValidator;
 import cn.com.enjoystudy.oa.webapps.UploadController;
@@ -141,6 +138,7 @@ public class CourseController extends UploadController {
             course.setTypeId(StringUtils.trimToNull(so.getTypeId()));
             course.setIntroduction(StringUtils.trimToNull(so.getIntroduction()));
             course.setDescription(StringUtils.trimToNull(so.getDescription()));
+            course.setTemplet(StringUtils.trimToNull(so.getTemplet()));
             course.setImage(StringUtils.trimToNull(so.getImage()));
             course.setCurrentPrice(so.getCurrentPrice());
             course.setSalePrice(so.getSalePrice());

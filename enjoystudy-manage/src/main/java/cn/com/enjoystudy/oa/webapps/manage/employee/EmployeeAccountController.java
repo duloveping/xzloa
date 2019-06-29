@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -199,6 +200,11 @@ public class EmployeeAccountController extends BaseController {
         List<EmployeeCommunication> communicationList = employeeCommunicationService.list(communicationSO);
 
         ModelAndView mv = new ModelAndView("manage/employee/account/edit-data");
+
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            mv = new ModelAndView("manage/employee/account/edit-info");
+        }
+
         mv.getModel().put("so", account);
         if (null != communicationList && communicationList.size() > 0) {
             mv.getModel().put("communication", communicationList.get(0));
@@ -209,6 +215,11 @@ public class EmployeeAccountController extends BaseController {
     @RequestMapping("save-data")
     @ResponseBody
     public JSONObject saveData(
+            @RequestParam(value = "fullName", required = false) String fullName,
+            @RequestParam(value = "sex", required = false) Integer sex,
+            @RequestParam(value = "identityType", required = false) Integer identityType,
+            @RequestParam(value = "identityCode", required = false) String identityCode,
+            @RequestParam(value = "birthday", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthday,
             @RequestParam(value = "education", required = false) String education,
             @RequestParam(value = "school", required = false) String school,
             @RequestParam(value = "major", required = false) String major,
@@ -233,6 +244,11 @@ public class EmployeeAccountController extends BaseController {
         Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
         EmployeeAccount account = (EmployeeAccount) object;
         account = employeeAccountService.getById(account.getId());
+        account.setFullName(StringUtils.trim(fullName));
+        account.setSex(sex);
+        account.setIdentityType(identityType);
+        account.setIdentityCode(StringUtils.trim(identityCode));
+        account.setBirthday(birthday);
         account.setEducation(StringUtils.trimToNull(education));
         account.setSchool(StringUtils.trimToNull(school));
         account.setMajor(StringUtils.trimToNull(major));

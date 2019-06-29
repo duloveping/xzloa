@@ -144,11 +144,16 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">证书模板：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:textarea id="templet" path="templet" rows="10" cols="80" placeholder="内容" cssStyle="width:100%;height:480px;"></form:textarea>
+            </div>
+        </div>
+        <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input class="btn btn-primary radius" type="submit" value="提交">
                 <form:hidden id="id" path="id" />
                 <form:hidden id="image" path="image" />
-                <form:hidden id="templet" path="templet" />
             </div>
         </div>
     </form:form>
