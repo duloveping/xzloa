@@ -11,18 +11,13 @@ function goPage(curr) {
         dataType: "json",
         success: function (res) {
             if (res.status) {
-                var html = "";
-                var array = res.datas;
-                for (var i = 0; i < array.length; i++) {
-                    var data = array[i];
-                    html += "<tr>";
-                    html += "<td>" + data.courseName + "</td>";
-                    html += "<td>" + data.lessonAmount + "</td>";
-                    html += "<td>" + data.employeeAmount + "</td>";
-                    html += "</tr>";
-                }
+                var getTpl = document.getElementById("dataTableListTpl").innerHTML;
 
-                $("#dataTableList > tbody").html(html);
+                $("#dataTableList > tbody").empty();
+
+                laytpl(getTpl).render({list:res.datas}, function (html) {
+                    $("#dataTableList > tbody").html(html);
+                });
 
                 laypage({
                     cont: 'pageNav',

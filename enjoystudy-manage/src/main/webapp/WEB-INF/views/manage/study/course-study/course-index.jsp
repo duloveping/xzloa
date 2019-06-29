@@ -19,13 +19,6 @@
     </a>
 </nav>
 <div class="page-container">
-    <div class="text-c">
-        课程名称: <input type="text" class="input-text" id="courseName" name="courseName" placeholder="课程名称" maxlength="300" style="width: 300px;">
-        <button id="searchBotton" type="button" class="btn btn-success">
-            <i class="Hui-iconfont">&#xe665;</i>搜索
-        </button>
-    </div>
-
     <table id="dataTableList" class="table table-border table-bordered table-hover table-bg table-sort">
         <thead>
         <tr class="text-c">
@@ -33,8 +26,7 @@
         </tr>
         <tr class="text-c">
             <th>课程名称</th>
-            <th width="100">章节数</th>
-            <th width="100">人数</th>
+            <th width="100">操作</th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -44,5 +36,15 @@
 <div id="pageNav"></div>
 
 <script type="text/javascript" src="<c:url value='/static/js/templates/manage/study/course-study/course-index.js'/>"></script>
+<script id="dataTableListTpl" type="text/html">
+    {{#  $.each(d.list, function(index, item) { }}
+    <tr class="text-c">
+        <td>{{ item.name }}</td>
+        <td class="td-manage">
+            <a href="/manage/study/course-study/index.jhtml?courseId={{item.id}}" onclick="student.edit('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="课程视频"><i class="fa fa-file-video-o fa-lg"></i></a>&nbsp;
+        </td>
+    </tr>
+    {{#  }); }}
+</script>
 </body>
 </html>

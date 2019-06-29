@@ -21,6 +21,13 @@
     <div class="text-c">
         编号: <input type="text" class="input-text" id="code" name="code" placeholder="员工编号" maxlength="50" style="width: 100px;">
         名称: <input type="text" class="input-text" id="fullName" name="fullName" placeholder="员工名称" maxlength="50" style="width: 100px;">
+        状态：<span class="select-box">
+            <select id="lockState" name="lockState" class="select">
+                <option value="0">全部</option>
+                <option value="true">启用</option>
+                <option value="false">禁用</option>
+            </select>
+        </span>
         <button id="searchBotton" type="button" class="btn btn-success">
             <i class="Hui-iconfont">&#xe665;</i>搜索
         </button>

@@ -58,7 +58,7 @@ $(function () {
         submitHandler : function(form) {
             $.ajax({
                 type: "post",
-                url: ctx + "/manage/study/store-paper/save-audit.jhtml",
+                url: ctx + "/manage/study/store-paper/paper-save.jhtml",
                 cache: false,
                 data: $(form).serialize(),
                 dataType: "json",

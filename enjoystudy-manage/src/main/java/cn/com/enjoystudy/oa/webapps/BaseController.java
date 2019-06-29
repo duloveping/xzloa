@@ -1,13 +1,17 @@
 package cn.com.enjoystudy.oa.webapps;
 
+import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
+import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.util.JsUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,6 +22,13 @@ import javax.servlet.http.HttpServletResponse;
  * 基础Controller，所属的Controller类都需要继承该类
  */
 public class BaseController {
+    public EmployeeAccount getCurrentUser() {
+        Subject subject = SecurityUtils.getSubject();
+        Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
+        EmployeeAccount account = (EmployeeAccount) object;
+        return account;
+    }
+
     public JSONObject resultSuccess() {
         return resultSuccess("成功");
     }

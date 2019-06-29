@@ -2,13 +2,16 @@ package cn.com.enjoystudy.oa.webapps.manage.study;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
 import cn.com.enjoystudy.oa.bean.study.*;
+import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.service.study.CourseService;
 import cn.com.enjoystudy.oa.service.study.CourseVideoService;
+import cn.com.enjoystudy.oa.service.study.EmployeeAccountCourseService;
 import cn.com.enjoystudy.oa.service.study.EmployeeCourseStudyService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +33,22 @@ public class CourseStudyController extends BaseController {
     private EmployeeCourseStudyService employeeCourseStudyService;
     @Autowired
     private CourseVideoService courseVideoService;
+    @Autowired
+    private EmployeeAccountCourseService employeeAccountCourseService;
 
     @RequestMapping("index")
     public ModelAndView index() {
-        CourseSO so = new CourseSO();
-        List<Course> courseList = courseService.list(so);
+        List<Course> courseList;
+
+        EmployeeAccount account = getCurrentUser();
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
+            courseSO.setEmployeeId(account.getId());
+            courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
+        } else {
+            courseList = courseService.list(new CourseSO());
+        }
+
         ModelAndView mv = new ModelAndView("manage/study/course-study/index");
         mv.getModel().put("courseList", courseList);
         return mv;
@@ -43,12 +57,25 @@ public class CourseStudyController extends BaseController {
     @RequestMapping("list")
     @ResponseBody
     public JSONObject list(EmployeeCourseStudySO so) {
-        Subject subject = SecurityUtils.getSubject();
-        Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
-        EmployeeAccount account = (EmployeeAccount) object;
-
+        EmployeeAccount account = getCurrentUser();
         so.setEmployeeId(account.getId());
         so.setVideoState(true);
+
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            if (StringUtils.isBlank(so.getCourseId())) {
+                EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
+                courseSO.setEmployeeId(account.getId());
+                List<Course> courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
+                String[] courseIds = new String[courseList.size()];
+                int i = 0;
+                for (Course course : courseList) {
+                    courseIds[i++] = course.getId();
+                }
+                so.setCourseIds(courseIds);
+            }
+
+        }
+
 
         PageInfo<EmployeeCourseStudy> pageInfo = employeeCourseStudyService.findPag(so);
         List<EmployeeCourseStudy> datas = pageInfo.getList();
@@ -90,9 +117,22 @@ public class CourseStudyController extends BaseController {
 
     @RequestMapping("course-list")
     @ResponseBody
-    public JSONObject courseList(EmployeeCourseStudySO so) {
-        PageInfo<EmployeeCourseStudy> pageInfo = employeeCourseStudyService.getCourseStudyReportPage(so);
-        List<EmployeeCourseStudy> datas = pageInfo.getList();
+    public JSONObject courseList(CourseSO so) {
+        PageInfo<Course> pageInfo;
+
+        Subject subject = SecurityUtils.getSubject();
+        Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
+        EmployeeAccount account = (EmployeeAccount) object;
+
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
+            courseSO.setEmployeeId(account.getId());
+            pageInfo = employeeAccountCourseService.findCoursePageByEmployeeId(courseSO);
+        } else {
+            pageInfo = courseService.findPag(so);
+        }
+
+        List<Course> datas = pageInfo.getList();
 
         JSONObject json = resultSuccess();
         json.put("datas", datas);

@@ -39,11 +39,10 @@ public class CourseTypeController extends BaseController {
     @RequestMapping("list")
     @ResponseBody
     public JSONObject list() {
-        List<CourseType> types = new ArrayList<CourseType>();
         CourseTypeSO so = new CourseTypeSO();
         so.setParentId("0");
 
-        types = courseTypeService.tree(so,types);
+        List<CourseType> types = courseTypeService.findRecursive(so);
 
         JSONArray array = new JSONArray();
         if (null != types && types.size() > 0) {
@@ -139,11 +138,10 @@ public class CourseTypeController extends BaseController {
     @RequestMapping("single-select")
     @ResponseBody
     public ModelAndView singleSelect(@RequestParam(value = "ids", required = false) String[] ids) {
-        List<CourseType> types = new ArrayList<CourseType>();
         CourseTypeSO so = new CourseTypeSO();
         so.setParentId("0");
 
-        types = courseTypeService.tree(so,types);
+        List<CourseType> types = courseTypeService.findRecursive(so);
 
         JSONArray array = new JSONArray();
         if (null != types && types.size() > 0) {

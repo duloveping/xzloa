@@ -8,8 +8,10 @@ import cn.com.enjoystudy.oa.service.study.TeacherService;
 import cn.com.enjoystudy.oa.util.JsUtils;
 import cn.com.enjoystudy.oa.validation.manage.study.CourseValidator;
 import cn.com.enjoystudy.oa.webapps.UploadController;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -214,5 +217,69 @@ public class CourseController extends UploadController {
         return resultSuccess();
     }
 
+    @RequestMapping("courseTypeIndex")
+    public ModelAndView courseTypeIndex() {
+        ModelAndView mv = new ModelAndView("manage/study/course/courseTypeIndex");
+        return mv;
+    }
 
+    @RequestMapping("courseTypeList")
+    @ResponseBody
+    public JSONObject courseTypeList(
+            @RequestParam(value = "typeIds", required = false) String[] typeIds,
+            @RequestParam(value = "courseIds", required = false) String[] courseIds) {
+        JSONArray array = new JSONArray();
+
+        CourseTypeSO typeSO = new CourseTypeSO();
+        typeSO.setParentId("0");
+        List<CourseType> types = courseTypeService.findRecursive(typeSO);
+
+        List<String> tids = new ArrayList<String>();
+        for (CourseType type : types) {
+            tids.add(type.getId());
+
+            JSONObject json = new JSONObject();
+            json.put("id", "0:" + type.getId());
+            json.put("name", type.getName());
+            if (StringUtils.isNotBlank(type.getParentId())) {
+                json.put("pId", "0:" + type.getParentId());
+            } else {
+                json.put("pId", "0");
+            }
+            if (ArrayUtils.isNotEmpty(typeIds)) {
+                for (String tid : typeIds) {
+                    if (tid.equalsIgnoreCase(type.getId())) {
+                        json.put("checked", true);
+                        break;
+                    }
+                }
+            }
+            array.add(json);
+        }
+
+        CourseSO courseSO = new CourseSO();
+        courseSO.setTypeIds(typeIds);
+
+        List<Course> courses = courseService.list(courseSO);
+
+        for (Course course : courses) {
+            JSONObject json = new JSONObject();
+            json.put("id", "1:" + course.getId());
+            json.put("name", course.getName());
+            json.put("pId", "0:" + course.getTypeId());
+            if (ArrayUtils.isNotEmpty(courseIds)) {
+                for (String cid : courseIds) {
+                    if (cid.equalsIgnoreCase(course.getId())) {
+                        json.put("checked", true);
+                        break;
+                    }
+                }
+            }
+            array.add(json);
+        }
+
+        JSONObject result = resultSuccess();
+        result.put("datas", array);
+        return result;
+    }
 }

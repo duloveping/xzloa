@@ -26,3 +26,4 @@
 <script type="text/javascript" src="<c:url value='/static/js/common/H-ui.admin_v3.0/lib/layer/2.4/layer.js'/>" charset="utf-8"></script>
 <script type="text/javascript" src="<c:url value='/static/js/common/vuejs/vue.min.js'/>" charset="utf-8"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/manage/common/base.js'/>" charset="utf-8"></script>
+<script type="text/javascript" src="<c:url value='/static/js/common/laytpl/laytpl.js'/>" charset="utf-8"></script>
