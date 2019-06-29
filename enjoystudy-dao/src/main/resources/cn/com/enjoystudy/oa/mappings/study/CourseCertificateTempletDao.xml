@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.CourseCertificateTempletDao" >
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.CourseCertificateTemplet" >
+        insert into course_certificate_templet (id, create_time, update_time, flag, status, course_id, content)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status}, #{course_id}::uuid, #{content})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.CourseCertificateTemplet" >
+        update course_certificate_templet set update_time = #{updateTime}, content = #{content} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.CourseCertificateTemplet">
+        select id, course_id, content from course_certificate_templet where id = #{id}::uuid and flag = true and status = true
+    </select>
+
+    <select id="getByCourseId" resultType="cn.com.enjoystudy.oa.bean.study.CourseCertificateTemplet">
+        select id, course_id, content from course_certificate_templet where course_id = #{courseId}::uuid and flag = true and status = true
+    </select>
+
+    <update id="deleteById">
+        update course set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <update id="deleteByCourseId">
+        update course set flag = false, status = false where course_id = #{courseId}::uuid
+    </update>
+</mapper>
