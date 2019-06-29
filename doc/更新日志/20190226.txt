@@ -135,3 +135,25 @@ comment on column shopping_order_item.market_price is '市价';
 comment on column shopping_order_item.sale_price is '促销价';
 comment on column shopping_order_item.total_price is '全计金额';
 comment on column shopping_order_item.total_amount is '购买数量';
+
+create table employee_account_course
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  employee_id uuid not null,
+  course_id uuid not null,
+  foreign key (employee_id) references employee_account(id),
+  foreign key (course_id) references course(id),
+  primary key (id)
+);
+comment on table employee_account_course is '课程培训计划';
+comment on column employee_account_course.id is '流水号';
+comment on column employee_account_course.create_time is '创建时间';
+comment on column employee_account_course.update_time is '更新时间';
+comment on column employee_account_course.flag is '标记';
+comment on column employee_account_course.status is '状态';
+comment on column employee_account_course.employee_id is '所属员工ID';
+comment on column employee_account_course.course_id is '所属课程ID';
