@@ -69,6 +69,7 @@ public class EmployeeAccountSO extends SOSupport {
     private String nativePlace;
     /** 婚姻状况 */
     private Integer maritalStatus;
+    private Boolean firstLoginState;
 
     private String[] employeeIds;
     private String[] employeeNames;
@@ -344,5 +345,13 @@ public class EmployeeAccountSO extends SOSupport {
 
     public void setCompanyNames(String[] companyNames) {
         this.companyNames = companyNames;
+    }
+
+    public Boolean getFirstLoginState() {
+        return firstLoginState;
+    }
+
+    public void setFirstLoginState(Boolean firstLoginState) {
+        this.firstLoginState = firstLoginState;
     }
 }

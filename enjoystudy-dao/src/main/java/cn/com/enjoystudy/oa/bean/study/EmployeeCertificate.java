@@ -24,6 +24,7 @@ public class EmployeeCertificate extends EntitySupport {
     private String certificateCode;
     /** 证书名称 */
     private String certificateName;
+    private String englishName;
     /** 证书日期 */
     private Date certificateDate;
     /** 证书状态：1正常，2过期，3作废 */
@@ -38,6 +39,8 @@ public class EmployeeCertificate extends EntitySupport {
     private String teacherId;
     /** 发证人姓名 */
     private String teacherName;
+    private String englishContent;
+    private String chineseContent;
 
     public EmployeeCertificate() {
     }
@@ -106,6 +109,14 @@ public class EmployeeCertificate extends EntitySupport {
         this.certificateName = certificateName;
     }
 
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public void setEnglishName(String englishName) {
+        this.englishName = englishName;
+    }
+
     public Date getCertificateDate() {
         return certificateDate;
     }
@@ -160,5 +171,21 @@ public class EmployeeCertificate extends EntitySupport {
 
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
+    }
+
+    public String getEnglishContent() {
+        return englishContent;
+    }
+
+    public void setEnglishContent(String englishContent) {
+        this.englishContent = englishContent;
+    }
+
+    public String getChineseContent() {
+        return chineseContent;
+    }
+
+    public void setChineseContent(String chineseContent) {
+        this.chineseContent = chineseContent;
     }
 }

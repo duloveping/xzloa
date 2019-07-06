@@ -60,6 +60,7 @@ public class PaperSO extends SOSupport {
     /** 填空题数量 */
     private Integer fillAmount;
     private Integer[] testStates;
+    private String[] employeeIds;
 
     public PaperSO() {
     }
@@ -274,6 +275,14 @@ public class PaperSO extends SOSupport {
 
     public Integer[] getTestStates() {
         return testStates;
+    }
+
+    public String[] getEmployeeIds() {
+        return employeeIds;
+    }
+
+    public void setEmployeeIds(String[] employeeIds) {
+        this.employeeIds = employeeIds;
     }
 
     public void setTestStates(Integer[] testStates) {

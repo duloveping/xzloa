@@ -19,10 +19,12 @@ public class CourseVideoSO extends BaseFileSO {
     private Course course;
     /** 课程ID */
     private String courseId;
+    private String[] courseIds;
     /** 课程编号 */
     private String courseCode;
     /** 课程名称 */
     private String courseName;
+    private String[] courseNames;
     /** 课程显示状态 */
     private Boolean courseShowState;
     /** 课程推荐状态 */
@@ -105,6 +107,14 @@ public class CourseVideoSO extends BaseFileSO {
         this.courseId = courseId;
     }
 
+    public String[] getCourseIds() {
+        return courseIds;
+    }
+
+    public void setCourseIds(String[] courseIds) {
+        this.courseIds = courseIds;
+    }
+
     public String getCourseCode() {
         return courseCode;
     }
@@ -119,6 +129,14 @@ public class CourseVideoSO extends BaseFileSO {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String[] getCourseNames() {
+        return courseNames;
+    }
+
+    public void setCourseNames(String[] courseNames) {
+        this.courseNames = courseNames;
     }
 
     public Boolean getCourseShowState() {

@@ -6,6 +6,9 @@
             flag = true and status = true
             <if test="null != courseId and '' != courseId"> and course_id = #{courseId}::uuid</if>
             <if test="null != showState"> and show_state = #{showState}</if>
+            <if test="null != courseIds and courseIds.length > 0">
+                and course_id in <foreach item="item" index="index" collection="courseIds" open="(" separator="," close=")">#{item}::uuid</foreach>
+            </if>
             <if test="null != name and '' != name">
                 <choose>
                     <when test="like == false"> and name= #{name}</when>
@@ -94,8 +97,8 @@
         t.id teacher_id, t.full_name teacher_name,
         c.id course_id, c.name course_name, v.click_amount, v.love_amount, v.star_amount, v.star_amount
         from course_video v
-        inner join course c on c.id = v.course_id
-        inner join teacher t on t.id = c.teacher_id
+        left join course c on c.id = v.course_id
+        left join teacher t on t.id = c.teacher_id
         where v.flag = true and v.status = true
         <if test="null != showState"> and v.show_state = #{showState} </if>
         <if test="null != courseShowState"> and c.show_state = #{courseShowState} </if>
@@ -103,6 +106,9 @@
         <if test="null != courseHotState"> and c.hot_state = #{courseHotState} </if>
         <if test="null != teacherId and '' != teacherId"> and t.id = #{teacherId}::uuid </if>
         <if test="null != courseId and '' != courseId"> and c.id = #{courseId}::uuid </if>
+        <if test="null != courseIds and courseIds.length > 0">
+            and c.id in <foreach item="item" index="index" collection="courseIds" open="(" separator="," close=")">#{item}::uuid</foreach>
+        </if>
         <if test="null != courseCode and '' != courseCode"> and c.code = #{courseCode} </if>
         <if test="null != name and '' != name">
             <bind name="likeName" value="'%' + name + '%'"/>

@@ -69,6 +69,7 @@ public class EmployeeAccount extends EntitySupport {
     private String nativePlace;
     /** 婚姻状况 */
     private Integer maritalStatus;
+    private Boolean firstLoginState;
 
     public EmployeeAccount() {
     }
@@ -271,5 +272,13 @@ public class EmployeeAccount extends EntitySupport {
 
     public void setMaritalStatus(Integer maritalStatus) {
         this.maritalStatus = maritalStatus;
+    }
+
+    public Boolean getFirstLoginState() {
+        return firstLoginState;
+    }
+
+    public void setFirstLoginState(Boolean firstLoginState) {
+        this.firstLoginState = firstLoginState;
     }
 }

@@ -7,6 +7,7 @@
         <result column="full_name" jdbcType="VARCHAR" property="fullName" />
         <result column="login_password" jdbcType="VARCHAR" property="loginPassword" />
         <result column="lock_state" jdbcType="BOOLEAN" property="lockState" />
+        <result column="first_login_state" jdbcType="BOOLEAN" property="firstLoginState" />
         <result column="sex" jdbcType="INTEGER" property="sex" />
         <result column="birthday" jdbcType="DATE" property="birthday" />
         <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
@@ -39,6 +40,7 @@
             <if test="null != lockState"> and a.lock_state = #{lockState}</if>
             <if test="null != identityType"> and a.identity_type = #{identityType}</if>
             <if test="null != identityCode"> and a.identity_code = #{identityCode}</if>
+            <if test="null != sex"> and a.first_login_state = #{firstLoginState}</if>
             <if test="null != sex"> and a.sex = #{sex}</if>
             <if test="null != birthday and '' != birthday"> and a.birthday = #{birthday}</if>
             <if test="null != code and '' != code"> and a.code = #{code}</if>
@@ -58,11 +60,11 @@
         insert into employee_account (id, create_time, update_time, flag, status,
         department_id, position_id, code, full_name, login_password, lock_state,
         identity_type, identity_code, question, answer, education, school, major,
-        sex, birthday, native_place, marital_status, category)
+        sex, birthday, native_place, marital_status, category, first_login_state)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{departmentId}::uuid, #{positionId}::uuid, #{code}, #{fullName}, #{loginPassword}, #{lockState},
         #{identityType}, #{identityCode}, #{question}, #{answer}, #{education}, #{school}, #{major},
-        #{sex}, #{birthday}, #{nativePlace}, #{maritalStatus}, #{category})
+        #{sex}, #{birthday}, #{nativePlace}, #{maritalStatus}, #{category}, #{firstLoginState})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.Student" >
@@ -71,13 +73,14 @@
         lock_state = #{lockState}, position_id = #{positionId}::uuid, identity_type = #{identityType},
         identity_code = #{identityCode}, question = #{question}, answer = #{answer}, education = #{education},
         school = #{school}, major = #{major}, sex = #{sex}, birthday = #{birthday}, native_place = #{nativePlace},
-        marital_status = #{maritalStatus}, category = #{category} where id = #{id}::uuid
+        marital_status = #{maritalStatus}, category = #{category} first_login_state = #{firstLoginState}
+        where id = #{id}::uuid
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.Student">
         select e.id, e.code, full_name, e.login_password, e.lock_state, e.identity_type, e.identity_code,
         e.question, e.answer, e.education, e.school, e.major, e.sex, e.birthday, e.native_place, e.marital_status,
-        e.category, d.id department_id, d.name department_name, p.id position_id, p.name position_name
+        e.category, d.id department_id, d.name department_name, p.id position_id, p.name position_name, e.first_login_state
         from employee_account e
         left join department d on d.id = e.department_id
         left join base_position p on p.id = e.position_id
@@ -94,7 +97,7 @@
         a.sex, a.birthday, a.native_place,
         c.province_id, c.province_code, c.province_name, c.city_id, c.city_code, c.city_name,
         c.town_id, c.town_code, c.town_name, c.address, c.post_code, c.mobile,c. phone, c.fax, c.email,
-        p.id position_id, p.code position_code, p.name position_name
+        p.id position_id, p.code position_code, p.name position_name, e.first_login_state
         from employee_account a
         left join employee_communication c on c.employee_id = a.id
         left join employee_position ep on ep.employee_id = a.id

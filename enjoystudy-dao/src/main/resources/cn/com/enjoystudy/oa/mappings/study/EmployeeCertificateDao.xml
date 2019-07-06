@@ -4,10 +4,12 @@
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate" >
         insert into employee_certificate (id, create_time, update_time, flag, status,
         employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_code,
-        certificate_name, certificate_date, seal_photo, organization_code, organization_name, teacher_id, teacher_name)
+        certificate_name, certificate_date, seal_photo, organization_code, organization_name,
+        english_name, english_content, chinese_content, teacher_id, teacher_name)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{employeeId}::uuid, #{employeeName}, #{employeeSex}, #{employeeBorn}, #{identityCode}, #{certificateCode},
-        #{certificateName}, #{certificateDate}, #{sealPhoto}, #{organizationCode}, #{organizationName}, #{teacherId}::uuid, #{teacherName})
+        #{certificateName}, #{certificateDate}, #{sealPhoto}, #{organizationCode}, #{organizationName},
+        #{englishName}, #{englishContent} #{chineseContent}, #{teacherId}::uuid, #{teacherName})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate" >
@@ -16,12 +18,14 @@
         employee_born = #{employeeBorn}, identity_code = #{identityCode},
         certificate_code = #{certificateCode}, certificate_name = #{certificateName}, certificate_date = #{certificateDate},
         seal_photo = #{sealPhoto}, organization_code = #{organizationCode}, organization_name = #{organizationName},
+        english_name = #{englishName}, english_content = #{englishContent}, chinese_content = #{chineseContent},
         teacher_id = #{teacherId}, teacher_name = #{teacherName} where id = #{id}::uuid
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate">
         select id, employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_code,
-            certificate_name, certificate_date, seal_photo, organization_code, organization_name, teacher_id, teacher_name
+            certificate_name, certificate_date, seal_photo, organization_code, organization_name,
+            english_name, english_content, chinese_content, teacher_id, teacher_name
         from employee_certificate
         where id = #{id}::uuid and flag = true and status = true
     </select>
@@ -48,6 +52,6 @@
         <if test="null != teacherName and '' != teacherName"> and certificate_date = #{teacherName} </if>
         <if test="null != startDate"><![CDATA[ and certificate_date >= #{startDate} ]]></if>
         <if test="null != endDate"><![CDATA[ and certificate_date <= #{endDate} ]]></if>
-        order by update_time desc
+        order by create_time desc
     </select>
 </mapper>

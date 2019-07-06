@@ -23,6 +23,10 @@ public class Course extends Paper {
     private String code;
     /** 课程名称 */
     private String name;
+    /** 证书名称（英文）*/
+    private String englishName;
+    /** 证书名称（中文） */
+    private String chineseName;
     /** 显示状态 */
     private Boolean showState;
     /** 推荐状态 */
@@ -43,6 +47,8 @@ public class Course extends Paper {
     private String description;
     /** 模板 */
     private String templet;
+    private String englishContent;
+    private String chineseContent;
     /** 点击次数 */
     private Integer clickAmount;
     /** 收藏次数 */
@@ -129,6 +135,22 @@ public class Course extends Paper {
         this.name = name;
     }
 
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public void setEnglishName(String englishName) {
+        this.englishName = englishName;
+    }
+
+    public String getChineseName() {
+        return chineseName;
+    }
+
+    public void setChineseName(String chineseName) {
+        this.chineseName = chineseName;
+    }
+
     public Boolean getShowState() {
         return showState;
     }
@@ -207,6 +229,22 @@ public class Course extends Paper {
 
     public void setTemplet(String templet) {
         this.templet = templet;
+    }
+
+    public String getEnglishContent() {
+        return englishContent;
+    }
+
+    public void setEnglishContent(String englishContent) {
+        this.englishContent = englishContent;
+    }
+
+    public String getChineseContent() {
+        return chineseContent;
+    }
+
+    public void setChineseContent(String chineseContent) {
+        this.chineseContent = chineseContent;
     }
 
     public Integer getClickAmount() {

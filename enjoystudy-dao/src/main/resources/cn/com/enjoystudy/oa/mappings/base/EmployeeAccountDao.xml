@@ -8,6 +8,7 @@
             <if test="null != identityType"> and identity_type = #{identityType}</if>
             <if test="null != identityCode"> and identity_code = #{identityCode}</if>
             <if test="null != maritalStatus"> and marital_status = #{maritalStatus}</if>
+            <if test="null != firstLoginState"> and first_login_state = #{firstLoginState}</if>
             <if test="null != sex"> and sex = #{sex}</if>
             <if test="null != category"> and category = #{category}</if>
             <if test="null != departmentId and '' != departmentId"> and department_id = #{departmentId}::uuid</if>
@@ -58,11 +59,11 @@
         insert into employee_account (id, create_time, update_time, flag, status,
         department_id, position_id, code, full_name, login_password, lock_state,
         identity_type, identity_code, question, answer, education, school, major,
-        sex, birthday, native_place, marital_status, category)
+        sex, birthday, native_place, marital_status, category, first_login_state)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{departmentId}::uuid, #{positionId}::uuid, #{code}, #{fullName}, #{loginPassword}, #{lockState},
         #{identityType}, #{identityCode}, #{question}, #{answer}, #{education}, #{school}, #{major},
-        #{sex}, #{birthday}, #{nativePlace}, #{maritalStatus}, #{category})
+        #{sex}, #{birthday}, #{nativePlace}, #{maritalStatus}, #{category}, #{firstLoginState})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount" >
@@ -71,13 +72,14 @@
         lock_state = #{lockState}, position_id = #{positionId}::uuid, identity_type = #{identityType},
         identity_code = #{identityCode}, question = #{question}, answer = #{answer}, education = #{education},
         school = #{school}, major = #{major}, sex = #{sex}, birthday = #{birthday}, native_place = #{nativePlace},
-        marital_status = #{maritalStatus}, category = #{category} where id = #{id}::uuid
+        marital_status = #{maritalStatus}, category = #{category}, first_login_state = #{firstLoginState}
+        where id = #{id}::uuid
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.base.EmployeeAccount">
         select e.id, e.code, full_name, e.login_password, e.lock_state, e.identity_type, e.identity_code,
         e.question, e.answer, e.education, e.school, e.major, e.sex, e.birthday, e.native_place, e.marital_status,
-        e.category, d.id department_id, d.name department_name, p.id position_id, p.name position_name
+        e.category, d.id department_id, d.name department_name, p.id position_id, p.name position_name, e.first_login_state
         from employee_account e
         left join department d on d.id = e.department_id
         left join base_position p on p.id = e.position_id
@@ -92,7 +94,7 @@
             parameterType="cn.com.enjoystudy.oa.bean.base.EmployeeAccountSO">
         select e.id, e.code, full_name, e.login_password, e.lock_state, e.identity_type, e.identity_code,
         e.question, e.answer, e.education, e.school, e.major, e.sex, e.birthday, e.native_place, e.marital_status,
-        e.category, d.id department_id, d.name department_name, p.id position_id, p.name position_name
+        e.category, d.id department_id, d.name department_name, p.id position_id, p.name position_name, e.first_login_state
         from employee_account e
         left join department d on d.id = e.department_id
         left join base_position p on p.id = e.position_id

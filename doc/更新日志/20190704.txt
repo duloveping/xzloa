@@ -1,0 +1,1 @@
+alter table employee_account add column first_login_state boolean default false;
