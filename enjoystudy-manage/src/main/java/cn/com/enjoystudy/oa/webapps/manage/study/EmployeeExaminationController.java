@@ -1,21 +1,17 @@
 package cn.com.enjoystudy.oa.webapps.manage.study;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
-import cn.com.enjoystudy.oa.bean.base.EmployeeCommunication;
-import cn.com.enjoystudy.oa.bean.base.EmployeeCommunicationSO;
 import cn.com.enjoystudy.oa.bean.study.*;
 import cn.com.enjoystudy.oa.bean.sys.SysSequence;
 import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
-import cn.com.enjoystudy.oa.service.base.EmployeeCommunicationService;
+import cn.com.enjoystudy.oa.service.base.EmployeeAccountService;
 import cn.com.enjoystudy.oa.service.study.*;
 import cn.com.enjoystudy.oa.service.sys.SysSequenceService;
-import cn.com.enjoystudy.oa.util.IdGenerateUtils;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -58,6 +54,10 @@ public class EmployeeExaminationController extends BaseController {
     private EmployeeCertificateService employeeCertificateService;
     @Autowired
     private SysSequenceService sysSequenceService;
+    @Autowired
+    private EmployeeAccountCourseService employeeAccountCourseService;
+    @Autowired
+    private EmployeeAccountService employeeAccountService;
 
     @RequestMapping("course-index")
     public ModelAndView courseIndex() {
@@ -68,6 +68,18 @@ public class EmployeeExaminationController extends BaseController {
     @RequestMapping("course-list")
     @ResponseBody
     public JSONObject courseList(CourseSO so) {
+        EmployeeAccount account = getCurrentUser();
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
+            courseSO.setEmployeeId(account.getId());
+            List<Course> courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
+            String[] courseIds = new String[courseList.size()];
+            int i = 0;
+            for (Course course : courseList) {
+                courseIds[i++] = course.getId();
+            }
+            so.setIds(courseIds);
+        }
         so.setTestState(2);
         PageInfo<Course> pageInfo = courseService.findPag(so);
         JSONObject json = resultSuccess();
@@ -172,6 +184,8 @@ public class EmployeeExaminationController extends BaseController {
     private String saveEmployeeExaminationPaper(EmployeeAccount account, Course course) {
         StorePaperSO paperSO = new StorePaperSO();
         paperSO.setCourseId(course.getId());
+        paperSO.setAuditState(2);
+        paperSO.setEditState(2);
         List<StorePaper> storePaperList = storePaperService.list(paperSO);
         if (null != storePaperList && storePaperList.size() > 0) {
             Calendar calendar = Calendar.getInstance();
@@ -299,9 +313,7 @@ public class EmployeeExaminationController extends BaseController {
     @RequestMapping("save-paper")
     @ResponseBody
     public JSONObject savePaper(@RequestBody EmployeeExaminationPaperSO so) {
-        Subject subject = SecurityUtils.getSubject();
-        Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
-        EmployeeAccount account = (EmployeeAccount) object;
+        EmployeeAccount account = employeeAccountService.getById(getCurrentUser().getId());
 
         EmployeeExaminationPaper paper = employeeExaminationPaperService.getById(so.getId());
         if (account.getId().equals(paper.getEmployeeId())) {
@@ -367,13 +379,18 @@ public class EmployeeExaminationController extends BaseController {
                         sysSequenceService.update(sequence);
                     }
 
+                    Course course =courseService.getById(paper.getCourseId());
+
                     String rnd1 = RandomStringUtils.randomNumeric(5);
                     String certificateCode = date + rnd1 + sysSequenceService.fillZero(value.toString(), 7) + md;
                     EmployeeCertificate certificate = new EmployeeCertificate();
                     certificate.setCertificateCode(certificateCode);
-                    certificate.setCertificateName(paper.getCourseName());
+                    certificate.setCertificateName(course.getChineseName());
                     certificate.setCertificateDate(paper.getSubmitTime());
                     certificate.setCertificateState(1);
+                    certificate.setEnglishName(course.getEnglishName());
+                    certificate.setEnglishContent(course.getEnglishContent());
+                    certificate.setChineseContent(course.getChineseContent());
                     certificate.setEmployeeId(account.getId());
                     certificate.setEmployeeName(account.getFullName());
                     certificate.setIdentityCode(account.getIdentityCode());

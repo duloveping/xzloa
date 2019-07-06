@@ -101,12 +101,10 @@ var $list = $("#fileList");
 var $btn = $("#btn-star");
 var state = "pending";
 var ue;
-var templet;
 var uploader;
 
 $(function () {
     ue = UE.getEditor('description');
-    templet = UE.getEditor('templet');
 
     uploader = WebUploader.create({
         auto: true,

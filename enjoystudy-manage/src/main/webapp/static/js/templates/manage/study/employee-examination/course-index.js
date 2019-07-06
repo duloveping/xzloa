@@ -57,12 +57,19 @@ function Course() {};
 Course.prototype = {
     list: goPage,
     check: function (courseId) {
+        var loadIndex;
+
         $.ajax({
             type: "post",
             url: ctx + "/manage/study/employee-examination/check-test.jhtml",
             cache: false,
             data: {courseId: courseId, rnd: Math.random()},
             dataType: "json",
+            beforeSend: function () {
+                loadIndex = layer.load(1, {
+                    shade: [0.1, '#fff']
+                });
+            },
             success: function (res) {
                 if (res.status == true) {
                     if (res.paperId) {
@@ -73,6 +80,7 @@ Course.prototype = {
                 } else {
                     top.layer.alert(res.info);
                 }
+                layer.close(loadIndex);
             },
             error : function(XmlHttpRequest, textStatus, errorThrown) {
                 top.layer.alert('系统出错了');

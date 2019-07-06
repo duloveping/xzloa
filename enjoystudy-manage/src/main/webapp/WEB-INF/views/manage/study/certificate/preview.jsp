@@ -59,6 +59,7 @@
         }
 
         .courseContent > .p2{
+            padding-left: 20px;
             font-family: 黑体;
         }
 
@@ -101,20 +102,24 @@
             <div class="chineseCertify">已成功完成了</div>
             <div class="englishCertify">E-study LTD.</div>
             <div class="chineseCertify">新咨力科技</div>
-            <div class="englishCertify">Internal Auditor Training</div>
-            <div class="chineseCertify">内审员培训</div>
+            <c:if test="${not empty certificate.englishName}">
+                <div class="englishCertify">${certificate.englishName} Training</div>
+            </c:if>
+            <c:if test="${not empty certificate.englishName}">
+                <div class="chineseCertify">${certificate.certificateName}培训</div>
+            </c:if>
+
             <div class="englishCertify">Course and Examination</div>
             <div class="chineseCertify">课程与考试</div>
             <div class="courseContent">
-                <p class="p1">
-                    The course includes the assessment and evaluation of<br>
-                    Quality System to conform to the requirements of<br>
-                    ${certificate.certificateName}
-                </p>
-                <p class="p2">
-                    课程内容包括评估和评价符合质量体系要求<br>
-                    ${certificate.certificateName}
-                </p>
+                <c:if test="${not empty certificate.englishContent}">
+                    <p class="p1">${certificate.englishContent}</p>
+                </c:if>
+                <c:if test="${not empty certificate.chineseContent}">
+                    <p class="p2">
+                        课程内容包括：${certificate.chineseContent}
+                    </p>
+                </c:if>
             </div>
         </div>
         <div class="bottom">

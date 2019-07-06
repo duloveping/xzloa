@@ -240,9 +240,7 @@ public class EmployeeAccountController extends BaseController {
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "fax", required = false) String fax,
             @RequestParam(value = "email", required = false) String email) {
-        Subject subject = SecurityUtils.getSubject();
-        Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
-        EmployeeAccount account = (EmployeeAccount) object;
+        EmployeeAccount account = getCurrentUser();
         account = employeeAccountService.getById(account.getId());
         account.setFullName(StringUtils.trim(fullName));
         account.setSex(sex);
@@ -254,6 +252,7 @@ public class EmployeeAccountController extends BaseController {
         account.setMajor(StringUtils.trimToNull(major));
         account.setNativePlace(StringUtils.trimToNull(nativePlace));
         account.setMaritalStatus(maritalStatus);
+        account.setFirstLoginState(false);
         employeeAccountService.update(account);
 
         EmployeeCommunicationSO communicationSO = new EmployeeCommunicationSO();

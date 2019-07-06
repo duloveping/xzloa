@@ -138,7 +138,10 @@ public class CourseController extends UploadController {
             course.setTypeId(StringUtils.trimToNull(so.getTypeId()));
             course.setIntroduction(StringUtils.trimToNull(so.getIntroduction()));
             course.setDescription(StringUtils.trimToNull(so.getDescription()));
-            course.setTemplet(StringUtils.trimToNull(so.getTemplet()));
+            course.setChineseName(StringUtils.trimToNull(so.getChineseName()));
+            course.setEnglishName(StringUtils.trimToNull(so.getEnglishName()));
+            course.setEnglishContent(StringUtils.trimToNull(so.getEnglishContent()));
+            course.setChineseContent(StringUtils.trimToNull(so.getChineseContent()));
             course.setImage(StringUtils.trimToNull(so.getImage()));
             course.setCurrentPrice(so.getCurrentPrice());
             course.setSalePrice(so.getSalePrice());

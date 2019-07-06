@@ -48,6 +48,18 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">证书名称（英文）：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="englishName" path="englishName" placeholder="证书名称（英文）" maxlength="200" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">证书名称（英文）：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="chineseName" path="chineseName" placeholder="证书名称（中文）" maxlength="200" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
                 <span class="c-red">*</span>课程分类：
             </label>
@@ -144,9 +156,17 @@
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">证书模板：</label>
+            <label class="form-label col-xs-4 col-sm-2">课程内容（英文）：</label>
             <div class="formControls col-xs-8 col-sm-10">
-                <form:textarea id="templet" path="templet" rows="10" cols="80" placeholder="内容" cssStyle="width:100%;height:480px;"></form:textarea>
+                <form:textarea id="englishContent" path="englishContent" rows="5" cols="80" maxlength="1000" cssClass="textarea valid" onKeyUp="$.Huitextarealength(this, 1000);" placeholder="课程内容"></form:textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/1000</p>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">课程内容（中文）：</label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:textarea id="chineseContent" path="chineseContent" rows="5" cols="80" maxlength="1000" cssClass="textarea valid" onKeyUp="$.Huitextarealength(this, 1000);" placeholder="课程内容"></form:textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/1000</p>
             </div>
         </div>
         <div class="row cl">

@@ -157,7 +157,7 @@ function certificateList() {
                     var certificateDate = moment(data.certificateDate).format("YYYY-MM-DD");
 
                     html += "<tr>";
-                    html += "<td><a href=\"" + ctx  + "/manage/study/certificate/preview.jhtml?id=" + data.id + "\" target=\"_blank\">" + data.certificateName + "</td>";
+                    html += "<td><a href=\"javascript:void(0);" + ctx  + "/manage/study/certificate/preview.jhtml?id=" + data.id + "\" target=\"_blank\">" + data.certificateName + "</td>";
                     html += "<td>" + data.certificateCode + "</td>";
                     html += "<td>" + certificateDate + "</td>";
                     html += "</tr>";

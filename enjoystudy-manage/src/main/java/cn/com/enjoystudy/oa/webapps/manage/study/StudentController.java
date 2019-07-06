@@ -3,12 +3,15 @@ package cn.com.enjoystudy.oa.webapps.manage.study;
 import cn.com.enjoystudy.oa.bean.base.*;
 import cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourse;
 import cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourseSO;
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper;
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaperSO;
 import cn.com.enjoystudy.oa.bean.sys.SysRole;
 import cn.com.enjoystudy.oa.bean.sys.SysRolePosition;
 import cn.com.enjoystudy.oa.bean.sys.SysSequence;
 import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.service.base.*;
 import cn.com.enjoystudy.oa.service.study.EmployeeAccountCourseService;
+import cn.com.enjoystudy.oa.service.study.EmployeeExaminationPaperService;
 import cn.com.enjoystudy.oa.service.study.StudentService;
 import cn.com.enjoystudy.oa.service.sys.SysRolePositionService;
 import cn.com.enjoystudy.oa.service.sys.SysRoleService;
@@ -66,6 +69,9 @@ public class StudentController extends BaseController {
     private EmployeeAccountCourseService employeeAccountCourseService;
     @Autowired
     private SysSequenceService sysSequenceService;
+    @Autowired
+    private EmployeeExaminationPaperService employeeExaminationPaperService;
+
 
     @RequestMapping("index")
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
@@ -99,6 +105,7 @@ public class StudentController extends BaseController {
             student.setCommunication(communication);
         } else {
             student = new Student();
+            student.setFirstLoginState(true);
             student.setLockState(false);
             student.setCommunication(new EmployeeCommunication());
         }
@@ -124,6 +131,7 @@ public class StudentController extends BaseController {
                 communication = employeeCommunicationService.getCommunication(student.getId(), Constants.COMMUNICATION_CATEGORY_MYSELF);
             } else {
                 student = new Student();
+                student.setFirstLoginState(true);
                 student.setCategory(Constants.ACCOUNT_CATEGORY_STUDENT);
 
                 communication = new EmployeeCommunication();
@@ -295,6 +303,7 @@ public class StudentController extends BaseController {
         for (int i = 0; i < so.getAmount(); i++) {
             String seq = SysSequence.autoGenericCode((seqval + i) + "", 6);
             Student student = new Student();
+            student.setFirstLoginState(true);
             student.setCategory(Constants.ACCOUNT_CATEGORY_STUDENT);
             student.setCode(code + seq);
             student.setFullName(name + seq);
@@ -402,5 +411,14 @@ public class StudentController extends BaseController {
                 }
             }
         }
+    }
+
+    @RequestMapping("export-score")
+    public void exportScore(@RequestParam String[] studentIds, HttpServletResponse response) {
+        EmployeeExaminationPaperSO so = new EmployeeExaminationPaperSO();
+
+
+
+
     }
 }

@@ -1,15 +1,14 @@
 package cn.com.enjoystudy.oa.webapps.manage;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
-import cn.com.enjoystudy.oa.bean.study.Course;
-import cn.com.enjoystudy.oa.bean.study.CourseSO;
-import cn.com.enjoystudy.oa.bean.study.CourseVideo;
-import cn.com.enjoystudy.oa.bean.study.CourseVideoSO;
+import cn.com.enjoystudy.oa.bean.study.*;
 import cn.com.enjoystudy.oa.bean.sys.SysMenu;
 import cn.com.enjoystudy.oa.bean.sys.SysMenuSO;
+import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.service.study.CourseService;
 import cn.com.enjoystudy.oa.service.study.CourseVideoService;
+import cn.com.enjoystudy.oa.service.study.EmployeeAccountCourseService;
 import cn.com.enjoystudy.oa.service.sys.SysMenuService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
@@ -37,6 +36,8 @@ public class MainController extends BaseController {
     private CourseService courseService;
     @Autowired
     private CourseVideoService courseVideoService;
+    @Autowired
+    private EmployeeAccountCourseService employeeAccountCourseService;
 
     @RequestMapping("index")
     public ModelAndView index(HttpServletRequest request) {
@@ -93,8 +94,14 @@ public class MainController extends BaseController {
     }
 
     @RequestMapping("welcome")
-    public ModelAndView welcome(HttpServletRequest request) {
+    public ModelAndView welcome() {
         ModelAndView mv = new ModelAndView("manage/main/welcome");
+        EmployeeAccount account = getCurrentUser();
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            if (account.getFirstLoginState()) {
+                mv = new ModelAndView("redirect:/manage/employee/account/edit-data.jhtml");
+            }
+        }
         return mv;
     }
 
@@ -102,6 +109,20 @@ public class MainController extends BaseController {
     @ResponseBody
     public JSONObject courseList() {
         CourseVideoSO videoSO = new CourseVideoSO();
+
+        EmployeeAccount account = getCurrentUser();
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
+            courseSO.setEmployeeId(account.getId());
+            List<Course> courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
+            String[] courseIds = new String[courseList.size()];
+            int i = 0;
+            for (Course course : courseList) {
+                courseIds[i++] = course.getId();
+            }
+            videoSO.setCourseIds(courseIds);
+        }
+
         videoSO.setShowState(true);
         videoSO.setPageNum(1);
         videoSO.setPageSize(10);
@@ -119,6 +140,20 @@ public class MainController extends BaseController {
         so.setTestState(2);
         so.setPageNum(1);
         so.setPageSize(10);
+
+        EmployeeAccount account = getCurrentUser();
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
+            courseSO.setEmployeeId(account.getId());
+            List<Course> courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
+            String[] courseIds = new String[courseList.size()];
+            int i = 0;
+            for (Course course : courseList) {
+                courseIds[i++] = course.getId();
+            }
+            so.setIds(courseIds);
+        }
+
         List<Course> examinationList = courseService.findPag(so).getList();
         JSONObject json = resultSuccess();
         json.put("examinationList", examinationList);
