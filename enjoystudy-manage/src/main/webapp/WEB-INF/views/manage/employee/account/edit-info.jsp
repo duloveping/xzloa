@@ -78,7 +78,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">出生日期：</label>
             <div class="formControls col-xs-8 col-sm-10">
-                <input id="birthday" name="birthday" type="text" value="<fmt:formatDate value="${so.birthday}" pattern="yyyy-MM-dd"/>" onfocus="WdatePicker()" maxlength="11" readonly="readonly" class="required input-text Wdate">
+                <input id="birthday" name="birthday" type="text" value="<fmt:formatDate value="${so.birthday}" pattern="yyyy-MM-dd"/>" onfocus="WdatePicker()" maxlength="11" readonly="readonly" class="input-text Wdate">
             </div>
         </div>
         <div class="row cl">
@@ -119,7 +119,6 @@
         </div>
     </form>
 </article>
-<script type="text/javascript" src="<c:url value='/static/js/common/distpicker/distpicker.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/manage/system/employee/student-data.js' />"></script>
 </body>
 </html>
