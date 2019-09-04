@@ -123,6 +123,17 @@ Student.prototype = {
         } else {
             window.open(ctx + "/manage/study/student/export.jhtml?studentIds=" + studentIds.join(",") + "&rnd=" + Math.random());
         }
+    },
+    exportScore: function () {
+        var studentIds = new Array();
+        $.each($('input[name=studentId][type=checkbox]:checked'),function(i, v){
+            studentIds.push(v.value);
+        });
+        if (studentIds.length == 0) {
+            top.layer.alert("请选择要导出的学员信息！");
+        } else {
+            window.open(ctx + "/manage/study/student/export-score.jhtml?studentIds=" + studentIds.join(",") + "&rnd=" + Math.random());
+        }
     }
 };
 

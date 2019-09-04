@@ -1,10 +1,7 @@
 package cn.com.enjoystudy.oa.webapps.manage.study;
 
 import cn.com.enjoystudy.oa.bean.base.*;
-import cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourse;
-import cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourseSO;
-import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper;
-import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaperSO;
+import cn.com.enjoystudy.oa.bean.study.*;
 import cn.com.enjoystudy.oa.bean.sys.SysRole;
 import cn.com.enjoystudy.oa.bean.sys.SysRolePosition;
 import cn.com.enjoystudy.oa.bean.sys.SysSequence;
@@ -416,8 +413,91 @@ public class StudentController extends BaseController {
     @RequestMapping("export-score")
     public void exportScore(@RequestParam String[] studentIds, HttpServletResponse response) {
         EmployeeExaminationPaperSO so = new EmployeeExaminationPaperSO();
+        so.setEmployeeIds(studentIds);
 
+        List<EmployeeExaminationScore> list = employeeExaminationPaperService.findScoreList(so);
 
+        String sheetname = "学员成绩";
+
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet(sheetname);
+        int rownum = 0;
+        XSSFRow row0=sheet.createRow(rownum++);
+
+        int colnum = 0;
+        XSSFCell cell0 = row0.createCell(colnum++);
+        cell0.setCellValue("账号");
+
+        XSSFCell cell1 = row0.createCell(colnum++);
+        cell1.setCellValue("姓名");
+
+        XSSFCell cell2 = row0.createCell(colnum++);
+        cell2.setCellValue("课程");
+
+        XSSFCell cell3 = row0.createCell(colnum++);
+        cell3.setCellValue("成绩");
+
+        XSSFCell cell4 = row0.createCell(colnum++);
+        cell4.setCellValue("状态");
+
+        XSSFCell cell5 = row0.createCell(colnum++);
+        cell5.setCellValue("考试时间");
+
+        if (null != list && list.size() > 0) {
+
+            for (EmployeeExaminationScore paper : list) {
+                colnum = 0;
+                XSSFRow row1=sheet.createRow(rownum++);
+
+                XSSFCell account = row1.createCell(colnum++);
+                account.setCellValue(paper.getEmployeeAccount());
+
+                XSSFCell name = row1.createCell(colnum++);
+                name.setCellValue(paper.getEmployeeName());
+
+                XSSFCell course = row1.createCell(colnum++);
+                course.setCellValue(StringUtils.trimToEmpty(paper.getCourseName()));
+
+                XSSFCell score = row1.createCell(colnum++);
+                score.setCellValue(null != paper.getTestScore() ? paper.getTestScore() : 0);
+
+                XSSFCell state = row1.createCell(colnum++);
+                if (null != paper.getPassState()) {
+                    state.setCellValue(paper.getPassState() ? "合格" : "不合格");
+                } else {
+                    state.setCellValue("");
+                }
+
+                XSSFCell time = row1.createCell(colnum++);
+                if (null != paper.getPassState()) {
+                    time.setCellValue(DateFormatUtils.format(paper.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
+                } else {
+                    time.setCellValue("");
+                }
+            }
+        }
+
+        OutputStream output = null;
+        try {
+            output = response.getOutputStream();
+
+            String name = java.net.URLEncoder.encode(sheetname+".xlsx", "UTF8");
+
+            response.reset();
+            response.setHeader("Content-disposition", "attachment; filename=" + name);
+            response.setContentType("application/x-msdownload");
+            workbook.write(output);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        } finally {
+            if (null != output) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage());
+                }
+            }
+        }
 
 
     }
