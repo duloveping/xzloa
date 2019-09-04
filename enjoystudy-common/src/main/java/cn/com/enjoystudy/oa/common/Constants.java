@@ -75,4 +75,5 @@ public class Constants {
     /** 购物订单状态 - 删除 */
     public static final Integer ORDER_STATE_DELETE = 7;
 
+    public static final String POSITION_SYS_STUDENT = "sys-student";
 }
