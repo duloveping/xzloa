@@ -25,4 +25,6 @@ public interface EmployeeExaminationPaperDao {
     List<EmployeeExaminationQuestionItem> findQuestionItemByQuestionId(@Param("questionId") String questionId);
 
     EmployeeExaminationQuestionAnalysis findQuestionAnalysisByQuestionId(@Param("questionId") String questionId);
+
+    List<EmployeeExaminationScore> findScoreList(EmployeeExaminationPaperSO so);
 }

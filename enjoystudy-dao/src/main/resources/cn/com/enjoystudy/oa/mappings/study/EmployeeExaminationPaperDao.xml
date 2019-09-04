@@ -72,6 +72,9 @@
         from employee_examination_paper
         where flag = true and status = true
         <if test="employeeId != null and '' != employeeId"> and employee_id = #{employeeId}::uuid </if>
+        <if test="null != employeeIds and employeeIds.length > 0">
+            and employee_id in <foreach collection="employeeIds" item="item" index="index" open="(" close=")" separator=","> #{item}::uuid </foreach>
+        </if>
         <if test="paperId != null and '' != paperId"> and paper_id = #{paperId}::uuid </if>
         <if test="courseId != null and '' != courseId"> and course_id = #{courseId}::uuid </if>
         <if test="testState != null"> and test_state = #{testState} </if>
@@ -128,4 +131,18 @@
         where question_id = #{questionId}::uuid and flag = true and status = true
     </select>
 
+    <select id="findScoreList" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeExaminationScore">
+        select s.id employee_id, s.code employee_account, s.full_name employee_name, c.id course_id, c.name course_name, p. start_time, p.test_score, p.pass_state
+        from employee_account s
+        left join employee_examination_paper p on s.id = p.employee_id
+        left join course c on c.id = p.course_id
+        where s.flag = true and s.status = true
+        <if test="employeeId != null and '' != employeeId"> and s.id = #{employeeId}::uuid </if>
+        <if test="null != employeeIds and employeeIds.length > 0">
+            and s.id in <foreach collection="employeeIds" item="item" index="index" open="(" close=")" separator=","> #{item}::uuid </foreach>
+        </if>
+        <if test="courseId != null and '' != courseId"> and c.id = #{courseId}::uuid </if>
+        <if test="testState != null"> and p.test_state = #{testState} </if>
+        <if test="passState != null"> and p.pass_state = #{passState} </if>
+    </select>
 </mapper>

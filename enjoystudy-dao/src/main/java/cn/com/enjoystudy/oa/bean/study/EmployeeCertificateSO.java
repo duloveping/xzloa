@@ -12,6 +12,8 @@ public class EmployeeCertificateSO extends SOSupport {
     private String employeeId;
     /** 员工姓名 */
     private String employeeName;
+    /** 员工编号 */
+    private String employeeCode;
     /** 员工性别 */
     private String employeeSex;
     /** 员工出生日期 */
@@ -61,6 +63,14 @@ public class EmployeeCertificateSO extends SOSupport {
 
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
+    }
+
+    public String getEmployeeCode() {
+        return employeeCode;
+    }
+
+    public void setEmployeeCode(String employeeCode) {
+        this.employeeCode = employeeCode;
     }
 
     public String getEmployeeSex() {

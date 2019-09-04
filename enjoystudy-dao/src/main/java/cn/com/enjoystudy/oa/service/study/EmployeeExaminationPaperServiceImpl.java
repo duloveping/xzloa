@@ -2,6 +2,7 @@ package cn.com.enjoystudy.oa.service.study;
 
 import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper;
 import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaperSO;
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationScore;
 import cn.com.enjoystudy.oa.dao.study.EmployeeExaminationPaperDao;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -66,5 +67,10 @@ public class EmployeeExaminationPaperServiceImpl implements EmployeeExaminationP
     @Override
     public long getTestAmount(String employeeId, String courseId) {
         return employeeExaminationPaperDao.getTestAmount(employeeId, courseId);
+    }
+
+    @Override
+    public List<EmployeeExaminationScore> findScoreList(EmployeeExaminationPaperSO so) {
+        return employeeExaminationPaperDao.findScoreList(so);
     }
 }

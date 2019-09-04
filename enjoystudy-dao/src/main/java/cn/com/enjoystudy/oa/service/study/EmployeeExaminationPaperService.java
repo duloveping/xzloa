@@ -2,6 +2,7 @@ package cn.com.enjoystudy.oa.service.study;
 
 import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper;
 import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaperSO;
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationScore;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface EmployeeExaminationPaperService {
     long count(EmployeeExaminationPaperSO so);
 
     long getTestAmount(String employeeId, String courseId);
+
+    List<EmployeeExaminationScore> findScoreList(EmployeeExaminationPaperSO so);
 }
