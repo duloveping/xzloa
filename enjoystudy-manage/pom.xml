@@ -33,8 +33,11 @@
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<commons-logging.version>1.2</commons-logging.version>
 		<log4j.version>2.11.0</log4j.version>
+		<!--
+		<slf4j.version>1.7.26</slf4j.version>
+		<logback.version>1.2.3</logback.version>
+		-->
 		<validation-api.version>2.0.1.Final</validation-api.version>
-		<activiti.version>6.0.0</activiti.version>
 		<poi.version>3.17</poi.version>
 		<collections4.version>4.2</collections4.version>
 		<hibernate-validator.version>5.4.2.Final</hibernate-validator.version>
@@ -251,16 +254,33 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!--
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		-->
+
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>${validation-api.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-spring-boot-starter-basic</artifactId>
-			<version>${activiti.version}</version>
 		</dependency>
 
         <dependency>
