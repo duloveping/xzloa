@@ -5,13 +5,13 @@ POSTGRESQL 数据库导入导出
 
 psql -U postgres(用户名)  数据库名(缺省时同用户名) < /data/dum.sql
 
-psql -U postgres zsxzl < F:/workspace/xzl/enjoystudy/doc/20190629.sql
+psql -U postgres zsxzl < F:/workspace/xzl/enjoystudy/doc/201908302035.sql
 
 
 导出整个数据库
 
-pg_dump -h localhost -U postgres(用户名) 数据库名(缺省时同用户名)   >/data/dum.sql
-pg_dump -h localhost -U postgres zsxzl > D:/备份/20190629.sql
+pg_dump -h localhost -U postgres(用户名) 数据库名(缺省时同用户名)   > /data/dum.sql
+pg_dump -h localhost -U postgres zsxzl > C:/backup/201908302035.sql
 
 
 导出某个表
