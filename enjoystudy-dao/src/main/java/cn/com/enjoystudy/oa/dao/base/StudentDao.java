@@ -44,5 +44,7 @@ public interface StudentDao {
      */
     List<Student> list(StudentSO so);
 
+    List<String> findStudentIdsNotExistsCourseList(String courseId);
 
+    List<String> findStudentIdsExistsCourseList(String courseId);
 }

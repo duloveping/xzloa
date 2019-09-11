@@ -14,7 +14,7 @@
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate" >
         update employee_certificate set update_time = #{updateTime},
-        employee_id = #{employeeId}, employee_name = #{employeeName}, employee_sex = #{employeeSex},
+        employee_id = #{employeeId}::uuid, employee_name = #{employeeName}, employee_sex = #{employeeSex},
         employee_born = #{employeeBorn}, identity_code = #{identityCode},
         certificate_code = #{certificateCode}, certificate_name = #{certificateName}, certificate_date = #{certificateDate},
         seal_photo = #{sealPhoto}, organization_code = #{organizationCode}, organization_name = #{organizationName},
@@ -42,6 +42,10 @@
         where flag = true and status = true
         <if test="null != employeeId and '' != employeeId"> and employee_id = #{employeeId}::uuid </if>
         <if test="null != employeeName and '' != employeeName"> and employee_name = #{employeeName} </if>
+        <if test="null != employeeCode and '' != employeeCode">
+            and exists(select ea.id from employee_account ea where ea.flag = true and ea.status = true
+            and ea.id = employee_id and ea.code = #{employeeCode})
+        </if>
         <if test="null != identityCode and '' != identityCode"> and identity_code = #{identityCode} </if>
         <if test="null != certificateName and '' != certificateName"> and certificate_name = #{certificateName} </if>
         <if test="null != certificateCode and '' != certificateCode"> and certificate_code = #{certificateCode} </if>

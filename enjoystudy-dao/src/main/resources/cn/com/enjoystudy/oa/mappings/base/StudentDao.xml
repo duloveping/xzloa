@@ -73,7 +73,7 @@
         lock_state = #{lockState}, position_id = #{positionId}::uuid, identity_type = #{identityType},
         identity_code = #{identityCode}, question = #{question}, answer = #{answer}, education = #{education},
         school = #{school}, major = #{major}, sex = #{sex}, birthday = #{birthday}, native_place = #{nativePlace},
-        marital_status = #{maritalStatus}, category = #{category} first_login_state = #{firstLoginState}
+        marital_status = #{maritalStatus}, category = #{category}, first_login_state = #{firstLoginState}
         where id = #{id}::uuid
     </update>
 
@@ -122,5 +122,19 @@
         <if test="null != ids and ids.length > 0">
             and a.id in <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}::uuid</foreach>
         </if>
+    </select>
+
+    <select id="findStudentIdsNotExistsCourseList" resultType="string">
+        select ea.id from employee_account ea
+        where ea.flag = true and ea.status = true and ea.category = 8
+        and not exists(select distinct eac.employee_id from employee_account_course eac
+        where eac.employee_id = ea.id and eac.course_id = #{courseId}::uuid)
+    </select>
+
+    <select id="findStudentIdsExistsCourseList" resultType="string">
+        select ea.id from employee_account ea
+        where ea.flag = true and ea.status = true and ea.category = 8
+        and exists(select distinct eac.employee_id from employee_account_course eac
+        where eac.employee_id = ea.id and eac.course_id = #{courseId}::uuid)
     </select>
 </mapper>

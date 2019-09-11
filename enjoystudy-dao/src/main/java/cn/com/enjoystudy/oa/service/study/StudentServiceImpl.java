@@ -5,6 +5,7 @@ import cn.com.enjoystudy.oa.bean.base.StudentSO;
 import cn.com.enjoystudy.oa.dao.base.StudentDao;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,5 +53,21 @@ public class StudentServiceImpl implements StudentService {
         PageHelper.startPage(so.getPageNum(), so.getPageSize());
         PageInfo<Student> pageInfo = new PageInfo(studentDao.list(so));
         return pageInfo;
+    }
+
+    @Override
+    public List<String> findStudentIdsNotExistsCourseList(String courseId) {
+        if (StringUtils.isBlank(courseId)) {
+            throw new NullPointerException("courseId is null.");
+        }
+        return studentDao.findStudentIdsNotExistsCourseList(courseId);
+    }
+
+    @Override
+    public List<String> findStudentIdsExistsCourseList(String courseId) {
+        if (StringUtils.isBlank(courseId)) {
+            throw new NullPointerException("courseId is null.");
+        }
+        return studentDao.findStudentIdsExistsCourseList(courseId);
     }
 }

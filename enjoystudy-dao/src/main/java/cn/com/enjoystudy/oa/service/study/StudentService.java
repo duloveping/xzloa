@@ -48,4 +48,8 @@ public interface StudentService {
      * @return
      */
     PageInfo<Student> findPage(StudentSO so);
+
+    List<String> findStudentIdsNotExistsCourseList(String courseId);
+
+    List<String> findStudentIdsExistsCourseList(String courseId);
 }
