@@ -8,6 +8,7 @@ import cn.com.enjoystudy.oa.service.study.EmployeeCertificateService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,41 @@ public class EmployeeCertificateController extends BaseController {
         ModelAndView mv = new ModelAndView("manage/study/employee-certificate/admin-edit");
         mv.getModel().put("so", so);
         return mv;
+    }
+
+    @RequestMapping("admin-save")
+    @ResponseBody
+    public JSONObject adminSave(EmployeeCertificateSO so) {
+        EmployeeCertificate po = employeeCertificateService.getById(so.getId());
+        if (StringUtils.isNotBlank(so.getCertificateCode())) {
+            po.setCertificateCode(StringUtils.trim(so.getCertificateCode()));
+        }
+        if (StringUtils.isNotBlank(so.getCertificateName())) {
+            po.setCertificateName(StringUtils.trim(so.getCertificateName()));
+        }
+        if (StringUtils.isNotBlank(so.getEnglishName())) {
+            po.setEnglishName(StringUtils.trim(so.getEnglishName()));
+        }
+        if (StringUtils.isNotBlank(so.getChineseContent())) {
+            po.setChineseContent(StringUtils.trim(so.getChineseContent()));
+        }
+        if (StringUtils.isNotBlank(so.getEnglishContent())) {
+            po.setEnglishContent(StringUtils.trim(so.getEnglishContent()));
+        }
+        if (StringUtils.isNotBlank(so.getEmployeeCode())) {
+            po.setEmployeeCode(StringUtils.trim(so.getEmployeeCode()));
+        }
+        if (StringUtils.isNotBlank(so.getEmployeeName())) {
+            po.setEmployeeName(StringUtils.trim(so.getEmployeeName()));
+        }
+        if (StringUtils.isNotBlank(so.getEmployeeId())) {
+            po.setEmployeeId(StringUtils.trim(so.getEmployeeId()));
+        }
+        if (StringUtils.isNotBlank(so.getIdentityCode())) {
+            po.setIdentityCode(StringUtils.trim(so.getIdentityCode()));
+        }
+        employeeCertificateService.update(po);
+        JSONObject json = resultSuccess();
+        return json;
     }
 }

@@ -167,6 +167,7 @@ $(function () {
                     if (null != data && typeof(data) != "undefined") {
                         var strs = data.id.split(":");
                         if (strs[0] == 1) {
+                            var loadIndex = top.layer.load();
                             var obj = {employeeIds: studentIds, courseId: strs[1]};
                             $.ajax({
                                 type: "post",
@@ -174,9 +175,11 @@ $(function () {
                                 cache: false,
                                 dataType: "json",
                                 success: function (res) {
+                                    top.layer.close(loadIndex);
                                     top.layer.msg(res.info);
                                 },
                                 error : function(XmlHttpRequest, textStatus, errorThrown) {
+                                    top.layer.close(loadIndex);
                                     top.layer.alert('系统出错！');
                                 }
                             });
@@ -188,5 +191,79 @@ $(function () {
         } else {
             top.layer.alert("请选择授课学员！");
         }
+    });
+
+    $("#grantCourseForAll").bind("click", function(){
+        top.layer.open({
+            type: 2,
+            title: '课程选择',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['480px', '600px'],
+            maxmin: true,
+            content: ctx + '/manage/study/course/courseTypeIndex.jhtml?rnd=' + Math.random(),
+            btn: ['确定','关闭'],
+            yes: function(index, layero){
+                var data = $(layero).find("iframe")[0].contentWindow.getCheckValue();
+                if (null != data && typeof(data) != "undefined") {
+                    var strs = data.id.split(":");
+                    if (strs[0] == 1) {
+                        var loadIndex = top.layer.load();
+                        $.ajax({
+                            type: "get",
+                            url: ctx + "/manage/study/student/saveCourseForStudent.jhtml?courseId=" + strs[1] + "&rnd=" + Math.random(),
+                            cache: false,
+                            dataType: "json",
+                            success: function (res) {
+                                top.layer.close(loadIndex);
+                                top.layer.msg(res.info);
+                            },
+                            error : function(XmlHttpRequest, textStatus, errorThrown) {
+                                top.layer.close(loadIndex);
+                                top.layer.alert('系统出错！');
+                            }
+                        });
+                    }
+                }
+                top.layer.close(index);
+            }
+        });
+    });
+
+    $("#removeCourseForAll").bind("click", function(){
+        top.layer.open({
+            type: 2,
+            title: '课程选择',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['480px', '600px'],
+            maxmin: true,
+            content: ctx + '/manage/study/course/courseTypeIndex.jhtml?rnd=' + Math.random(),
+            btn: ['确定','关闭'],
+            yes: function(index, layero){
+                var data = $(layero).find("iframe")[0].contentWindow.getCheckValue();
+                if (null != data && typeof(data) != "undefined") {
+                    var strs = data.id.split(":");
+                    if (strs[0] == 1) {
+                        var loadIndex = top.layer.load();
+                        $.ajax({
+                            type: "get",
+                            url: ctx + "/manage/study/student/removeCourseForStudent.jhtml?courseId=" + strs[1] + "&rnd=" + Math.random(),
+                            cache: false,
+                            dataType: "json",
+                            success: function (res) {
+                                top.layer.close(loadIndex);
+                                top.layer.msg(res.info);
+                            },
+                            error : function(XmlHttpRequest, textStatus, errorThrown) {
+                                top.layer.close(loadIndex);
+                                top.layer.alert('系统出错！');
+                            }
+                        });
+                    }
+                }
+                top.layer.close(index);
+            }
+        });
     });
 });

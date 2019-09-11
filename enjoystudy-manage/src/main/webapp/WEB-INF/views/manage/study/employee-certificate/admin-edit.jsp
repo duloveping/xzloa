@@ -28,10 +28,18 @@
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
-                <span class="c-red">*</span>证书名称：
+                <span class="c-red">*</span>证书名称（中文）：
             </label>
             <div class="formControls col-xs-8 col-sm-10">
-                <form:input id="certificateName" path="certificateName" placeholder="证书姓名" maxlength="300" cssClass="required input-text"/>
+                <form:input id="certificateName" path="certificateName" placeholder="证书名称（中文）" maxlength="300" cssClass="required input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>证书名称（英文）：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="englishName" path="englishName" placeholder="证书名称（英文）" maxlength="300" cssClass="input-text"/>
             </div>
         </div>
         <div class="row cl">
@@ -43,6 +51,22 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>证书内容（中文）：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="chineseContent" path="chineseContent" placeholder="证书内容（中文）" maxlength="300" cssClass="required input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>证书内容（英文）：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="englishContent" path="englishContent" placeholder="证书内容（英文）" maxlength="300" cssClass="input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input class="btn btn-primary radius" type="submit" value="提交">
                 <form:hidden id="id" path="id" />
@@ -50,6 +74,6 @@
         </div>
     </form:form>
 </article>
-<script type="text/javascript" src="<c:url value='/static/js/templates/manage/study/student/student-edit.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/js/templates/manage/study/employee-certificate/admin-edit.js' />"></script>
 </body>
 </html>

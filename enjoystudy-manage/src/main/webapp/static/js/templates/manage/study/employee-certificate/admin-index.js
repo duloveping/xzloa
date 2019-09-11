@@ -6,6 +6,7 @@ function goPage(curr) {
         data: {
             "pageNum": curr,
             "certificateState": $("#certificateState").val(),
+            "employeeCode": $.trim($("#employeeCode").val()),
             "employeeName": $.trim($("#employeeName").val()),
             "identityCode": $.trim($("#identityCode").val()),
             "certificateCode": $.trim($("#certificateCode").val()),
@@ -74,7 +75,7 @@ EmployeeCertificate.prototype = {
             shade: 0.8,
             area: ['640px', '480px'],
             maxmin: true,
-            content: ctx + '/manage/study/student/edit.jhtml?id=' + id + '&rnd=' + Math.random()
+            content: '/manage/study/employee-certificate/admin-edit.jhtml?id=' + id + '&rnd=' + Math.random()
         });
         layer.full(index);
     },

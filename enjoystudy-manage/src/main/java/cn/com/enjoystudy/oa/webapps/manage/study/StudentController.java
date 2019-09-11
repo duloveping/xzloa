@@ -257,6 +257,33 @@ public class StudentController extends BaseController {
         return resultSuccess();
     }
 
+    @RequestMapping("saveCourseForStudent")
+    @ResponseBody
+    public JSONObject saveCourseForStudent(@RequestParam String courseId) {
+       List<String> employeeIds = studentService.findStudentIdsNotExistsCourseList(courseId);
+
+        for (String sid : employeeIds) {
+            EmployeeAccountCourse po = new EmployeeAccountCourse();
+            po.setCourseId(courseId);
+            po.setEmployeeId(sid);
+            employeeAccountCourseService.insert(po);
+        }
+        return resultSuccess();
+    }
+
+    @RequestMapping("removeCourseForStudent")
+    @ResponseBody
+    public JSONObject removeCourseForStudent(@RequestParam String courseId) {
+        List<String> employeeIds = studentService.findStudentIdsExistsCourseList(courseId);
+
+        if (null != employeeIds && employeeIds.size() > 0) {
+            EmployeeAccountCourseSO so = new EmployeeAccountCourseSO();
+            so.setEmployeeIds(employeeIds.toArray(new String[employeeIds.size()]));
+            employeeAccountCourseService.delete(so);
+        }
+        return resultSuccess();
+    }
+
     @RequestMapping("courseList")
     public ModelAndView courseList(@RequestParam String employeeId) {
         EmployeeAccountCourseSO so = new EmployeeAccountCourseSO();

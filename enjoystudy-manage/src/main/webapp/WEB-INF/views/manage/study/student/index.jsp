@@ -40,6 +40,8 @@
             <a class="btn btn-primary radius" onclick="student.export();" href="javascript:void(0);"><i class="Hui-iconfont">&#xe641;</i>&nbsp;导出学员</a>
             <a class="btn btn-primary radius" onclick="student.exportScore();" href="javascript:void(0);"><i class="Hui-iconfont">&#xe640;</i>&nbsp;导出成绩</a>
             <a id="grantCourse" class="btn btn-primary radius" href="javascript:void(0);"><i class="Hui-iconfont">&#xe637;</i>&nbsp;授课</a>
+            <a id="grantCourseForAll" class="btn btn-primary radius" href="javascript:void(0);"><i class="Hui-iconfont">&#xe637;</i>&nbsp;全部学员授课</a>
+            <a id="removeCourseForAll" class="btn btn-primary radius" href="javascript:void(0);"><i class="Hui-iconfont">&#xe637;</i>&nbsp;全部学员撤课</a>
         </span>
     </div>
 

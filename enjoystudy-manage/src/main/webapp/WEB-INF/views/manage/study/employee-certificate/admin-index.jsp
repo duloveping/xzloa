@@ -19,6 +19,7 @@
 </nav>
 <div class="page-container">
     <div class="text-c">
+        账号: <input type="text" class="input-text" id="employeeCode" name="employeeCode" placeholder="账号" maxlength="50" style="width: 100px;">
         姓名: <input type="text" class="input-text" id="employeeName" name="employeeName" placeholder="姓名" maxlength="10" style="width: 100px;">
         身份证号: <input type="text" class="input-text" id="identityCode" name="identityCode" placeholder="身份证号" maxlength="18" style="width: 100px;">
         证书编号: <input type="text" class="input-text" id="certificateCode" name="certificateCode" placeholder="证书编号" maxlength="30" style="width: 100px;">
@@ -47,7 +48,7 @@
             <th>证书编号</th>
             <th>证书名称</th>
             <th>发证日期</th>
-            <th width="120">操作</th>
+            <th width="40">操作</th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -69,9 +70,7 @@
         <td>{{ item.certificateName }}</td>
         <td>{{ moment(item.certificateDate).format("YYYY-MM-DD") }}</td>
         <td class="td-manage">
-            <a href="javascript:void(0);" onclick="student.edit('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="编辑"><i class="fa fa-edit fa-lg"></i></a>&nbsp;
-            <a href="javascript:void(0);" onclick="student.delete('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="删除"><i class="fa fa-remove fa-lg"></i></a>&nbsp;
-            <a href="javascript:void(0);" onclick="student.courseList('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="课程"><i class="fa fa-file-video-o fa-lg"></i></a>&nbsp;
+            <a href="javascript:void(0);" onclick="certificate.edit('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="编辑"><i class="fa fa-edit fa-lg"></i></a>&nbsp;
         </td>
     </tr>
     {{#  }); }}
