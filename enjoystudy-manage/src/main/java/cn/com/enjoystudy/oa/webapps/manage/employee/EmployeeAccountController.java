@@ -286,6 +286,9 @@ public class EmployeeAccountController extends BaseController {
             employeeCommunicationService.insert(communication);
         }
 
+        Subject subject = SecurityUtils.getSubject();
+        subject.getSession().setAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER, account);
+
         return resultSuccess();
     }
 

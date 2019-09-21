@@ -27,6 +27,6 @@
         <setting name="jdbcTypeForNull" value="NULL"/>
         <setting name="callSettersOnNulls" value="true"/>
         <!-- 打印执行日志出来 -->
-        <!-- <setting name="logImpl" value="STDOUT_LOGGING"/> -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
 </configuration>

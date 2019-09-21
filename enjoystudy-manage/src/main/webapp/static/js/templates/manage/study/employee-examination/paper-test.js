@@ -16,7 +16,7 @@ TestPaper.prototype = {
                     questionList = testPaper.questionList;
 
                     $('.countdown').downCount({
-                        date: moment(testPaper.endTime).format("MM-DD-YYYY HH:mm:ss"),
+                        date: moment(testPaper.endTime).format("YYYY-MM-DD HH:mm:ss"),
                         offset: +10
                     }, function () {
                         paper.save();

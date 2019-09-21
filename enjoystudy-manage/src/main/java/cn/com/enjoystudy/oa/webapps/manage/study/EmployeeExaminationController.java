@@ -92,91 +92,99 @@ public class EmployeeExaminationController extends BaseController {
     @RequestMapping("check-test")
     @ResponseBody
     public JSONObject checkTest(@RequestParam("courseId") String courseId) {
-        /*
-         * 1.判断该课程是否处于开始考试状态；
-         * 2.判断该课程是否需要学习完成后方可考试；
-         * 3.判断学习是否参与过该课程的考试；
-         * 4.判断考试次数是否超过该课程补考次数（注意：-1为无限次数补考机会）
-         */
-        JSONObject json = null;
-        Course course = courseService.getById(courseId);
-        if (null != course && course.getTestState().equals(2)) {
-            Subject subject = SecurityUtils.getSubject();
-            Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
-            EmployeeAccount account = (EmployeeAccount) object;
+        JSONObject json = resultSuccess();
 
-            boolean studyFlag = false;
-
-            if (course.getStudyToExamState() == false) {
-                studyFlag = true;
-            } else {
-                CourseVideoSO videoSO = new CourseVideoSO();
-                videoSO.setCourseId(course.getId());
-                long videoAmount = courseVideoService.getCount(videoSO);
-                long studyAmount = employeeCourseStudyService.getStudyAmount(account.getId(), course.getId());
-                if (studyAmount >= videoAmount) {
-                    studyFlag = true;
-                }
+        EmployeeAccount account = getCurrentUser();
+        boolean firstFlag = true;
+        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
+            if (null != account.getFirstLoginState() && account.getFirstLoginState()) {
+                firstFlag = false;
+                json = resultError("进入考试前，请您先修改好您的个人资料，以免后期带来不便，谢谢合作！");
             }
+        }
 
-            if (studyFlag) {
-                EmployeeExaminationPaperSO paperSO = new EmployeeExaminationPaperSO();
-                paperSO.setCourseId(course.getId());
-                paperSO.setEmployeeId(account.getId());
-                List<EmployeeExaminationPaper> list = employeeExaminationPaperService.list(paperSO);
+        if (firstFlag) {
+            /*
+             * 1.判断该课程是否处于开始考试状态；
+             * 2.判断该课程是否需要学习完成后方可考试；
+             * 3.判断学习是否参与过该课程的考试；
+             * 4.判断考试次数是否超过该课程补考次数（注意：-1为无限次数补考机会）
+             */
+            Course course = courseService.getById(courseId);
+            if (null != course && course.getTestState().equals(2)) {
+                boolean studyFlag = false;
 
-                String paperId = "";
-                if (null != list && list.size() > 0) {
+                if (course.getStudyToExamState() == false) {
+                    studyFlag = true;
+                } else {
+                    CourseVideoSO videoSO = new CourseVideoSO();
+                    videoSO.setCourseId(course.getId());
+                    long videoAmount = courseVideoService.getCount(videoSO);
+                    long studyAmount = employeeCourseStudyService.getStudyAmount(account.getId(), course.getId());
+                    if (studyAmount >= videoAmount) {
+                        studyFlag = true;
+                    }
+                }
 
-                    boolean testFlag = false;
-                    Integer testState = Constants.TEST_STATE_WAIT;
+                if (studyFlag) {
+                    EmployeeExaminationPaperSO paperSO = new EmployeeExaminationPaperSO();
+                    paperSO.setCourseId(course.getId());
+                    paperSO.setEmployeeId(account.getId());
+                    List<EmployeeExaminationPaper> list = employeeExaminationPaperService.list(paperSO);
 
-                    for (EmployeeExaminationPaper paper : list) {
-                        // 判断考生的考卷是否处于考试中
-                        if (paper.getTestState().equals(Constants.TEST_STATE_WAIT) || paper.getTestState().equals(Constants.TEST_STATE_START)) {
-                            if (paper.getEndTime().before(new Date())) {
-                                paperId = paper.getId();
-                                testState = paper.getTestState();
+                    String paperId = "";
+                    if (null != list && list.size() > 0) {
+
+                        boolean testFlag = false;
+                        Integer testState = Constants.TEST_STATE_WAIT;
+
+                        for (EmployeeExaminationPaper paper : list) {
+                            // 判断考生的考卷是否处于考试中
+                            if (paper.getTestState().equals(Constants.TEST_STATE_WAIT) || paper.getTestState().equals(Constants.TEST_STATE_START)) {
+                                if (paper.getEndTime().before(new Date())) {
+                                    paperId = paper.getId();
+                                    testState = paper.getTestState();
+                                    testFlag = true;
+                                    break;
+                                }
+                            }
+
+                            if (paper.getTestScore() < paper.getPassScore()) {
+                                testState = Constants.TEST_STATE_END;
+                                testFlag = true;
+                                break;
+                            }
+
+                            if (paper.getTestState().equals(1) || paper.getTestState().equals(2)) {
+                                testFlag = true;
+                                break;
+                            } else if (paper.getTestScore() < paper.getPassScore()) {
                                 testFlag = true;
                                 break;
                             }
                         }
 
-                        if (paper.getTestScore() < paper.getPassScore()) {
-                            testState = Constants.TEST_STATE_END;
-                            testFlag = true;
-                            break;
-                        }
+                        if (testFlag) {
+                            if (course.getTestAmount().equals(-1) || list.size() <= course.getTestAmount()) {
+                                if (testState.equals(Constants.TEST_STATE_END)) {
+                                    paperId = saveEmployeeExaminationPaper(account, course);
+                                }
 
-                        if (paper.getTestState().equals(1) || paper.getTestState().equals(2)) {
-                            testFlag = true;
-                            break;
-                        } else if (paper.getTestScore() < paper.getPassScore()) {
-                            testFlag = true;
-                            break;
-                        }
-                    }
-
-                    if (testFlag) {
-                        if (course.getTestAmount().equals(-1) || list.size() <= course.getTestAmount()) {
-                            if (testState.equals(Constants.TEST_STATE_END)) {
-                                paperId = saveEmployeeExaminationPaper(account, course);
+                                json = resultSuccess("成功领取考卷。");
+                                json.put("paperId", paperId);
+                            } else {
+                                json = resultError("您已经超过补考次数！不能再进行考试，请您回去复习再申请考试，加油！");
                             }
-
-                            json = resultSuccess("成功领取考卷。");
-                            json.put("paperId", paperId);
-                        } else {
-                            json = resultError("您已经超过补考次数！不能再进行考试，请您回去复习再申请考试，加油！");
                         }
+                    } else {
+                        paperId = saveEmployeeExaminationPaper(account, course);
+                        json = resultSuccess("成功领取考卷。");
+                        json.put("paperId", paperId);
                     }
-                } else {
-                    paperId = saveEmployeeExaminationPaper(account, course);
-                    json = resultSuccess("成功领取考卷。");
-                    json.put("paperId", paperId);
                 }
+            } else {
+                json = resultError("考试尚未开始或已经结束");
             }
-        } else {
-            json = resultError("考试尚未开始或已经结束");
         }
         return json;
     }
