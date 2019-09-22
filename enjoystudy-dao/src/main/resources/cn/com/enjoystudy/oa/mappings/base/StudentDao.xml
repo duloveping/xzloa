@@ -97,7 +97,7 @@
         a.sex, a.birthday, a.native_place,
         c.province_id, c.province_code, c.province_name, c.city_id, c.city_code, c.city_name,
         c.town_id, c.town_code, c.town_name, c.address, c.post_code, c.mobile,c. phone, c.fax, c.email,
-        p.id position_id, p.code position_code, p.name position_name, e.first_login_state
+        p.id position_id, p.code position_code, p.name position_name, a.first_login_state
         from employee_account a
         left join employee_communication c on c.employee_id = a.id
         left join employee_position ep on ep.employee_id = a.id
