@@ -76,6 +76,7 @@
             <a href="javascript:void(0);" onclick="student.edit('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="编辑"><i class="fa fa-edit fa-lg"></i></a>&nbsp;
             <a href="javascript:void(0);" onclick="student.delete('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="删除"><i class="fa fa-remove fa-lg"></i></a>&nbsp;
             <a href="javascript:void(0);" onclick="student.courseList('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="课程"><i class="fa fa-file-video-o fa-lg"></i></a>&nbsp;
+            <a href="javascript:void(0);" onclick="student.paperList('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="试卷"><i class="fa fa-list-alt fa-lg"></i></a>&nbsp;
         </td>
     </tr>
     {{#  }); }}

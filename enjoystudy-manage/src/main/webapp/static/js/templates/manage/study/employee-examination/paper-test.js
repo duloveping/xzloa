@@ -15,6 +15,8 @@ TestPaper.prototype = {
                     testPaper = res.paper;
                     questionList = testPaper.questionList;
 
+                    console.log(moment(testPaper.endTime).format("YYYY-MM-DD HH:mm:ss"));
+
                     $('.countdown').downCount({
                         date: moment(testPaper.endTime).format("YYYY-MM-DD HH:mm:ss"),
                         offset: +10

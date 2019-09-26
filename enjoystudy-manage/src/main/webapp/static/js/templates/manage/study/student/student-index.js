@@ -113,6 +113,17 @@ Student.prototype = {
             content: ctx + '/manage/study/student/courseList.jhtml?employeeId=' + id + '&rnd=' + Math.random()
         });
     },
+    paperList: function (id) {
+        top.layer.open({
+            type: 2,
+            title: '试卷列表',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['640px', '480px'],
+            maxmin: true,
+            content: ctx + '/manage/study/student/paperList.jhtml?employeeId=' + id + '&rnd=' + Math.random()
+        });
+    },
     export: function () {
         var studentIds = new Array();
         $.each($('input[name=studentId][type=checkbox]:checked'),function(i, v){

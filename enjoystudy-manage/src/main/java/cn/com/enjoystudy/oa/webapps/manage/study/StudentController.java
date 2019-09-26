@@ -69,7 +69,6 @@ public class StudentController extends BaseController {
     @Autowired
     private EmployeeExaminationPaperService employeeExaminationPaperService;
 
-
     @RequestMapping("index")
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView("manage/study/student/index");
@@ -292,6 +291,17 @@ public class StudentController extends BaseController {
         List<EmployeeAccountCourse> list = employeeAccountCourseService.list(so);
 
         ModelAndView mv = new ModelAndView("manage/study/student/courseList");
+        mv.getModel().put("list", list);
+        return mv;
+    }
+
+    @RequestMapping("paperList")
+    public ModelAndView paperList(@RequestParam String employeeId) {
+        EmployeeExaminationPaperSO paperSO = new EmployeeExaminationPaperSO();
+        paperSO.setEmployeeId(employeeId);
+        List<EmployeeExaminationPaper> list = employeeExaminationPaperService.list(paperSO);
+
+        ModelAndView mv = new ModelAndView("manage/study/student/paperList");
         mv.getModel().put("list", list);
         return mv;
     }
@@ -525,7 +535,5 @@ public class StudentController extends BaseController {
                 }
             }
         }
-
-
     }
 }
