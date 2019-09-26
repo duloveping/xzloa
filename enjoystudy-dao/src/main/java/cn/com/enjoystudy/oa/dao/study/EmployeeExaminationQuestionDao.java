@@ -20,4 +20,6 @@ public interface EmployeeExaminationQuestionDao {
     List<EmployeeExaminationQuestion> list(EmployeeExaminationQuestionSO so);
 
     List<EmployeeExaminationQuestionItem> findItemByQuestionId(String questionId);
+
+    void deleteByPaperId(String paperId);
 }

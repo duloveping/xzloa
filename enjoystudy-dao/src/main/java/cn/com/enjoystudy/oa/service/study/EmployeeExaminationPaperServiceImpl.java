@@ -44,6 +44,12 @@ public class EmployeeExaminationPaperServiceImpl implements EmployeeExaminationP
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int deleteById(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new NullPointerException("id is id.");
+        }
+        deleteQuestionAnalysisByPaperId(id);
+        deleteQuestionItemByPaperId(id);
+        deleteQuestionByPaperId(id);
         return employeeExaminationPaperDao.deleteById(id);
     }
 
@@ -72,5 +78,32 @@ public class EmployeeExaminationPaperServiceImpl implements EmployeeExaminationP
     @Override
     public List<EmployeeExaminationScore> findScoreList(EmployeeExaminationPaperSO so) {
         return employeeExaminationPaperDao.findScoreList(so);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void deleteQuestionByPaperId(String paperId) {
+        if (StringUtils.isBlank(paperId)) {
+            throw new NullPointerException("id is paperId.");
+        }
+        employeeExaminationPaperDao.deleteQuestionByPaperId(paperId);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void deleteQuestionItemByPaperId(String paperId) {
+        if (StringUtils.isBlank(paperId)) {
+            throw new NullPointerException("id is paperId.");
+        }
+        employeeExaminationPaperDao.deleteQuestionItemByPaperId(paperId);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void deleteQuestionAnalysisByPaperId(String paperId) {
+        if (StringUtils.isBlank(paperId)) {
+            throw new NullPointerException("id is paperId.");
+        }
+        employeeExaminationPaperDao.deleteQuestionAnalysisByPaperId(paperId);
     }
 }

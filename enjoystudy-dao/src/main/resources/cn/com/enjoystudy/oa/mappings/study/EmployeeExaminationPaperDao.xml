@@ -145,4 +145,18 @@
         <if test="testState != null"> and p.test_state = #{testState} </if>
         <if test="passState != null"> and p.pass_state = #{passState} </if>
     </select>
+    
+    <update id="deleteQuestionByPaperId">
+        update employee_examination_question set flag = false, status = false where paper_id = #{paperId}::uuid
+    </update>
+    
+    <update id="deleteQuestionItemByPaperId">
+        update employee_examination_question_item set flag = false, status = false
+        where question_id in (select id from employee_examination_question where paper_id = #{paperId}::uuid)
+    </update>
+    
+    <update id="deleteQuestionAnalysisByPaperId">
+        update employee_examination_question_analysis set flag = false, status = false
+        where question_id in (select id from employee_examination_question where paper_id = #{paperId}::uuid)
+    </update>
 </mapper>
