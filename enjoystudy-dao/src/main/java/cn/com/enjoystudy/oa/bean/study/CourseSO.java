@@ -1,5 +1,7 @@
 package cn.com.enjoystudy.oa.bean.study;
 
+import java.util.List;
+
 /**
  * 课程
  * @author 广州新咨力科技有限公司-杜永生
@@ -66,6 +68,7 @@ public class CourseSO extends PaperSO {
     private Double startSalePrice;
     private Double endSalePrice;
     private String[] typeIds;
+    private List<CourseAttachment> attachmentList;
 
     public CourseSO() {
     }
@@ -348,5 +351,13 @@ public class CourseSO extends PaperSO {
 
     public void setTypeIds(String[] typeIds) {
         this.typeIds = typeIds;
+    }
+
+    public List<CourseAttachment> getAttachmentList() {
+        return attachmentList;
+    }
+
+    public void setAttachmentList(List<CourseAttachment> attachmentList) {
+        this.attachmentList = attachmentList;
     }
 }

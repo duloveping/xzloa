@@ -9,7 +9,7 @@
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{employeeId}::uuid, #{employeeName}, #{employeeSex}, #{employeeBorn}, #{identityCode}, #{certificateCode},
         #{certificateName}, #{certificateDate}, #{sealPhoto}, #{organizationCode}, #{organizationName},
-        #{englishName}, #{englishContent} #{chineseContent}, #{teacherId}::uuid, #{teacherName})
+        #{englishName}, #{englishContent}, #{chineseContent}, #{teacherId}::uuid, #{teacherName})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate" >
