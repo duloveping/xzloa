@@ -55,8 +55,9 @@
             <th width="100">市价</th>
             <th width="100">现价</th>
             <th width="100">促销价</th>
+            <th width="100">状态</th>
             <th>简介</th>
-            <th width="100">操作</th>
+            <th width="120">操作</th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -66,5 +67,26 @@
 <div id="pageNav"></div>
 
 <script type="text/javascript" src="<c:url value='/static/js/templates/manage/study/course/course-index.js'/>"></script>
+<script id="course-data-list" type="text/html">
+    {{#  $.each(d.list, function(index, item) { }}
+    <tr class="text-c">
+        <td>{{ item.typeName }}</td>
+        <td>{{ item.code }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.marketPrice }}</td>
+        <td>{{ item.currentPrice }}</td>
+        <td>{{ item.salePrice }}</td>
+        <td>{{ item.teacherName }}</td>
+        <td>{{ item.showState ? '显示' : '隐藏' }}</td>
+        <td>{{ item.introduction }}</td>
+        <td class="td-manage">
+            <a href="javascript:void(0);" onclick="course.edit('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="编辑"><i class="fa fa-edit fa-lg"></i></a>&nbsp;
+            <a href="javascript:void(0);" onclick="course.delete('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="删除"><i class="fa fa-remove fa-lg"></i></a>&nbsp;
+            <a href="javascript:void(0);" onclick="course.videoList('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="视频列表"><i class="fa fa-file-video-o fa-lg"></i></a>&nbsp;
+            <a href="javascript:void(0);" onclick="course.attachmentList('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="附件列表"><i class="fa fa-file-word-o fa-lg"></i></a>&nbsp;
+        </td>
+    </tr>
+    {{#  }); }}
+</script>
 </body>
 </html>
