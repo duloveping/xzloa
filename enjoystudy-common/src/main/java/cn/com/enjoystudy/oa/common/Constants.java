@@ -75,4 +75,10 @@ public class Constants {
     /** 购物订单状态 - 删除 */
     public static final Integer ORDER_STATE_DELETE = 7;
 
+    public static final String POSITION_SYS_STUDENT = "sys-student";
+
+    /** 微信开放平台审核通过的应用APPID */
+    public static final String WX_APPID = "wx9989a18bc4714287";
+    /** 微信支付分配的商户号 */
+    public static final String WX_MCH_ID = "1553413341";
 }
