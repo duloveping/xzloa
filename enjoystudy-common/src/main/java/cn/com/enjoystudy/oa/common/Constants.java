@@ -81,4 +81,6 @@ public class Constants {
     public static final String WX_APPID = "wx9989a18bc4714287";
     /** 微信支付分配的商户号 */
     public static final String WX_MCH_ID = "1553413341";
+    public static final String WX_MCH_KEY = "zsxzl0760b4c09247ec02duys69f1985";
+    public static final String WX_MCH_PWD = "xzl0760dys1985++";
 }
