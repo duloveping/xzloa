@@ -37,8 +37,11 @@
         <span class="l">
             <a class="btn btn-primary radius" onclick="student.add();" href="javascript:void(0);"><i class="Hui-iconfont">&#xe600;</i>&nbsp;添加</a>
             <a class="btn btn-primary radius" onclick="student.batchEdit();" href="javascript:void(0);"><i class="Hui-iconfont">&#xe61f;</i>&nbsp;批量</a>
-            <a class="btn btn-primary radius" onclick="student.export();" href="javascript:void(0);"><i class="Hui-iconfont">&#xe641;</i>&nbsp;导出</a>
+            <a class="btn btn-primary radius" onclick="student.export();" href="javascript:void(0);"><i class="Hui-iconfont">&#xe641;</i>&nbsp;导出学员</a>
+            <a class="btn btn-primary radius" onclick="student.exportScore();" href="javascript:void(0);"><i class="Hui-iconfont">&#xe640;</i>&nbsp;导出成绩</a>
             <a id="grantCourse" class="btn btn-primary radius" href="javascript:void(0);"><i class="Hui-iconfont">&#xe637;</i>&nbsp;授课</a>
+            <a id="grantCourseForAll" class="btn btn-primary radius" href="javascript:void(0);"><i class="Hui-iconfont">&#xe637;</i>&nbsp;全部学员授课</a>
+            <a id="removeCourseForAll" class="btn btn-primary radius" href="javascript:void(0);"><i class="Hui-iconfont">&#xe637;</i>&nbsp;全部学员撤课</a>
         </span>
     </div>
 
@@ -73,6 +76,7 @@
             <a href="javascript:void(0);" onclick="student.edit('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="编辑"><i class="fa fa-edit fa-lg"></i></a>&nbsp;
             <a href="javascript:void(0);" onclick="student.delete('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="删除"><i class="fa fa-remove fa-lg"></i></a>&nbsp;
             <a href="javascript:void(0);" onclick="student.courseList('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="课程"><i class="fa fa-file-video-o fa-lg"></i></a>&nbsp;
+            <a href="javascript:void(0);" onclick="student.paperList('{{item.id}}')" style="text-decoration:none;" class="ml-5" title="试卷"><i class="fa fa-list-alt fa-lg"></i></a>&nbsp;
         </td>
     </tr>
     {{#  }); }}

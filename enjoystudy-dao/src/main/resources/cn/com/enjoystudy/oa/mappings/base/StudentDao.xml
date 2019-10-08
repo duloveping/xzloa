@@ -123,4 +123,18 @@
             and a.id in <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}::uuid</foreach>
         </if>
     </select>
+
+    <select id="findStudentIdsNotExistsCourseList" resultType="string">
+        select ea.id from employee_account ea
+        where ea.flag = true and ea.status = true and ea.category = 8
+        and not exists(select distinct eac.employee_id from employee_account_course eac
+        where eac.employee_id = ea.id and eac.course_id = #{courseId}::uuid)
+    </select>
+
+    <select id="findStudentIdsExistsCourseList" resultType="string">
+        select ea.id from employee_account ea
+        where ea.flag = true and ea.status = true and ea.category = 8
+        and exists(select distinct eac.employee_id from employee_account_course eac
+        where eac.employee_id = ea.id and eac.course_id = #{courseId}::uuid)
+    </select>
 </mapper>

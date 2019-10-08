@@ -46,12 +46,67 @@
         </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                <input class="btn btn-primary radius" type="submit" value="修改">
+                <input id="submit" class="btn btn-primary radius" type="submit" value="修改">
                 <input id="id" name="id" type="hidden" value="" />
             </div>
         </div>
     </form>
 </article>
-<script type="text/javascript" src="<c:url value='/static/js/templates/manage/study/examination-config/config-edit.js' />"></script>
+<script type="text/javascript">
+    $("#inputForm").validate({
+        rules : {
+            oldpwd: {
+                required: true
+            },
+            newpwd: {
+                required: true
+            },
+            okpwd: {
+                required: true,
+            }
+        },
+        messages: {
+            oldpwd: {
+                required: "旧密码不能为空"
+            },
+            newpwd: {
+                required: "新的密码不能为空！"
+            },
+            okpwd: {
+                required: "确认密码不能为空！"
+            }
+        },
+        onkeyup : false,
+        focusCleanup : true,
+        success : "valid",
+        submitHandler : function(form) {
+            top.layer.load();
+            $("#submit").prop("disabled", true);
+
+            $.ajax({
+                type: "post",
+                url: ctx + "/manage/employee/account/save-password.jhtml",
+                cache: false,
+                data: $(form).serialize(),
+                dataType: "json",
+                success: function (res) {
+                    if (res.status) {
+                        $("#oldpwd").val("");
+                        $("#newpwd").val("");
+                        $("#okpwd").val("");
+                    }
+                    $("#submit").prop("disabled", false);
+                    top.layer.alert(res.info,{icon:1,time:3000});
+                    top.layer.closeAll('loading');
+                },
+                error : function(XmlHttpRequest, textStatus, errorThrown) {
+                    $("#submit").prop("disabled", false);
+                    top.layer.closeAll('loading');
+                    top.layer.alert('数据保存失败');
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

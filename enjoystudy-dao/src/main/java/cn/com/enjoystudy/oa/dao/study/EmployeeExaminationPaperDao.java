@@ -25,4 +25,14 @@ public interface EmployeeExaminationPaperDao {
     List<EmployeeExaminationQuestionItem> findQuestionItemByQuestionId(@Param("questionId") String questionId);
 
     EmployeeExaminationQuestionAnalysis findQuestionAnalysisByQuestionId(@Param("questionId") String questionId);
+
+    List<EmployeeExaminationScore> findScoreList(EmployeeExaminationPaperSO so);
+
+    void deleteQuestionByPaperId(@Param("paperId") String paperId);
+
+    void deleteQuestionItemByPaperId(@Param("paperId") String paperId);
+
+    void deleteQuestionAnalysisByPaperId(@Param("paperId") String paperId);
+
+
 }

@@ -2,6 +2,7 @@ package cn.com.enjoystudy.oa.service.study;
 
 import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaper;
 import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationPaperSO;
+import cn.com.enjoystudy.oa.bean.study.EmployeeExaminationScore;
 import cn.com.enjoystudy.oa.dao.study.EmployeeExaminationPaperDao;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -43,6 +44,12 @@ public class EmployeeExaminationPaperServiceImpl implements EmployeeExaminationP
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int deleteById(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new NullPointerException("id is id.");
+        }
+        deleteQuestionAnalysisByPaperId(id);
+        deleteQuestionItemByPaperId(id);
+        deleteQuestionByPaperId(id);
         return employeeExaminationPaperDao.deleteById(id);
     }
 
@@ -66,5 +73,37 @@ public class EmployeeExaminationPaperServiceImpl implements EmployeeExaminationP
     @Override
     public long getTestAmount(String employeeId, String courseId) {
         return employeeExaminationPaperDao.getTestAmount(employeeId, courseId);
+    }
+
+    @Override
+    public List<EmployeeExaminationScore> findScoreList(EmployeeExaminationPaperSO so) {
+        return employeeExaminationPaperDao.findScoreList(so);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void deleteQuestionByPaperId(String paperId) {
+        if (StringUtils.isBlank(paperId)) {
+            throw new NullPointerException("id is paperId.");
+        }
+        employeeExaminationPaperDao.deleteQuestionByPaperId(paperId);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void deleteQuestionItemByPaperId(String paperId) {
+        if (StringUtils.isBlank(paperId)) {
+            throw new NullPointerException("id is paperId.");
+        }
+        employeeExaminationPaperDao.deleteQuestionItemByPaperId(paperId);
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void deleteQuestionAnalysisByPaperId(String paperId) {
+        if (StringUtils.isBlank(paperId)) {
+            throw new NullPointerException("id is paperId.");
+        }
+        employeeExaminationPaperDao.deleteQuestionAnalysisByPaperId(paperId);
     }
 }

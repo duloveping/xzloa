@@ -128,7 +128,12 @@
                     <li>
                         Authorising<br>Signature：
                         <span class="line">
-                            &nbsp;&nbsp;<span class="sign">zhang suo</span>&nbsp;&nbsp;
+                            &nbsp;&nbsp;<span class="sign">
+                            <c:choose>
+                                <c:when test="${certificate.englishContent eq 'CQO'}">guqingfei</c:when>
+                                <c:otherwise>zhang suo</c:otherwise>
+                            </c:choose>
+                            </span>&nbsp;&nbsp;
                         </span>
                     </li>
                     <li>
@@ -143,6 +148,7 @@
                 </ul>
             </div>
         </div>
+        <div  style="background-image:url(<c:url value="/static/js/images/xzlgz.png"/>); background-repeat :no-repeat; background-position:right bottom; width: 700px; height: 150px;"></div>
     </div>
 </body>
 </html>

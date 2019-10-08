@@ -2083,3 +2083,24 @@ comment on column employee_account_course.flag is '标记';
 comment on column employee_account_course.status is '状态';
 comment on column employee_account_course.employee_id is '所属员工ID';
 comment on column employee_account_course.course_id is '所属课程ID';
+
+create table course_certificate_templet
+(
+  id uuid not null,
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  flag boolean default true,
+  status boolean default true,
+  course_id uuid not null,
+  content text,
+  foreign key (course_id) references course(id),
+  primary key (id)
+);
+comment on table course_certificate_templet is '课程培训计划';
+comment on column course_certificate_templet.id is '流水号';
+comment on column course_certificate_templet.create_time is '创建时间';
+comment on column course_certificate_templet.update_time is '更新时间';
+comment on column course_certificate_templet.flag is '标记';
+comment on column course_certificate_templet.status is '状态';
+comment on column course_certificate_templet.course_id is '所属课程ID';
+comment on column course_certificate_templet.content is '模板内容';

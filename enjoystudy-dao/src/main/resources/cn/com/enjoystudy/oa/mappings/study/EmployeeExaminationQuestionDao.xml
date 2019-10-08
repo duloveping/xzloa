@@ -41,4 +41,8 @@
         from employee_examination_question_item
         where question_id = #{questionId}::uuid and flag = true and status = true
     </select>
+
+    <update id="deleteByPaperId">
+        update employee_examination_question set flag = false, status = false where paper_id = #{paperId}
+    </update>
 </mapper>
