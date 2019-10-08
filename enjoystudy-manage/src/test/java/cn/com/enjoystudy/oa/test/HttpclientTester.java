@@ -24,7 +24,7 @@ public class HttpclientTester {
         String body = "test";
         String out_trade_no = "2019100600001";
         String spbill_create_ip = "123.12.12.123";
-        String total_fee = "1.0";
+        String total_fee = "1.5";
         String trade_type = "JSAPI";
 
         String notify_url = "http://www.enjoystudy.com.cn/web/pay/wei-xin-pay/notifyUrl";
