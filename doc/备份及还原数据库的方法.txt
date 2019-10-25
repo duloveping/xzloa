@@ -5,7 +5,7 @@ POSTGRESQL 数据库导入导出
 
 psql -U postgres(用户名)  数据库名(缺省时同用户名) < /data/dum.sql
 
-psql -U postgres zsxzl < F:/workspace/xzl/enjoystudy/doc/201908302035.sql
+psql -U postgres zsxzl < F:/workspace/xzl/enjoystudy/doc/2019090261901.sql
 
 
 导出整个数据库
