@@ -100,9 +100,8 @@ public class CertificateController extends BaseController {
 
     @RequestMapping("preview")
     public ModelAndView preview(@RequestParam String id) {
-        EmployeeCertificate certificate = employeeCertificateService.getById(id);
-
         ModelAndView mv = new ModelAndView("manage/study/certificate/preview");
+        EmployeeCertificate certificate = employeeCertificateService.getById(id);
         mv.getModel().put("certificate", certificate);
         return mv;
     }

@@ -14,27 +14,11 @@ function goPage(curr) {
         dataType: "json",
         success: function (res) {
             if (res.status) {
-                var html = "";
-                var array = res.datas;
-                for (var i = 0; i < array.length; i++) {
-                    var data = array[i];
-                    html += "<tr>";
-                    html += "<td>" + data.typeName + "</td>";
-                    html += "<td>" + data.code + "</td>";
-                    html += "<td>" + data.name + "</td>";
-                    html += "<td>" + data.marketPrice + "</td>";
-                    html += "<td>" + data.currentPrice + "</td>";
-                    html += "<td>" + data.salePrice + "</td>";
-                    html += "<td>" + data.teacherName + "</td>";
-                    html += "<td>" + data.introduction + "</td>";
-                    html += "<td class=\"td-manage\">";
-                    html += "<a href=\"javascript:void(0);\" onclick=\"course.edit('" + data.id + "');\" style=\"text-decoration:none\" class=\"ml-5\" title=\"编辑\"><i class=\"fa fa-edit fa-lg\"></i></a>&nbsp;";
-                    html += "<a href=\"javascript:void(0);\" onclick=\"course.delete(this, '" + data.id + "');\"style=\"text-decoration:none\" class=\"ml-5\" title=\"删除\"><i class=\"fa fa-remove fa-lg\"></i></a>&nbsp;"
-                    html += "<a href=\"javascript:void(0);\" onclick=\"course.videoList('" + data.id + "');\"style=\"text-decoration:none\" class=\"ml-5\" title=\"视频\"><i class=\"fa fa-file-video-o fa-lg\"></i></a>"
-                    html += "</td></tr>";
-                }
+                var getTpl = document.getElementById("course-data-list").innerHTML;
 
-                $("#dataTableList > tbody").html(html);
+                laytpl(getTpl).render({list:res.datas}, function (html) {
+                    $("#dataTableList > tbody").html(html);
+                });
 
                 laypage({
                     cont: 'pageNav',
@@ -108,6 +92,9 @@ Course.prototype = {
     },
     videoList: function (id) {
         document.location.href = ctx  + '/manage/study/course-video/index.jhtml?courseId=' + id + '&rnd=' + Math.random();
+    },
+    attachmentList: function (id) {
+        document.location.href = ctx  + '/manage/study/course-attachment/index.jhtml?courseId=' + id + '&rnd=' + Math.random();
     }
 };
 

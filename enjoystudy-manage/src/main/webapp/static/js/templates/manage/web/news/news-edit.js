@@ -41,12 +41,12 @@ $("#inputForm").validate({
 });
 
 function showTypeSingleDialog(typeId) {
-    layer.open({
+    top.layer.open({
         type: 2,
         title: '新闻类别选择框',
         shadeClose: true,
         shade: 0.8,
-        area: ['480px', '600px'],
+        area: ['400px', '500px'],
         maxmin: true,
         content: ctx + '/manage/web/news-type/single.jhtml?id=' + typeId + '&rnd=' + Math.random(),
         btn: ['确定','关闭'],
@@ -54,7 +54,7 @@ function showTypeSingleDialog(typeId) {
             var data = $(layero).find("iframe")[0].contentWindow.getCheckValue();
             $("#typeId").val(data.id);
             $("#typeName").val(data.name);
-            layer.close(index);
+            top.layer.close(index);
         },
         cancel: function(){
         }

@@ -12,6 +12,7 @@ import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -403,6 +404,9 @@ public class EmployeeExaminationController extends BaseController {
                     certificate.setEmployeeName(account.getFullName());
                     certificate.setIdentityCode(account.getIdentityCode());
                     certificate.setEmployeeBorn(account.getBirthday());
+                    certificate.setCourseCode(StringUtils.trimToNull(course.getCode()));
+                    certificate.setCourseChineseName(StringUtils.trimToNull(course.getChineseName()));
+                    certificate.setCourseEnglishName(StringUtils.trimToNull(course.getEnglishName()));
                     employeeCertificateService.insert(certificate);
 
                 } else {
