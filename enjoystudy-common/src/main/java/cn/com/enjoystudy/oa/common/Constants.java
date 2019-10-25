@@ -76,4 +76,17 @@ public class Constants {
     public static final Integer ORDER_STATE_DELETE = 7;
 
     public static final String POSITION_SYS_STUDENT = "sys-student";
+
+    /** 微信开放平台审核通过的应用APPID */
+    public static final String WX_APPID = "wx9989a18bc4714287";
+    /** 微信支付分配的商户号 */
+    public static final String WX_MCH_ID = "1553413341";
+    public static final String WX_MCH_KEY = "zsxzl0760b4c09247ec02duys69f1985";
+    public static final String WX_MCH_PWD = "xzl0760dys1985++";
+
+//    public static final String ALLINPAY_SYB_CUSID = "990440153996000";
+    public static final String ALLINPAY_SYB_CUSID = "56060308249FLCH";
+    public static final String ALLINPAY_SYB_APPID = "00178045";
+    public static final String ALLINPAY_SYB_APPKEY = "Ft2tUxcqdGp2C7kI4zaedIpvKYgGPsWi";
+    public static final String ALLINPAY_SYB_APIURL = "https://vsp.allinpay.com/apiweb/unitorder";
 }

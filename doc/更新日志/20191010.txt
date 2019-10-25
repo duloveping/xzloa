@@ -1,0 +1,8 @@
+alter table employee_certificate
+add column course_code character varying(50),
+add column course_chinese_name character varying(200),
+add column course_english_name character varying(200);
+
+comment on column employee_certificate.course_code is '课程编号';
+comment on column employee_certificate.course_chinese_name is '课程中文名称';
+comment on column employee_certificate.course_english_name is '课程英文名称';
