@@ -5,11 +5,13 @@
         insert into employee_certificate (id, create_time, update_time, flag, status,
         employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_code,
         certificate_name, certificate_date, seal_photo, organization_code, organization_name,
-        english_name, english_content, chinese_content, teacher_id, teacher_name)
+        english_name, english_content, chinese_content, teacher_id, teacher_name, course_code,
+        course_chinese_name, course_english_name)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{employeeId}::uuid, #{employeeName}, #{employeeSex}, #{employeeBorn}, #{identityCode}, #{certificateCode},
         #{certificateName}, #{certificateDate}, #{sealPhoto}, #{organizationCode}, #{organizationName},
-        #{englishName}, #{englishContent}, #{chineseContent}, #{teacherId}::uuid, #{teacherName})
+        #{englishName}, #{englishContent}, #{chineseContent}, #{teacherId}::uuid, #{teacherName}, #{courseCode},
+        #{courseChineseName}, #{courseEnglishName})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate" >
@@ -19,13 +21,16 @@
         certificate_code = #{certificateCode}, certificate_name = #{certificateName}, certificate_date = #{certificateDate},
         seal_photo = #{sealPhoto}, organization_code = #{organizationCode}, organization_name = #{organizationName},
         english_name = #{englishName}, english_content = #{englishContent}, chinese_content = #{chineseContent},
-        teacher_id = #{teacherId}, teacher_name = #{teacherName} where id = #{id}::uuid
+        teacher_id = #{teacherId}, teacher_name = #{teacherName}, course_code = #{courseCode},
+        course_chinese_name = #{courseChineseName}, course_english_name = #{courseEnglishName}
+        where id = #{id}::uuid
     </update>
 
     <select id="getById" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate">
         select id, employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_code,
             certificate_name, certificate_date, seal_photo, organization_code, organization_name,
-            english_name, english_content, chinese_content, teacher_id, teacher_name
+            english_name, english_content, chinese_content, teacher_id, teacher_name,
+            course_code, course_chinese_name, course_english_name
         from employee_certificate
         where id = #{id}::uuid and flag = true and status = true
     </select>
@@ -37,7 +42,8 @@
     <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificate"
             parameterType="cn.com.enjoystudy.oa.bean.study.EmployeeCertificateSO">
         select id, employee_id, employee_name,  employee_sex, employee_born, identity_code, certificate_code,
-        certificate_name, certificate_date, seal_photo, organization_code, organization_name, teacher_id, teacher_name
+        certificate_name, certificate_date, seal_photo, organization_code, organization_name, teacher_id, teacher_name,
+        course_code, course_chinese_name, course_english_name
         from employee_certificate
         where flag = true and status = true
         <if test="null != employeeId and '' != employeeId"> and employee_id = #{employeeId}::uuid </if>
@@ -54,6 +60,7 @@
         <if test="null != teacherId and '' != teacherId"> and teacher_id = #{teacherId}::uuid </if>
         <if test="null != teacherName and '' != teacherName"> and teacher_name = #{teacherName}::uuid </if>
         <if test="null != teacherName and '' != teacherName"> and certificate_date = #{teacherName} </if>
+        <if test="null != courseCode and '' != courseCode"> and course_code = #{courseCode} </if>
         <if test="null != startDate"><![CDATA[ and certificate_date >= #{startDate} ]]></if>
         <if test="null != endDate"><![CDATA[ and certificate_date <= #{endDate} ]]></if>
         order by create_time desc

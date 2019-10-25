@@ -24,8 +24,9 @@ public class EmployeeCertificateSO extends SOSupport {
     private String certificateId;
     /** 证书编号 */
     private String certificateCode;
-    /** 证书名称 */
+    /** 证书中文名称 */
     private String certificateName;
+    /** 证书英文名称 */
     private String englishName;
     /** 证书日期 */
     private Date certificateDate;
@@ -41,8 +42,16 @@ public class EmployeeCertificateSO extends SOSupport {
     private String teacherId;
     /** 发证人姓名 */
     private String teacherName;
+    /** 证书中文内容 */
     private String englishContent;
+    /** 证书英文内容 */
     private String chineseContent;
+    /** 课程编号 */
+    private String courseCode;
+    /** 课程中文名称 */
+    private String courseChineseName;
+    /** 课程英文名称 */
+    private String courseEnglishName;
     private Date startDate;
     private Date endDate;
 
@@ -199,6 +208,30 @@ public class EmployeeCertificateSO extends SOSupport {
 
     public void setChineseContent(String chineseContent) {
         this.chineseContent = chineseContent;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public String getCourseChineseName() {
+        return courseChineseName;
+    }
+
+    public void setCourseChineseName(String courseChineseName) {
+        this.courseChineseName = courseChineseName;
+    }
+
+    public String getCourseEnglishName() {
+        return courseEnglishName;
+    }
+
+    public void setCourseEnglishName(String courseEnglishName) {
+        this.courseEnglishName = courseEnglishName;
     }
 
     public Date getStartDate() {
