@@ -48,6 +48,7 @@
 		<jodconverter.version>2.2.2</jodconverter.version>
 		<sigar.version>1.6.5.132-6</sigar.version>
 		<uuid.version>3.2</uuid.version>
+		<javase.version>3.4.0</javase.version>
 	</properties>
 
 	<dependencies>
@@ -261,6 +262,12 @@
 			<groupId>com.eaio.uuid</groupId>
 			<artifactId>uuid</artifactId>
 			<version>${uuid.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>${javase.version}</version>
 		</dependency>
 
 	</dependencies>

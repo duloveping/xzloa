@@ -2,6 +2,7 @@ package cn.com.enjoystudy.oa.webapps;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
+import cn.com.enjoystudy.oa.util.AjaxUtils;
 import cn.com.enjoystudy.oa.util.JsUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -77,7 +78,7 @@ public class BaseController {
      */
     @ExceptionHandler({ UnauthenticatedException.class, AuthenticationException.class })
     public ModelAndView authenticationException(HttpServletRequest request, HttpServletResponse response) {
-        if (isAjaxRequest(request)) {
+        if (AjaxUtils.isAjaxRequest(request)) {
             JSONObject json = new JSONObject();
             json.put("info", "未登录");
             json.put("status", false);
@@ -96,7 +97,7 @@ public class BaseController {
      */
     @ExceptionHandler({ UnauthorizedException.class, AuthorizationException.class })
     public ModelAndView authorizationException(HttpServletRequest request, HttpServletResponse response) {
-        if (isAjaxRequest(request)) {
+        if (AjaxUtils.isAjaxRequest(request)) {
             JSONObject json = new JSONObject();
             json.put("info", "无权限");
             json.put("status", false);
@@ -104,20 +105,6 @@ public class BaseController {
             return null;
         } else {
             return new ModelAndView("redirect:/common/error/403.jhtml");
-        }
-    }
-
-    /**
-     * 是否是Ajax请求
-     * @param request
-     * @return
-     */
-    public Boolean isAjaxRequest(HttpServletRequest request) {
-        String requestedWith = request.getHeader("x-requested-with");
-        if (requestedWith != null && requestedWith.equalsIgnoreCase("XMLHttpRequest")) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
         }
     }
 }

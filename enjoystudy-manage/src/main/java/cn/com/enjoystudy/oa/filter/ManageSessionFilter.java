@@ -1,6 +1,8 @@
 package cn.com.enjoystudy.oa.filter;
 
+import cn.com.enjoystudy.oa.util.AjaxUtils;
 import cn.com.enjoystudy.oa.util.JsUtils;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
@@ -52,13 +54,23 @@ public class ManageSessionFilter extends OncePerRequestFilter {
             Subject subject = SecurityUtils.getSubject();
             Object obj = subject.getSession().getAttribute(DEFAULT_LOGIN_USER);
             if (null == obj) {
-                String loginPage = ctxpath + "/manage/login/index.jhtml";
-                StringBuilder builder = new StringBuilder();
-                builder.append("alert(\"网页过期，请重新登录！\");");
-                builder.append("window.top.location.href=\"");
-                builder.append(loginPage);
-                builder.append("\";");
-                JsUtils.executeJavascript(res, builder.toString());
+                if (AjaxUtils.isAjaxRequest(req)) {
+                    JSONObject json = new JSONObject();
+                    json.put("status", true);
+                    json.put("info", "网页过期，请重新登录");
+
+                    JsUtils.writeJson(res, json.toJSONString());
+                } else {
+                    String loginPage = ctxpath + "/manage/login/index.jhtml";
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("alert(\"网页过期，请重新登录！\");");
+                    builder.append("window.top.location.href=\"");
+                    builder.append(loginPage);
+                    builder.append("\";");
+                    JsUtils.executeJavascript(res, builder.toString());
+                }
+
+
             } else {
                 // 如果session中存在登录者实体，则继续
                 chain.doFilter(req, res);

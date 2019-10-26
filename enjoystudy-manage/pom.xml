@@ -32,7 +32,7 @@
 		<ehcache.version>2.6.11</ehcache.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<commons-logging.version>1.2</commons-logging.version>
-		<log4j.version>2.11.0</log4j.version>
+		<log4j.version>2.9.1</log4j.version>
 		<!--
 		<slf4j.version>1.7.26</slf4j.version>
 		<logback.version>1.2.3</logback.version>
@@ -43,11 +43,10 @@
 		<hibernate-validator.version>5.4.2.Final</hibernate-validator.version>
 		<java-uuid-generator.version>3.1.5</java-uuid-generator.version>
 		<quartz.version>2.2.3</quartz.version>
-		<jedis.version>2.9.0</jedis.version>
-		<spring-data-redis.version>2.0.12.RELEASE</spring-data-redis.version>
 		<pay-java-common.version>2.12.6</pay-java-common.version>
 		<alipay-sdk-java.version>3.7.4.ALL</alipay-sdk-java.version>
 		<weixin-java-pay.version>3.4.0</weixin-java-pay.version>
+		<httpclient.version>4.5.10</httpclient.version>
 	</properties>
 
 	<dependencies>
@@ -234,21 +233,6 @@
 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-1.2-api</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-web</artifactId>
 			<version>${log4j.version}</version>
 			<scope>runtime</scope>
@@ -301,17 +285,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>${jedis.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
-			<version>${spring-data-redis.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>${quartz.version}</version>
@@ -359,6 +332,18 @@
 			<groupId>com.alipay.sdk</groupId>
 			<artifactId>alipay-sdk-java</artifactId>
 			<version>${alipay-sdk-java.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
 		</dependency>
 
 		<dependency><!-- JUnit单元测试框架 -->

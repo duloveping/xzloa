@@ -73,7 +73,7 @@
         lock_state = #{lockState}, position_id = #{positionId}::uuid, identity_type = #{identityType},
         identity_code = #{identityCode}, question = #{question}, answer = #{answer}, education = #{education},
         school = #{school}, major = #{major}, sex = #{sex}, birthday = #{birthday}, native_place = #{nativePlace},
-        marital_status = #{maritalStatus}, category = #{category}, first_login_state = #{firstLoginState}
+        marital_status = #{maritalStatus}, category = #{category} first_login_state = #{firstLoginState}
         where id = #{id}::uuid
     </update>
 

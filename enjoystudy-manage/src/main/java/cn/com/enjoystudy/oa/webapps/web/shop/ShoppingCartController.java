@@ -101,8 +101,43 @@ public class ShoppingCartController extends BaseController {
         } catch (InvalidSessionException e) {
             LOGGER.error(e.getMessage(), e);
         }
-
         return mv;
+    }
+
+    @RequestMapping("append")
+    @ResponseBody
+    public JSONObject append(@RequestParam("courseId") String courseId) {
+        JSONObject result;
+        EmployeeAccount account = getCurrentUser();
+
+        if (null != account) {
+            Course course = courseService.getById(courseId);
+            if (null != course && course.getShowState()) {
+                CourseVideoSO videoSO = new CourseVideoSO();
+                videoSO.setCourseId(course.getId());
+                Long amount = courseVideoService.getCount(videoSO);
+
+                ShoppingCartSO cartSO = new ShoppingCartSO();
+                cartSO.setAccountId(account.getId());
+                cartSO.setCourseId(courseId);
+
+                List<ShoppingCart> cartList = shoppingCartService.list(cartSO);
+                if (null == cartList || cartList.size() == 0) {
+                    ShoppingCart cart = new ShoppingCart();
+                    cart.setBuyAmount(1);
+                    cart.setAccountId(account.getId());
+                    cart.setCourseId(courseId);
+                    shoppingCartService.insert(cart);
+                }
+
+                result = resultSuccess();
+            } else {
+                result = resultError("该课程已经关闭或已经删除！");
+            }
+        } else {
+            result = resultError("请先登录系统");
+        }
+        return result;
     }
 
     @RequestMapping("list")
