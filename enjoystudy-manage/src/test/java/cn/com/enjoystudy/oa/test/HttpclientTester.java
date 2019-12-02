@@ -33,12 +33,11 @@ public class HttpclientTester {
         params.add("appid=" + Constants.WX_APPID);
         params.add("mch_id=" + Constants.WX_MCH_ID);
         params.add("nonce_str=" + nonce_str);
-        params.add("sign_type=MD5");
         params.add("body=" + body);
         params.add("out_trade_no=" + out_trade_no);
         params.add("total_fee=" + total_fee);
-//        params.add("spbill_create_ip=" + spbill_create_ip);
-//        params.add("notify_url=" + notify_url);
+        params.add("spbill_create_ip=" + spbill_create_ip);
+        params.add("notify_url=" + notify_url);
         params.add("trade_type=" + trade_type);
 
         String[] strs = params.toArray(new String[params.size()]);
@@ -52,11 +51,10 @@ public class HttpclientTester {
         xml.append("<nonce_str>" + nonce_str + "</nonce_str>");
         xml.append("<sign>" + sign + "</sign>");
         xml.append("<body>" + body + "</body>");
-        xml.append("<sign_type>MD5</sign_type>");
         xml.append("<out_trade_no>" + out_trade_no + "</out_trade_no>");
         xml.append("<total_fee>" + total_fee + "</total_fee>");
-//        xml.append("<spbill_create_ip>" + spbill_create_ip + "</spbill_create_ip>");
-//        xml.append("<notify_url>" + notify_url + "</notify_url>");
+        xml.append("<spbill_create_ip>" + spbill_create_ip + "</spbill_create_ip>");
+        xml.append("<notify_url>" + notify_url + "</notify_url>");
         xml.append("<trade_type>" + trade_type + "</trade_type>");
         xml.append("</xml>");
 

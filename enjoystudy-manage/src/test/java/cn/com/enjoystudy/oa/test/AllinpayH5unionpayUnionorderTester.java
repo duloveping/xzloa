@@ -1,11 +1,11 @@
 package cn.com.enjoystudy.oa.test;
 
-import allinpay.utils.SybUtils;
-import cn.com.enjoystudy.oa.common.Constants;
+import cn.com.enjoystudy.oa.webapps.web.allinpay.AllinpayH5unionpayUnionorder;
+import cn.com.enjoystudy.oa.webapps.web.allinpay.AllinpayUnitorderPay;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -20,22 +20,24 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 
-public class TreeMapTester {
+public class AllinpayH5unionpayUnionorderTester {
     public static void main(String[] args) {
-        TreeMap<String, String> params = new TreeMap<String, String>();
-        params.put("cusid", Constants.ALLINPAY_SYB_CUSID);
-        params.put("appid", Constants.ALLINPAY_SYB_APPID);
-        params.put("version", "11");
-        params.put("trxamt", "100");
-        params.put("reqsn", "2019102400003");
-        params.put("paytype", "W01");
-        params.put("notify_url", "http://www.enjoystudy.com.cn/web/allinpay/allinpay-notify.jhtml");
-        params.put("randomstr", RandomStringUtils.randomNumeric(10));
-        try {
-            params.put("sign", SybUtils.sign(params, Constants.ALLINPAY_SYB_APPKEY));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Date date = new Date();
+        String ymd = DateFormatUtils.format(date, "yyyyMMdd");
+        String hms = DateFormatUtils.format(date, "HHmmss");
+        String orderRnd = RandomStringUtils.randomNumeric(6);
+        String valRnd = RandomStringUtils.randomNumeric(10);
+
+        AllinpayH5unionpayUnionorder api = new AllinpayH5unionpayUnionorder();
+        api.setReqsn(ymd + hms + orderRnd);
+        api.setRandomstr(valRnd);
+        api.setBody("内审员");
+        api.setRemark("内审员证书");
+        api.setTrxamt("100");
+        api.setValidtime("10");
+        api.beanToTreeMap(api);
+
+        TreeMap<String, String> params = api.beanToTreeMap(api);
 
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         Set<String> keys = params.keySet();
@@ -50,7 +52,7 @@ public class TreeMapTester {
         try {
             uri = new URIBuilder().setScheme("https")
                     .setHost("vsp.allinpay.com")
-                    .setPath("/apiweb/unitorder/pay")
+                    .setPath("/apiweb/h5unionpay/unionorder")
                     .setParameters(list).build();
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -58,13 +60,13 @@ public class TreeMapTester {
         HttpPost hp = new HttpPost(uri);
 
         RequestConfig config = RequestConfig.custom()
-        // 设置连接超时时间(单位毫秒)
+                // 设置连接超时时间(单位毫秒)
                 .setConnectTimeout(5000)
-        // 设置请求超时时间(单位毫秒)
+                // 设置请求超时时间(单位毫秒)
                 .setConnectionRequestTimeout(5000)
-        // socket读写超时时间(单位毫秒)
+                // socket读写超时时间(单位毫秒)
                 .setSocketTimeout(5000)
-        // 设置是否允许重定向(默认为true)
+                // 设置是否允许重定向(默认为true)
                 .setRedirectsEnabled(true).build();
 
         hp.setConfig(config);

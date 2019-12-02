@@ -72,7 +72,7 @@ public class AllinpayNotifyController extends BaseController {
         if (StringUtils.isNotBlank(sign)) { params.put("retcode", sign); }
 
         try {
-            boolean flag = SybUtils.validSign(params, Constants.ALLINPAY_SYB_APPKEY);
+            boolean flag = SybUtils.validSign(params, "");
             if (flag) {
 
             }
