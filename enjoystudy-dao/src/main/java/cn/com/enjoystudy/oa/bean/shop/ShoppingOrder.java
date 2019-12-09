@@ -3,6 +3,7 @@ package cn.com.enjoystudy.oa.bean.shop;
 import cn.com.enjoystudy.oa.bean.EntitySupport;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 购物订单
@@ -26,13 +27,15 @@ public class ShoppingOrder extends EntitySupport {
     /** 订单总数 */
     private Integer totalAmount;
     /** 订单总额 */
-    private Date totalPrice;
+    private Double totalPrice;
     /** 支付状态：0待支付，1已支付 */
     private Integer payState;
-    /** 支付类型：0其他，1微信，2支付宝，3网银 */
-    private Integer payType;
+    /** 支付类型 */
+    private String payType;
     /** 订单状态：0待付款，1待发货，2待收货，3待评价，4完成，5关闭，6无效，7删除 */
     private Integer orderState;
+    private List<ShoppingOrderItem> orderItemList;
+    private List<ShoppingCart> cartList;
 
     public ShoppingOrder() {
     }
@@ -101,11 +104,11 @@ public class ShoppingOrder extends EntitySupport {
         this.totalAmount = totalAmount;
     }
 
-    public Date getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Date totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -117,11 +120,11 @@ public class ShoppingOrder extends EntitySupport {
         this.payState = payState;
     }
 
-    public Integer getPayType() {
+    public String getPayType() {
         return payType;
     }
 
-    public void setPayType(Integer payType) {
+    public void setPayType(String payType) {
         this.payType = payType;
     }
 
@@ -131,5 +134,21 @@ public class ShoppingOrder extends EntitySupport {
 
     public void setOrderState(Integer orderState) {
         this.orderState = orderState;
+    }
+
+    public List<ShoppingOrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<ShoppingOrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
+
+    public List<ShoppingCart> getCartList() {
+        return cartList;
+    }
+
+    public void setCartList(List<ShoppingCart> cartList) {
+        this.cartList = cartList;
     }
 }

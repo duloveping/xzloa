@@ -35,6 +35,9 @@ public interface ShoppingOrderDao {
      */
     ShoppingOrder getById(String id);
 
+    ShoppingOrder getByOrderCode(@Param("orderCode") String orderCode);
+
+
     /**
      * 根据ID删除
      * @param id

@@ -31,6 +31,8 @@ public class Course extends Paper {
     private Boolean showState;
     /** 推荐状态 */
     private Boolean recommendState;
+    /** 免费状态 */
+    private Boolean freeState;
     /** 热门状态 */
     private Boolean hotState;
     /** 图片 */
@@ -47,7 +49,9 @@ public class Course extends Paper {
     private String description;
     /** 模板 */
     private String templet;
+    /** 英文内容 */
     private String englishContent;
+    /** 中文内容 */
     private String chineseContent;
     /** 点击次数 */
     private Integer clickAmount;
@@ -165,6 +169,14 @@ public class Course extends Paper {
 
     public void setRecommendState(Boolean recommendState) {
         this.recommendState = recommendState;
+    }
+
+    public Boolean getFreeState() {
+        return freeState;
+    }
+
+    public void setFreeState(Boolean freeState) {
+        this.freeState = freeState;
     }
 
     public Boolean getHotState() {

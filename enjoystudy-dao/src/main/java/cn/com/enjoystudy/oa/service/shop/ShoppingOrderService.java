@@ -3,6 +3,7 @@ package cn.com.enjoystudy.oa.service.shop;
 import cn.com.enjoystudy.oa.bean.shop.ShoppingOrder;
 import cn.com.enjoystudy.oa.bean.shop.ShoppingOrderSO;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,8 @@ public interface ShoppingOrderService {
      * @return
      */
     ShoppingOrder getById(String id);
+
+    ShoppingOrder getByOrderCode(String orderCode);
 
     /**
      * 根据ID删除

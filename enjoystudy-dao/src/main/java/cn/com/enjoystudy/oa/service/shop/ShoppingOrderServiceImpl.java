@@ -35,12 +35,26 @@ public class ShoppingOrderServiceImpl implements ShoppingOrderService {
 
     @Override
     public ShoppingOrder getById(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new NullPointerException("orderCode is id.");
+        }
         return shoppingOrderDao.getById(id);
+    }
+
+    @Override
+    public ShoppingOrder getByOrderCode(String orderCode) {
+        if (StringUtils.isBlank(orderCode)) {
+            throw new NullPointerException("orderCode is null.");
+        }
+        return shoppingOrderDao.getByOrderCode(orderCode);
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public int deleteById(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new NullPointerException("orderCode is id.");
+        }
         return shoppingOrderDao.deleteById(id);
     }
 

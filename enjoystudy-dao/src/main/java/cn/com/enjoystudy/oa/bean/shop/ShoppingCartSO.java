@@ -38,6 +38,7 @@ public class ShoppingCartSO extends SOSupport {
     /** 合计金额 */
     private Double totalPrice;
 
+
     public ShoppingCartSO() {
     }
 

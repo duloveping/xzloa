@@ -13,7 +13,7 @@
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.shop.ShoppingOrder" >
         update shopping_order set update_time = #{updateTime},
-        order_sign = #{orderSign}, order_code = #{orderCode}, account_id = #{accountId}::uuid, full_name = #{fullName}
+        order_sign = #{orderSign}, order_code = #{orderCode}, account_id = #{accountId}::uuid, full_name = #{fullName},
         order_time = #{orderTime}, expire_time = #{expireTime}, pay_time = #{payTime},
         total_amount = #{totalAmount}, total_price = #{totalPrice}, pay_state = #{payState},
         pay_type = #{payType}, order_state = #{orderState} where id = #{id}::uuid
@@ -24,6 +24,14 @@
         total_price, pay_state, pay_type, order_state
         from shopping_order
         where flag = true and status = true and id = #{id}::uuid
+    </select>
+
+    <select id="getByOrderCode" resultType="cn.com.enjoystudy.oa.bean.shop.ShoppingOrder">
+        select id, order_sign, order_code, account_id, full_name, order_time, expire_time, pay_time, total_amount,
+        total_price, pay_state, pay_type, order_state
+        from shopping_order
+        where flag = true and status = true and order_code = #{orderCode}
+        order by create_time desc
     </select>
 
     <update id="deleteById">

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.study.TeachCourseDao" >
+    <select id="teachCourseList" parameterType="cn.com.enjoystudy.oa.bean.study.TeachCourseSO"
+            resultType="cn.com.enjoystudy.oa.bean.study.TeachCourse">
+        select c.id course_id, c.code course_code, c.name course_name, c.image course_image,
+        c.current_price, c.market_price, c.sale_price,
+        c.recommend_state, c.hot_state, c.free_state,
+        ct.id type_id, ct.code type_code, ct.name type_name,
+        t.id teacher_id, t.full_name teacher_name, t.image teacher_image
+        from course c
+        inner join course_type ct on ct.id = c.type_id
+        inner join teacher t on t.id = c.teacher_id
+        where c.flag = true and c.status = true and c.show_state = true
+        <if test="null != recommendState"> and c.recommend_state = #{recommendState}</if>
+        <if test="null != hotState"> and c.hot_state = #{hotState}</if>
+        <if test="null != freeState"> and c.free_state = #{freeState}</if>
+        <if test="null != courseCode and '' != courseCode"> and c.code = #{courseCode} </if>
+        <if test="null != courseName and '' != courseName">
+            <bind name="courseNameLike" value="'%' + courseName + '%'"/>
+            and c.name like #{courseNameLike}
+        </if>
+        <if test="null != typeId and '' != typeId"> and ct.id = #{typeId}::uuid </if>
+        <if test="null != typeCode and '' != typeCode"> and ct.code = #{typeCode} </if>
+        <if test="null != typeName and '' != typeName">
+            <bind name="typeNameLike" value="'%' + typeName + '%'"/>
+            and c.name like #{typeNameLike}
+        </if>
+        <if test="null != teacherId and '' != teacherId"> and t.id = #{teacherId}::uuid </if>
+        <if test="null != teacherName and '' != teacherName">
+            <bind name="teacherNameLike" value="'%' + teacherName + '%'"/>
+            and t.full_name like #{teacherNameLike}
+        </if>
+    </select>
+
+    <select id="learnCourseList" parameterType="cn.com.enjoystudy.oa.bean.study.TeachCourseSO"
+            resultType="cn.com.enjoystudy.oa.bean.study.TeachCourse">
+        select c.id course_id, c.code course_code, c.name course_name, c.image course_image,
+        c.current_price, c.market_price, c.sale_price, recommend_state, hot_state, free_state,
+        ct.id type_id, ct.code type_code, ct.name type_name,
+        t.id teacher_id, t.full_name teacher_name, t.image teacher_image
+        from (select * from course
+        where id in (
+        select v1.course_id from (
+        select id course_id from course where flag = true and status = true and free_state = true
+        union all
+        select course_id from employee_account_course
+        where flag = true and status = true and employee_id = #{employeeId}::uuid
+        union all
+        select course_id from shopping_order_item i
+        inner join shopping_order o on i.order_id = o.id
+        where o.account_id = #{employeeId}::uuid
+        ) v1)) c
+        inner join course_type ct on ct.id = c.type_id
+        inner join teacher t on t.id = c.teacher_id
+        where c.show_state = true
+        <if test="null != recommendState"> and c.recommend_state = #{recommendState}</if>
+        <if test="null != hotState"> and c.hot_state = #{hotState}</if>
+        <if test="null != freeState"> and c.free_state = #{freeState}</if>
+        <if test="null != courseCode and '' != courseCode"> and c.code = #{courseCode} </if>
+        <if test="null != courseName and '' != courseName">
+            <bind name="courseNameLike" value="'%' + courseName + '%'"/>
+            and c.name like #{courseNameLike}
+        </if>
+        <if test="null != typeId and '' != typeId"> and ct.id = #{typeId}::uuid </if>
+        <if test="null != typeCode and '' != typeCode"> and ct.code = #{typeCode} </if>
+        <if test="null != typeName and '' != typeName">
+            <bind name="typeNameLike" value="'%' + typeName + '%'"/>
+            and c.name like #{typeNameLike}
+        </if>
+        <if test="null != teacherId and '' != teacherId"> and t.id = #{teacherId}::uuid </if>
+        <if test="null != teacherName and '' != teacherName">
+            <bind name="teacherNameLike" value="'%' + teacherName + '%'"/>
+            and t.full_name like #{teacherNameLike}
+        </if>
+    </select>
+</mapper>

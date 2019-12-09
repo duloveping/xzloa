@@ -33,6 +33,8 @@ public class CourseSO extends PaperSO {
     private Boolean showState;
     /** 推荐状态 */
     private Boolean recommendState;
+    /** 免费状态 */
+    private Boolean freeState;
     /** 热门状态 */
     private Boolean hotState;
     /** 图片 */
@@ -175,6 +177,14 @@ public class CourseSO extends PaperSO {
 
     public void setRecommendState(Boolean recommendState) {
         this.recommendState = recommendState;
+    }
+
+    public Boolean getFreeState() {
+        return freeState;
+    }
+
+    public void setFreeState(Boolean freeState) {
+        this.freeState = freeState;
     }
 
     public Boolean getHotState() {
