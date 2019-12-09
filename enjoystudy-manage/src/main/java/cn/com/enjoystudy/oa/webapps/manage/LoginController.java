@@ -24,7 +24,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,9 +210,17 @@ public class LoginController extends BaseController {
         log.setCaption(message);
         loginLogService.insert(log);
 
+        String url = "/manage/main/index.jhtml";
+
+        SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+        if (null != savedRequest) {
+            url = savedRequest.getRequestUrl();
+        }
+
         JSONObject json = new JSONObject();
         json.put("message", message);
         json.put("success", success);
+        json.put("url", url);
         json.put("menus", array);
         return json;
     }

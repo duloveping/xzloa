@@ -101,7 +101,6 @@
 <%@ include file="/WEB-INF/views/web/common/footer.jsp" %>
 <script type="text/javascript" src="<c:url value="/static/js/common/jquery/jquery-1.11.3.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/common/flowplayer-7.2.7/flowplayer.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/static/js/templates/web/index/js/index.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/static/js/templates/web/course-video/video-details.js"/>"></script>
 </body>
 </html>

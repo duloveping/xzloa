@@ -41,5 +41,5 @@
             <img src="<c:url value='/static/js/templates/web/index/LoginEnterButton.jpg'/>" />
         </a>
     </div>
-</div>v>
+</div>
 </div>

@@ -33,7 +33,7 @@ public class AllinpayUnitorderPayTester {
         pay.setTrxamt("100");
         pay.setPaytype("W01");
 
-        TreeMap<String, String> params = pay.beanToTreeMap(pay);
+        TreeMap<String, String> params = pay.toTreeMap();
 
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         Set<String> keys = params.keySet();

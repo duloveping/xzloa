@@ -93,6 +93,15 @@
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>免费状态：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:radiobutton id="freeState-1" path="freeState" value="true" label="是" cssClass="required"/>
+                <form:radiobutton id="freeState-2" path="freeState" value="false" label="否"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
                 <span class="c-red">*</span>市价：
             </label>
             <div class="formControls col-xs-8 col-sm-10">

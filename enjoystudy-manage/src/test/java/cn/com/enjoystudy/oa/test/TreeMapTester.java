@@ -3,6 +3,7 @@ package cn.com.enjoystudy.oa.test;
 import allinpay.utils.SybUtils;
 import cn.com.enjoystudy.oa.common.Constants;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -27,7 +28,8 @@ public class TreeMapTester {
         params.put("appid", Constants.ALLINPAY_SYB_APPID);
         params.put("version", "11");
         params.put("trxamt", "100");
-        params.put("reqsn", "2019102400003");
+        params.put("reqsn", "2019102400005");
+        params.put("body", StringEscapeUtils.escapeJava("内审员"));
         params.put("paytype", "W01");
         params.put("notify_url", "http://www.enjoystudy.com.cn/web/allinpay/allinpay-notify.jhtml");
         params.put("randomstr", RandomStringUtils.randomNumeric(10));

@@ -5,6 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.TreeMap;
 
+/**
+ * 通联收银宝的统一支付接口
+ */
 public class AllinpayUnitorderPay extends Allinpay {
     private String version = "11";
     private String reqsn = "";
@@ -33,13 +36,10 @@ public class AllinpayUnitorderPay extends Allinpay {
     public AllinpayUnitorderPay() {
     }
 
-    public TreeMap<String, String> beanToTreeMap(AllinpayUnitorderPay api) {
-        if (null == api) {
-            throw new NullPointerException("api is null.");
-        }
+    public TreeMap<String, String> toTreeMap() {
         TreeMap<String, String> map = new TreeMap<String, String>();
-        map.put("cusid", api.getCusid());
-        map.put("appid", api.getAppid());
+        map.put("cusid", getCusid());
+        map.put("appid", getAppid());
         map.put("version", this.version);
         map.put("trxamt", getTrxamt());
         map.put("reqsn", this.reqsn);
@@ -64,7 +64,7 @@ public class AllinpayUnitorderPay extends Allinpay {
         if (StringUtils.isNotBlank(this.signtype)) { map.put("signtype", StringUtils.trim(this.signtype)); }
 
         try {
-            map.put("sign", SybUtils.sign(map, api.getAppkey()));
+            map.put("sign", SybUtils.sign(map, getAppkey()));
         } catch (Exception e) {
             e.printStackTrace();
         }

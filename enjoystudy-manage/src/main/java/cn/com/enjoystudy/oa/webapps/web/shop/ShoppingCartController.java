@@ -172,4 +172,15 @@ public class ShoppingCartController extends BaseController {
         }
         return resultError("请先登录");
     }
+
+    @RequestMapping("createOrder")
+    @ResponseBody
+    public JSONObject createOrder(ShoppingCartSO so) {
+        EmployeeAccount account = getCurrentUser();
+        if (null != account) {
+
+            return resultSuccess("成功");
+        }
+        return resultError("请先登录");
+    }
 }

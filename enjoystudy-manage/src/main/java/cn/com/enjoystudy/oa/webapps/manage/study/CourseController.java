@@ -68,6 +68,7 @@ public class CourseController extends UploadController {
             course.setShowState(false);
             course.setRecommendState(false);
             course.setHotState(false);
+            course.setFreeState(false);
         }
 
         ModelAndView mv = new ModelAndView("manage/study/course/edit");
@@ -131,6 +132,7 @@ public class CourseController extends UploadController {
             }
             course.setShowState(so.getShowState());
             course.setHotState(so.getHotState());
+            course.setFreeState(so.getFreeState());
             course.setRecommendState(so.getRecommendState());
             course.setCode(StringUtils.trim(so.getCode()));
             course.setName(StringUtils.trim(so.getName()));

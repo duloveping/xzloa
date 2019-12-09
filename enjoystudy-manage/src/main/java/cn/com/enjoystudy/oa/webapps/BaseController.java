@@ -1,11 +1,13 @@
 package cn.com.enjoystudy.oa.webapps;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
+import cn.com.enjoystudy.oa.bean.study.CourseVideo;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.util.AjaxUtils;
 import cn.com.enjoystudy.oa.util.JsUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -38,6 +40,14 @@ public class BaseController {
         JSONObject json = new JSONObject();
         json.put("status", true);
         json.put("info", info);
+        return json;
+    }
+
+    public JSONObject resultSuccess(PageInfo<?> pageInfo) {
+        JSONObject json = resultSuccess();
+        json.put("datas", pageInfo.getList());
+        json.put("total", pageInfo.getTotal());
+        json.put("pages", pageInfo.getPages());
         return json;
     }
 

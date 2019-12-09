@@ -1,14 +1,9 @@
 package cn.com.enjoystudy.oa.webapps.web.pay;
 
-import allinpay.utils.SybUtils;
-import cn.com.enjoystudy.oa.bean.web.CourseTrainPlan;
-import cn.com.enjoystudy.oa.bean.web.CourseTrainPlanSO;
-import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.util.QRCodeUtils;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import cn.com.enjoystudy.oa.webapps.web.allinpay.AllinpayApi;
-import cn.com.enjoystudy.oa.webapps.web.allinpay.AllinpayH5unionpayUnionorder;
-import com.github.pagehelper.PageInfo;
+import cn.com.enjoystudy.oa.webapps.web.allinpay.AllinpayUnitorderPay;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -16,7 +11,6 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -63,16 +57,16 @@ public class PaymentController extends BaseController {
         String orderRnd = RandomStringUtils.randomNumeric(6);
         String valRnd = RandomStringUtils.randomNumeric(10);
 
-        AllinpayH5unionpayUnionorder api = new AllinpayH5unionpayUnionorder();
+        AllinpayUnitorderPay api = new AllinpayUnitorderPay();
         api.setReqsn(ymd + hms + orderRnd);
         api.setRandomstr(valRnd);
         api.setBody("内审员");
         api.setRemark("内审员证书");
         api.setTrxamt("100");
         api.setValidtime("10");
-        api.beanToTreeMap(api);
 
-        TreeMap<String, String> params = api.beanToTreeMap(api);
+
+        TreeMap<String, String> params = api.toTreeMap();
 
         StringBuilder sb = new StringBuilder();
         sb.append("https://syb.allinpay.com/apiweb/h5unionpay/unionorder?");
