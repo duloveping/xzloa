@@ -1,0 +1,4 @@
+alter table course
+add column free_state boolean default false;
+
+comment on column course.free_state is '免费状态';
