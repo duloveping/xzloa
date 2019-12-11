@@ -84,7 +84,6 @@ public class Constants {
     public static final String WX_MCH_KEY = "zsxzl0760b4c09247ec02duys69f1985";
     public static final String WX_MCH_PWD = "xzl0760dys1985++";
 
-//    public static final String ALLINPAY_SYB_CUSID = "990440153996000";
     public static final String ALLINPAY_SYB_CUSID = "56060308249FLCH";
     public static final String ALLINPAY_SYB_APPID = "00178045";
     public static final String ALLINPAY_SYB_APPKEY = "Ft2tUxcqdGp2C7kI4zaedIpvKYgGPsWi";
