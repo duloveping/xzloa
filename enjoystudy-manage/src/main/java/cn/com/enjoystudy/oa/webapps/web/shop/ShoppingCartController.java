@@ -1,18 +1,25 @@
 package cn.com.enjoystudy.oa.webapps.web.shop;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
-import cn.com.enjoystudy.oa.bean.shop.ShoppingCart;
-import cn.com.enjoystudy.oa.bean.shop.ShoppingCartSO;
-import cn.com.enjoystudy.oa.bean.shop.ShoppingOrder;
-import cn.com.enjoystudy.oa.bean.shop.ShoppingOrderSO;
+import cn.com.enjoystudy.oa.bean.shop.*;
 import cn.com.enjoystudy.oa.bean.study.Course;
 import cn.com.enjoystudy.oa.bean.study.CourseVideoSO;
+import cn.com.enjoystudy.oa.bean.sys.SysSequence;
+import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.service.shop.ShoppingCartService;
+import cn.com.enjoystudy.oa.service.shop.ShoppingOrderItemService;
+import cn.com.enjoystudy.oa.service.shop.ShoppingOrderService;
 import cn.com.enjoystudy.oa.service.study.CourseService;
 import cn.com.enjoystudy.oa.service.study.CourseVideoService;
+import cn.com.enjoystudy.oa.service.sys.SysSequenceService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
@@ -26,6 +33,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -38,6 +48,12 @@ public class ShoppingCartController extends BaseController {
     private CourseVideoService courseVideoService;
     @Autowired
     private ShoppingCartService shoppingCartService;
+    @Autowired
+    private ShoppingOrderService shoppingOrderService;
+    @Autowired
+    private ShoppingOrderItemService shoppingOrderItemService;
+    @Autowired
+    private SysSequenceService sysSequenceService;
 
     @RequestMapping("index")
     public ModelAndView index() {
@@ -175,11 +191,90 @@ public class ShoppingCartController extends BaseController {
 
     @RequestMapping("createOrder")
     @ResponseBody
-    public JSONObject createOrder(ShoppingCartSO so) {
+    public JSONObject createOrder(@RequestParam String[] shoppingCartIds) {
         EmployeeAccount account = getCurrentUser();
         if (null != account) {
+            JSONObject json = resultError();
+            if (ArrayUtils.isNotEmpty(shoppingCartIds)) {
+                List<ShoppingOrderItem> orderItemList = new ArrayList<ShoppingOrderItem>();
 
-            return resultSuccess("成功");
+                double totalPrice = 0.0;
+                for (String cartId : shoppingCartIds) {
+                    if (StringUtils.isNotBlank(cartId)) {
+                        ShoppingCart cart = shoppingCartService.getById(cartId);
+                        if (null != cart) {
+                            Course course = courseService.getById(cart.getCourseId());
+                            ShoppingOrderItem item = new ShoppingOrderItem();
+
+                            item.setAccountId(account.getId());
+                            item.setCourseId(course.getId());
+                            item.setCourseCode(course.getCode());
+                            item.setCourseName(course.getName());
+                            item.setCurrentPrice(course.getCurrentPrice());
+                            item.setMarketPrice(course.getMarketPrice());
+                            item.setSalePrice(course.getSalePrice());
+                            item.setTotalAmount(1);
+                            item.setTotalPrice(course.getCurrentPrice());
+                            orderItemList.add(item);
+
+                            totalPrice += course.getCurrentPrice();
+
+                            shoppingCartService.deleteById(cart.getId());
+                        }
+                    }
+                }
+
+                Calendar calendar = Calendar.getInstance();
+                Date orderTime = calendar.getTime();
+                calendar.add(Calendar.DATE, 1);
+                Date expireTime = calendar.getTime();
+
+                String ymd = DateFormatUtils.format(orderTime, "yyyyMMdd");
+                String hms = DateFormatUtils.format(orderTime, "HHmmss");
+                String name = "shopping-order-" + ymd;
+
+                SysSequence sequence = sysSequenceService.getSequenceValue(name);
+                if (null == sequence) {
+                    sequence = new SysSequence();
+                    sequence.setSeqValue(1);
+                    sequence.setSeqCode(name);
+                    sequence.setSeqName("课程订单流水号");
+                    sysSequenceService.insert(sequence);
+                }
+                StringBuilder code = new StringBuilder();
+                code.append(ymd);
+                code.append(hms);
+                code.append(sysSequenceService.fillZero(sequence.getSeqValue().toString(), 4));
+
+                ShoppingOrder order = new ShoppingOrder();
+                order.setAccountId(account.getId());
+                order.setFullName(account.getFullName());
+                order.setOrderCode(code.toString());
+                order.setOrderTime(orderTime);
+                order.setExpireTime(expireTime);
+                order.setPayState(Constants.PAY_STATE_NO);
+                order.setOrderState(Constants.ORDER_STATE_PAY);
+                order.setTotalAmount(1);
+                order.setTotalPrice(totalPrice);
+                shoppingOrderService.insert(order);
+
+
+                if (CollectionUtils.isNotEmpty(orderItemList)) {
+                    for (ShoppingOrderItem item : orderItemList) {
+                        item.setOrderId(order.getId());
+                        shoppingOrderItemService.insert(item);
+                    }
+                }
+
+                order.setOrderItemList(orderItemList);
+
+                sequence.setSeqValue(sequence.getSeqValue() + 1);
+                sysSequenceService.update(sequence);
+
+                json = resultSuccess("成功");
+                json.put("data", order);
+            }
+            return json;
         }
         return resultError("请先登录");
     }

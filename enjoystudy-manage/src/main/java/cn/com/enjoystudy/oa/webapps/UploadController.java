@@ -16,6 +16,7 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -285,7 +286,7 @@ public class UploadController extends BaseController {
                     response.addHeader("content-length", "" + fileSize);
                     response.setCharacterEncoding("utf-8");
                     OutputStream os = new BufferedOutputStream(response.getOutputStream());
-                    response.setContentType("application/octet-stream");
+                    response.setContentType(new MimetypesFileTypeMap().getContentType(file));
                     os.write(buffer);
                     os.flush();
                     os.close();

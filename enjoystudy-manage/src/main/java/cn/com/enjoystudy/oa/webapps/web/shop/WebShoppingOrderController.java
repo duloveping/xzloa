@@ -3,17 +3,16 @@ package cn.com.enjoystudy.oa.webapps.web.shop;
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
 import cn.com.enjoystudy.oa.bean.shop.ShoppingOrder;
 import cn.com.enjoystudy.oa.bean.shop.ShoppingOrderItem;
+import cn.com.enjoystudy.oa.bean.shop.ShoppingOrderItemSO;
 import cn.com.enjoystudy.oa.bean.study.Course;
 import cn.com.enjoystudy.oa.bean.sys.SysSequence;
 import cn.com.enjoystudy.oa.common.Constants;
-import cn.com.enjoystudy.oa.service.shop.ShoppingCartService;
 import cn.com.enjoystudy.oa.service.shop.ShoppingOrderItemService;
 import cn.com.enjoystudy.oa.service.shop.ShoppingOrderService;
 import cn.com.enjoystudy.oa.service.study.CourseService;
 import cn.com.enjoystudy.oa.service.sys.SysSequenceService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
-import com.egzosn.pay.wx.api.WxPayConfigStorage;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,8 +34,6 @@ public class WebShoppingOrderController extends BaseController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private ShoppingCartService shoppingCartService;
-    @Autowired
     private ShoppingOrderService shoppingOrderService;
     @Autowired
     private ShoppingOrderItemService shoppingOrderItemService;
@@ -44,65 +41,80 @@ public class WebShoppingOrderController extends BaseController {
     @RequestMapping("onceBuy")
     @ResponseBody
     public JSONObject onceBuy(@RequestParam String courseId) {
-        Course course = courseService.getById(courseId);
-        Calendar calendar = Calendar.getInstance();
-        Date orderTime = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date expireTime = calendar.getTime();
-
-        String ymd = DateFormatUtils.format(orderTime, "yyyyMMdd");
-        String hms = DateFormatUtils.format(orderTime, "HHmmss");
-        String name = "shopping-order-" + ymd;
-
-        SysSequence sequence = sysSequenceService.getSequenceValue(name);
-        if (null == sequence) {
-            sequence = new SysSequence();
-            sequence.setSeqValue(1);
-            sequence.setSeqCode(name);
-            sequence.setSeqName("课程订单流水号");
-            sysSequenceService.insert(sequence);
-        }
-        StringBuilder code = new StringBuilder();
-        code.append(ymd);
-        code.append(hms);
-        code.append(sysSequenceService.fillZero(sequence.getSeqValue().toString(), 4));
-
         EmployeeAccount account = getCurrentUser();
-        ShoppingOrder order = new ShoppingOrder();
-        order.setAccountId(account.getId());
-        order.setFullName(account.getFullName());
-        order.setOrderCode(code.toString());
-        order.setOrderTime(orderTime);
-        order.setExpireTime(expireTime);
-        order.setPayState(Constants.PAY_STATE_NO);
-        order.setOrderState(Constants.ORDER_STATE_PAY);
-        order.setTotalAmount(1);
-        order.setTotalPrice(course.getCurrentPrice());
-        shoppingOrderService.insert(order);
 
-        ShoppingOrderItem item = new ShoppingOrderItem();
-        item.setAccountId(account.getId());
-        item.setOrderId(order.getId());
-        item.setCourseId(course.getId());
-        item.setCourseCode(course.getCode());
-        item.setCourseName(course.getName());
-        item.setCurrentPrice(course.getCurrentPrice());
-        item.setMarketPrice(course.getMarketPrice());
-        item.setSalePrice(course.getSalePrice());
-        item.setTotalAmount(1);
-        item.setTotalPrice(course.getCurrentPrice());
-        shoppingOrderItemService.insert(item);
+        if (null != account) {
+            Course course = courseService.getById(courseId);
+            // 判断课程是否需要购买
+            if (null != course.getFreeState() && course.getFreeState().equals(Boolean.FALSE)) {
+                ShoppingOrderItemSO orderItemSO = new ShoppingOrderItemSO();
+                orderItemSO.setAccountId(account.getId());
+                orderItemSO.setCourseId(course.getId());
 
-        List<ShoppingOrderItem> itemList = new ArrayList<ShoppingOrderItem>();
-        itemList.add(item);
-        order.setOrderItemList(itemList);
+                Calendar calendar = Calendar.getInstance();
+                Date orderTime = calendar.getTime();
+                calendar.add(Calendar.DATE, 1);
+                Date expireTime = calendar.getTime();
 
-        sequence.setSeqValue(sequence.getSeqValue() + 1);
-        sysSequenceService.update(sequence);
+                String ymd = DateFormatUtils.format(orderTime, "yyyyMMdd");
+                String hms = DateFormatUtils.format(orderTime, "HHmmss");
+                String name = "shopping-order-" + ymd;
 
-        JSONObject json = resultSuccess();
-        json.put("data", order);
-        return json;
+                SysSequence sequence = sysSequenceService.getSequenceValue(name);
+                if (null == sequence) {
+                    sequence = new SysSequence();
+                    sequence.setSeqValue(1);
+                    sequence.setSeqCode(name);
+                    sequence.setSeqName("课程订单流水号");
+                    sysSequenceService.insert(sequence);
+                }
+                StringBuilder code = new StringBuilder();
+                code.append(ymd);
+                code.append(hms);
+                code.append(sysSequenceService.fillZero(sequence.getSeqValue().toString(), 4));
+
+                ShoppingOrder order = new ShoppingOrder();
+                order.setAccountId(account.getId());
+                order.setFullName(account.getFullName());
+                order.setOrderCode(code.toString());
+                order.setOrderTime(orderTime);
+                order.setExpireTime(expireTime);
+                order.setPayState(Constants.PAY_STATE_NO);
+                order.setOrderState(Constants.ORDER_STATE_PAY);
+                order.setTotalAmount(1);
+                order.setTotalPrice(course.getCurrentPrice());
+                shoppingOrderService.insert(order);
+
+                ShoppingOrderItem item = new ShoppingOrderItem();
+                item.setAccountId(account.getId());
+                item.setOrderId(order.getId());
+                item.setCourseId(course.getId());
+                item.setCourseCode(course.getCode());
+                item.setCourseName(course.getName());
+                item.setCurrentPrice(course.getCurrentPrice());
+                item.setMarketPrice(course.getMarketPrice());
+                item.setSalePrice(course.getSalePrice());
+                item.setTotalAmount(1);
+                item.setTotalPrice(course.getCurrentPrice());
+                shoppingOrderItemService.insert(item);
+
+                List<ShoppingOrderItem> itemList = new ArrayList<ShoppingOrderItem>();
+                itemList.add(item);
+                order.setOrderItemList(itemList);
+
+                sequence.setSeqValue(sequence.getSeqValue() + 1);
+                sysSequenceService.update(sequence);
+
+                JSONObject json = resultSuccess();
+                json.put("data", order);
+                return json;
+
+            } else{
+                return resultError("该课程为免费课程，不需要额外购买");
+            }
+        } else {
+            return resultError("您尚未登录系统");
+        }
     }
 
     @RequestMapping("payment")

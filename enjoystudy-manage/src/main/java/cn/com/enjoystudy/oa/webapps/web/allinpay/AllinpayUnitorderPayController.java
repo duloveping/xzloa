@@ -2,12 +2,11 @@ package cn.com.enjoystudy.oa.webapps.web.allinpay;
 
 import allinpay.utils.SybUtils;
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
-import cn.com.enjoystudy.oa.bean.shop.ShoppingOrder;
-import cn.com.enjoystudy.oa.bean.shop.ShoppingOrderItem;
-import cn.com.enjoystudy.oa.bean.shop.ShoppingOrderItemSO;
+import cn.com.enjoystudy.oa.bean.shop.*;
 import cn.com.enjoystudy.oa.common.Constants;
 import cn.com.enjoystudy.oa.service.shop.ShoppingOrderItemService;
 import cn.com.enjoystudy.oa.service.shop.ShoppingOrderService;
+import cn.com.enjoystudy.oa.service.shop.StudentCourseListService;
 import cn.com.enjoystudy.oa.util.QRCodeUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -28,6 +27,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,10 +49,13 @@ import java.util.*;
 @Controller
 @RequestMapping("/web/allinpay/unitorder-pay")
 public class AllinpayUnitorderPayController extends AllinpayController {
+    private static final Logger LOG = LoggerFactory.getLogger(AllinpayUnitorderPayController.class);
     @Autowired
     private ShoppingOrderService shoppingOrderService;
     @Autowired
     private ShoppingOrderItemService shoppingOrderItemService;
+    @Autowired
+    private StudentCourseListService studentCourseListService;
 
     @RequestMapping(value = "notify")
     @ResponseBody
@@ -129,19 +133,45 @@ public class AllinpayUnitorderPayController extends AllinpayController {
                     order.setPayType(trxcode);
                     order.setPayState(Constants.PAY_STATE_YES);
                     shoppingOrderService.update(order);
+
+                    ShoppingOrderItemSO orderItemSO = new ShoppingOrderItemSO();
+                    orderItemSO.setOrderId(order.getId());
+                    List<ShoppingOrderItem> orderItemList = shoppingOrderItemService.list(orderItemSO);
+                    if (CollectionUtils.isNotEmpty(orderItemList)) {
+                        for (ShoppingOrderItem item : orderItemList) {
+                            StudentCourseListSO courseListSO = new StudentCourseListSO();
+                            courseListSO.setCourseId(item.getCourseId());
+                            courseListSO.setAccountId(order.getAccountId());
+                            List<StudentCourseList> list = studentCourseListService.list(courseListSO);
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(order.getPayTime());
+                            calendar.add(Calendar.YEAR, + 1);
+                            Date end = calendar.getTime();
+
+                            if (CollectionUtils.isNotEmpty(list)) {
+                                StudentCourseList po = list.get(0);
+                                po.setBuyTime(order.getPayTime());
+                                po.setExpireTime(end);
+                                po.setExpireState(Boolean.FALSE);
+                                studentCourseListService.update(po);
+                            } else {
+                                StudentCourseList po = new StudentCourseList(order.getAccountId(), item.getCourseId(), order.getPayTime(), end, Boolean.FALSE);
+                                studentCourseListService.insert(po);
+                            }
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
-            //处理异常
-            // TODO: handle exception
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         } finally {
             //收到通知,返回success
             try {
                 response.getOutputStream().write("success".getBytes());
                 response.flushBuffer();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
 
         }
@@ -216,13 +246,13 @@ public class AllinpayUnitorderPayController extends AllinpayController {
                                 .setHost("vsp.allinpay.com")
                                 .setPath("/apiweb/unitorder/pay").build();
                     } catch (URISyntaxException e) {
-                        e.printStackTrace();
+                        LOG.error(e.getMessage(), e);
                     }
                     HttpPost hp = new HttpPost(uri);
                     try {
                         hp.setEntity(new UrlEncodedFormEntity(list, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
+                        LOG.error(e.getMessage(), e);
                     }
 
                     RequestConfig config = RequestConfig.custom()
@@ -264,9 +294,8 @@ public class AllinpayUnitorderPayController extends AllinpayController {
                                     String newSign = SybUtils.sign(resMap, Constants.ALLINPAY_SYB_APPKEY);
                                     System.out.println(newSign.equals(sign));
                                 } catch (Exception e) {
-                                    e.printStackTrace();
+                                    LOG.error(e.getMessage(), e);
                                 }
-
 
                                 try {
                                     // 生成二维码
@@ -274,13 +303,13 @@ public class AllinpayUnitorderPayController extends AllinpayController {
                                     // 将二维码输出到页面中
                                     MatrixToImageWriter.writeToStream(qRcodeImg, "png", response.getOutputStream());
                                 } catch (Exception e) {
-                                    e.printStackTrace();
+                                    LOG.error(e.getMessage(), e);
                                 }
                             }
 
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LOG.error(e.getMessage(), e);
                     }
 
                 }

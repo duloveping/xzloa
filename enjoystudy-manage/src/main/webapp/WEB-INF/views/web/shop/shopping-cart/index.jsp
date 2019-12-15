@@ -24,6 +24,7 @@
         <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
             <tbody>
                 <tr>
+                    <td style="width:10px;"><input id="checkAll" name="checkAll" type="checkbox" value="true"></td>
                     <td style="width:423px;"><span style="color:#666666; margin-left:7px;">课程</span></td>
                     <td style="width:125px;"><span style="color:#666666; margin-left:7px;">单价</span></td>
                     <td style="width:125px;"><span style="color:#666666; margin-left:7px;">数量</span></td>
@@ -45,6 +46,7 @@
                         <table border="0" cellpadding="0" cellspacing="0">
                             <tbody>
                             <tr>
+                                <td><input name="shoppingCartIds" type="checkbox" value="${cart.id}"></td>
                                 <td style="width:155px; height:100px;">
                                     <img src="<c:url value='${cart.image}'/>" style="width:135px; height:90px; margin-left:5px;">
                                 </td>
@@ -96,7 +98,7 @@
                         <span id="cartTotalPrice" style="margin-right:10px; font-size:24px; font-weight:bold; color:#e4393c;"><fmt:formatNumber value="${total}" pattern="###0.00"/></span>
                     </td>
                     <td style="width:200px; height:45px; background-color:#e64346; color:#fff; text-align:center;">
-                        <a href="javascript:void(0)" onclick="Commit()" style="font-size:20px; font-weight:bold; color:#fff;">去结算</a>
+                        <a id="payment" href="javascript:void(0)" style="font-size:20px; font-weight:bold; color:#fff;">去结算</a>
                     </td>
                 </tr>
             </tbody>
@@ -105,10 +107,48 @@
 </form>
 <%@ include file="/WEB-INF/views/web/index/fooder.jsp" %>
 <script type="text/javascript" src="<c:url value='/static/js/common/jquery/jquery-1.11.3.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/static/js/common/layer/layer.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/web/index/function.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/web/index/fordboy.js'/>"></script>
 <script type="text/javascript">
+    $(function () {
+        $("#checkAll").on("click", function () {
+            let flag = this.checked;
+            $.each($('input[name=shoppingCartIds][type=checkbox]'),function(){
+                this.checked = flag;
+            });
+        });
 
+        $("#checkAll").on("click", function () {
+            let shoppingCartIds = new Array();
+            $.each($('input[name=shoppingCartIds][type=checkbox]'),function(){
+                if (this.checked) {
+                    shoppingCartIds.push(this.value);
+                }
+            });
+
+            if (null != shoppingCartIds && shoppingCartIds.length > 0) {
+                $.ajax({
+                    type: "get",
+                    url: "/web/shop/shopping-cart/createOrder.jhtml?shoppingCartIds=" + shoppingCartIds.join(",") + "&rnd=" + Math.random(),
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status) {
+                            document.location.href = "/web/shop/web-shopping-order/payment.jhtml?orderId=" + res.data.id;
+                        } else {
+                            layer.alert(res.info);
+                        }
+                    },
+                    error : function(XmlHttpRequest, textStatus, errorThrown) {
+                        layer.alert('生成系统订单时出错了。');
+                    }
+                });
+            } else {
+                layer.alert("请选择要结算的课程！");
+            }
+        });
+
+    });
 </script>
 </body>
 </html>

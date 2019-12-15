@@ -107,7 +107,7 @@
                     </div>
                     <div class="LeItemPrice">
                         <span>￥<fmt:formatNumber value="${courseLeft.currentPrice}" pattern="###0.00"/></span>
-                        <span style="color: rgb(234, 81, 30); font-size: 15px; margin-left: 30px;">学时：${courseLeft.lessonAmount}</span>
+                        <%--<span style="color: rgb(234, 81, 30); font-size: 15px; margin-left: 30px;">学时：${courseLeft.lessonAmount}</span>--%>
                     </div>
                 </div>
             </c:forEach>

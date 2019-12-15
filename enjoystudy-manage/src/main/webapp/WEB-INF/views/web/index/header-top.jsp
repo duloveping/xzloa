@@ -3,7 +3,7 @@
     <div class="TopLine">
         <c:if test="${not empty manage_login_user}">
             <span>欢迎，${manage_login_user.fullName}</span>
-            <a href="<c:url value="/web/shop/shopping-cart/index.jhtml"/>" style="color:#7f7f7f; font-size:13px; margin-right:15px; margin-left:15px;">[进入学习平台]</a>
+            <a href="<c:url value="/manage/main/index.jhtml"/>" style="color:#7f7f7f; font-size:13px; margin-right:15px; margin-left:15px;">[进入学习平台]</a>
             <a href="<c:url value="/web/shop/shopping-cart/index.jhtml"/>" style="color:#3c8aff; font-size:13px; margin-right:4px;">
                 <img src="<c:url value="/static/js/images/guc.png"/>" style="vertical-align:middle; margin-right:4px; border:0px; width:17px;">购物车
             </a>

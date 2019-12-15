@@ -342,5 +342,16 @@ public class LoginController extends BaseController {
         }
         JsUtils.writeText(response, flag);
     }
+
+    @ResponseBody
+    @RequestMapping("state")
+    public JSONObject state() {
+        EmployeeAccount account = getCurrentUser();
+       if (null != account) {
+           return resultSuccess("您已成功登录系统。");
+       } else {
+           return resultError("您尚未登录系统。");
+       }
+    }
 }
 

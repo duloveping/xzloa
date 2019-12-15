@@ -81,8 +81,10 @@
                         </tr>
                         <tr>
                             <td class="KCListTableTdValue" style="height:50px;">
-                                <img src="<c:url value="/static/js/templates/web/index/JoinGwcButton.jpg"/>" style="margin-right:20px; cursor:pointer; margin-left:20px;" onclick="BuyIt('${course.id}')">
-                                <img src="<c:url value="/static/js/templates/web/index/ShoucangButton.jpg"/>" style="margin-right:20px; cursor:pointer;">
+                                <img src="<c:url value="/static/js/templates/web/index/shoppingCart.jpg"/>" style="margin-right:20px; cursor:pointer; margin-left:20px;" onclick="BuyIt('${course.id}')">
+                                <img id="onceBuy" data-id="${course.id}" src="<c:url value="/static/js/templates/web/index/atOnceBuy.jpg"/>" style="margin-right:20px; cursor:pointer;">
+                                <%--<img src="<c:url value="/static/js/templates/web/index/ShoucangButton.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
+                                <img src="<c:url value="/static/js/templates/web/index/learn.jpg"/>" style="margin-right:20px; cursor:pointer;">
                             </td>
                         </tr>
                     </tbody>
@@ -124,7 +126,7 @@
                     <div style="width:120px; height:50px; line-height:50px; float:left;" id="mlAra"><span onclick="LessonTagChange('ml')" style="font-size:18px; color:#969696; cursor:pointer;">课程目录</span></div>
                     <div style="width:120px; height:50px; line-height:50px; float:left;" id="teAra"><span onclick="LessonTagChange('te')" style="font-size:16px; color:#969696; cursor:pointer;">主讲教师</span></div>
                     <div style="width:120px; height:50px; line-height:50px; float:left;" id="obAra"><span onclick="LessonTagChange('ob')" style="font-size:16px; color:#969696; cursor:pointer;">适用对象</span></div>
-                    <div style="width:120px; height:50px; line-height:50px; float:left;" id="pjAra"><span onclick="LessonTagChange('pj')" style="font-size:16px; color:#969696; cursor:pointer;">课程评价</span></div>
+                    <div style="width:120px; height:50px; line-height:50px; float:left;" id="pjAra"><span onclick="LessonTagChange('pj')" style="font-size:16px; color:#969696; cursor:pointer;">课程文库</span></div>
                 </div>
                 <div id="gkDetailArea" style="width: 96%; min-height: 100px; height: auto; margin-left: 25px; margin-top: 20px; display: block;">
                     <table border="0" cellpadding="3" cellspacing="0" class="KCDetailTable">
@@ -179,32 +181,20 @@
                 <div id="pjDetailArea" style="width:96%; min-height:100px; height:auto; margin-left:25px; margin-top:20px;display:none;">
                     <table border="0" cellpadding="3" cellspacing="0" class="KCDetailTable">
                         <tbody><tr>
-                            <td class="KCListTableTdValue"><span style="color:#333333; font-size:16px; font-weight:bold;">评价</span></td>
+                            <td class="KCListTableTdValue"><span style="color:#333333; font-size:16px; font-weight:bold;">文库列表</span></td>
                         </tr>
                         <tr>
                             <td class="KCListTableTdValue" style="line-height:25px;">
                                 <div id="CommentArea" style="width:100%;"></div>
                                 <table border="0" cellpadding="0" cellspacing="0" style="width:100%; border-bottom:1px dotted #c8c8c8; margin-top:10px;">
-                                    <tbody><tr>
-                                        <td>
-                                            <input type="radio" name="rb" value="1"><img src="<c:url value="/static/js/templates/web/index/PingJia-yixing.jpg"/>" style="vertical-align:middle; margin-left:7px;">
-                                            <input type="radio" name="rb" value="2" style="margin-left:15px;"><img src="<c:url value="/static/js/templates/web/index/PingJia-erxing.jpg"/>" style="vertical-align:middle; margin-left:7px;">
-                                            <input type="radio" name="rb" value="3" style="margin-left:15px;"><img src="<c:url value="/static/js/templates/web/index/PingJia-sanxing.jpg"/>" style="vertical-align:middle; margin-left:7px;">
-                                            <input type="radio" name="rb" value="4" style="margin-left:15px;"><img src="<c:url value="/static/js/templates/web/index/PingJia-sixing.jpg"/>" style="vertical-align:middle; margin-left:7px;">
-                                            <input type="radio" name="rb" value="5" style="margin-left:15px;"><img src="<c:url value="/static/js/templates/web/index/PingJia.jpg"/>" style="vertical-align:middle; margin-left:7px;">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><textarea id="Content" name="Content" style="width:80%; height:100px;"></textarea></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="hidden" id="LessonID" name="LessonID" value="169">
-                                            <div onclick="commit()" style="width:100px; height:22px; line-height:22px; text-align:center; margin-top:10px; margin-bottom:10px; background-color:#f26e0c; cursor:pointer;">
-                                                <span style="color:#fff; font-size:14px;">提交评价</span>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <tbody>
+                                    <c:forEach var="attachment" items="${attachmentList}">
+                                        <tr>
+                                            <td>
+                                                <a href="/web/course/attachment-download.jhtml?id=${attachment.id}" target="_blank" onclick="">${attachment.fileName}</a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </td>
@@ -217,16 +207,37 @@
 </table>
 <%@ include file="/WEB-INF/views/web/index/fooder.jsp" %>
 <script type="text/javascript" src="<c:url value='/static/js/common/jquery/jquery-1.11.3.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/static/js/common/layer/layer.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/web/index/function.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/web/index/fordboy.js'/>"></script>
 <script type="text/javascript">
+    $("#onceBuy").on("click", function () {
+        var id = this.getAttribute("data-id");
+
+        $.ajax({
+            type: "get",
+            url: "/web/shop/web-shopping-order/onceBuy.jhtml?courseId=" + id + "&rnd=" + Math.random(),
+            dataType: "json",
+            success: function (res) {
+                if (res.status) {
+                    document.location.href = "/web/shop/web-shopping-order/payment.jhtml?orderId=" + res.data.id;
+                } else {
+                    layer.alert(res.info);
+                }
+            },
+            error : function(XmlHttpRequest, textStatus, errorThrown) {
+                top.layer.alert('生成系统订单时出错了。');
+            }
+        });
+    });
+
     function LessonTagChange(str) {
         if (str == "gk") {
             $("#gkAra").html("<span onclick=\"LessonTagChange('gk')\" style=\"font-size:18px; font-weight:bold; color:#2ba485;\">课程概况</span>");
             $("#mlAra").html("<span onclick=\"LessonTagChange('ml')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程目录</span>");
             $("#teAra").html("<span onclick=\"LessonTagChange('te')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">主讲教师</span>");
             $("#obAra").html("<span onclick=\"LessonTagChange('ob')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">适用对象</span>");
-            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程评价</span>");
+            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程文库</span>");
             $("#gkDetailArea").show(); $("#mlDetailArea").hide(); $("#pjDetailArea").hide(); $("#teDetailArea").hide(); $("#obDetailArea").hide();
         }
 
@@ -235,7 +246,7 @@
             $("#mlAra").html("<span onclick=\"LessonTagChange('ml')\" style=\"font-size:18px; font-weight:bold; color:#2ba485;\">课程目录</span>");
             $("#teAra").html("<span onclick=\"LessonTagChange('te')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">主讲教师</span>");
             $("#obAra").html("<span onclick=\"LessonTagChange('ob')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">适用对象</span>");
-            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程评价</span>");
+            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程文库</span>");
             $("#gkDetailArea").hide(); $("#mlDetailArea").show(); $("#pjDetailArea").hide(); $("#teDetailArea").hide(); $("#obDetailArea").hide();
         }
 
@@ -244,7 +255,7 @@
             $("#mlAra").html("<span onclick=\"LessonTagChange('ml')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程目录</span>");
             $("#teAra").html("<span onclick=\"LessonTagChange('te')\" style=\"font-size:18px; font-weight:bold; color:#2ba485;\">主讲教师</span>");
             $("#obAra").html("<span onclick=\"LessonTagChange('ob')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">适用对象</span>");
-            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程评价</span>");
+            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程文库</span>");
             $("#gkDetailArea").hide(); $("#mlDetailArea").hide(); $("#pjDetailArea").hide(); $("#teDetailArea").show(); $("#obDetailArea").hide();
         }
 
@@ -253,17 +264,17 @@
             $("#mlAra").html("<span onclick=\"LessonTagChange('ml')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程目录</span>");
             $("#teAra").html("<span onclick=\"LessonTagChange('te')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">主讲教师</span>");
             $("#obAra").html("<span onclick=\"LessonTagChange('ob')\" style=\"font-size:18px; font-weight:bold; color:#2ba485;\">适用对象</span>");
-            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程评价</span>");
+            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程文库</span>");
             $("#gkDetailArea").hide(); $("#mlDetailArea").hide(); $("#pjDetailArea").hide(); $("#teDetailArea").hide(); $("#obDetailArea").show();
         }
-        //        if (str == "pj") {
-        //            $("#gkAra").html("<span onclick=\"LessonTagChange('gk')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程概况</span>");
-        //            $("#mlAra").html("<span onclick=\"LessonTagChange('ml')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程目录</span>");
-        //            $("#teAra").html("<span onclick=\"LessonTagChange('te')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">主讲教师</span>");
-        //            $("#obAra").html("<span onclick=\"LessonTagChange('ob')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">适用对象</span>");
-        //            $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:18px; font-weight:bold; color:#2ba485;\">课程评价</span>");
-        //            $("#gkDetailArea").hide(); $("#mlDetailArea").hide(); $("#pjDetailArea").show(); $("#teDetailArea").hide(); $("#obDetailArea").hide();
-        //        }
+               if (str == "pj") {
+                   $("#gkAra").html("<span onclick=\"LessonTagChange('gk')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程概况</span>");
+                   $("#mlAra").html("<span onclick=\"LessonTagChange('ml')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">课程目录</span>");
+                   $("#teAra").html("<span onclick=\"LessonTagChange('te')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">主讲教师</span>");
+                   $("#obAra").html("<span onclick=\"LessonTagChange('ob')\" style=\"font-size:16px; color:#969696; cursor:pointer;\">适用对象</span>");
+                   $("#pjAra").html("<span onclick=\"LessonTagChange('pj')\" style=\"font-size:18px; font-weight:bold; color:#2ba485;\">课程文库</span>");
+                   $("#gkDetailArea").hide(); $("#mlDetailArea").hide(); $("#pjDetailArea").show(); $("#teDetailArea").hide(); $("#obDetailArea").hide();
+               }
     }
     function CountAdd() {
         var buyCount = $("#BuyCount").val();

@@ -42,8 +42,6 @@ public class CourseStudyController extends BaseController {
 
         EmployeeAccount account = getCurrentUser();
         if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
-            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
-            courseSO.setEmployeeId(account.getId());
             courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
         } else {
             courseList = courseService.list(new CourseSO());

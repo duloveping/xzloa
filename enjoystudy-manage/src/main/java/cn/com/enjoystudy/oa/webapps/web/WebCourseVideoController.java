@@ -1,14 +1,18 @@
 package cn.com.enjoystudy.oa.webapps.web;
 
 import cn.com.enjoystudy.oa.bean.base.EmployeeAccount;
-import cn.com.enjoystudy.oa.bean.study.*;
-import cn.com.enjoystudy.oa.common.Constants;
+import cn.com.enjoystudy.oa.bean.shop.StudentCourseList;
+import cn.com.enjoystudy.oa.bean.shop.StudentCourseListSO;
+import cn.com.enjoystudy.oa.bean.study.Course;
+import cn.com.enjoystudy.oa.bean.study.CourseVideo;
+import cn.com.enjoystudy.oa.bean.study.CourseVideoSO;
+import cn.com.enjoystudy.oa.bean.study.EmployeeAccountCourseSO;
+import cn.com.enjoystudy.oa.service.shop.StudentCourseListService;
 import cn.com.enjoystudy.oa.service.study.CourseService;
 import cn.com.enjoystudy.oa.service.study.CourseVideoService;
 import cn.com.enjoystudy.oa.service.study.EmployeeAccountCourseService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,6 +33,8 @@ public class WebCourseVideoController extends BaseController {
     private CourseService courseService;
     @Autowired
     private EmployeeAccountCourseService employeeAccountCourseService;
+    @Autowired
+    private StudentCourseListService studentCourseListService;
 
     @RequestMapping("list")
     public ModelAndView list(CourseVideoSO so) {
@@ -52,51 +59,54 @@ public class WebCourseVideoController extends BaseController {
 
     @RequestMapping("view")
     public ModelAndView view(@RequestParam String id) {
-        CourseVideo video = courseVideoService.getById(id);
-        Course course = courseService.getById(video.getCourseId());
+        ModelAndView mv;
 
-        boolean freeState = true;
-        boolean loginState = false;
+        EmployeeAccount account = getCurrentUser();
 
-        if (null != course.getFreeState() && course.getFreeState().equals(Boolean.FALSE)) {
-            freeState = false;
-            EmployeeAccount account = getCurrentUser();
-            if (null != account) {
-                loginState = true;
-                if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
-                    EmployeeAccountCourseSO eacSo = new EmployeeAccountCourseSO();
-                    eacSo.setEmployeeId(account.getId());
-                    eacSo.setCourseId(video.getCourseId());
+        if (null != account) {
+            mv = new ModelAndView("web/course-video/video-buy-view");
+            CourseVideo video = courseVideoService.getById(id);
+            Course course = courseService.getById(video.getCourseId());
+            mv.getModel().put("video", video);
+            mv.getModel().put("course", course);
 
-                    List<EmployeeAccountCourse> list = employeeAccountCourseService.list(eacSo);
-                    if (CollectionUtils.isNotEmpty(list)) {
-                        freeState = true;
+            // 判断课程是否免费
+            if (null != course.getFreeState() && course.getFreeState().equals(Boolean.FALSE)) {
+                StudentCourseListSO courseListSO = new StudentCourseListSO();
+                courseListSO.setCourseId(course.getId());
+                courseListSO.setAccountId(account.getId());
+                List<StudentCourseList> studentCourseList = studentCourseListService.list(courseListSO);
+
+                // 判断是否已经购买课程
+                if (CollectionUtils.isNotEmpty(studentCourseList)) {
+                    Date date = new Date();
+                    StudentCourseList courseList = studentCourseList.get(0);
+
+                    if (date.before(courseList.getExpireTime())) {
+                        mv = new ModelAndView("web/course-video/view");
+                        mv.getModel().put("video", video);
+                        mv.getModel().put("course", course);
+                    }
+                } else {
+                    // 判断是否已被授课
+                    EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
+                    courseSO.setEmployeeId(account.getId());
+                    courseSO.setCourseId(course.getId());
+                    List<Course> courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
+                    if (CollectionUtils.isNotEmpty(courseList)) {
+                        for (Course po : courseList) {
+                            if (po.getId().equals(course.getId())) {
+                                mv = new ModelAndView("web/course-video/view");
+                                mv.getModel().put("video", video);
+                                mv.getModel().put("course", course);
+                                break;
+                            }
+                        }
                     }
                 }
             }
-        }
-
-        ModelAndView mv;
-        if (freeState) {
-            mv = new ModelAndView("web/course-video/view");
-
-            CourseVideoSO videoSO = new CourseVideoSO();
-            videoSO.setShowState(true);
-            videoSO.setCourseShowState(true);
-            videoSO.setCourseId(video.getCourseId());
-            videoSO.setPageNum(1);
-            videoSO.setPageSize(5);
-            PageInfo<CourseVideo> pageInfo = courseVideoService.findVideoPage(videoSO);
-            mv.getModel().put("videoList", pageInfo.getList());
-            mv.getModel().put("video", video);
         } else {
-            if (loginState) {
-                mv = new ModelAndView("web/course-video/video-buy-view");
-                mv.getModel().put("course", course);
-            } else {
-                mv = new ModelAndView("redirect:/manage/login/index.jhtml");
-            }
-
+            mv = new ModelAndView("redirect:/manage/login/index.jhtml");
         }
         return mv;
     }
