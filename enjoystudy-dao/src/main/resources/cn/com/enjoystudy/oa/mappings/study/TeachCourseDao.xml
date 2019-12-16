@@ -5,7 +5,8 @@
             resultType="cn.com.enjoystudy.oa.bean.study.TeachCourse">
         select c.id course_id, c.code course_code, c.name course_name, c.image course_image,
         c.current_price, c.market_price, c.sale_price,
-        c.recommend_state, c.hot_state, c.free_state,
+        c.recommend_state, c.hot_state, c.free_state, c.test_state,
+        c.total_score, c.pass_score, c.test_amount, c.duration, c.question_amount,
         ct.id type_id, ct.code type_code, ct.name type_name,
         t.id teacher_id, t.full_name teacher_name, t.image teacher_image
         from course c
@@ -13,8 +14,10 @@
         inner join teacher t on t.id = c.teacher_id
         where c.flag = true and c.status = true and c.show_state = true
         <if test="null != recommendState"> and c.recommend_state = #{recommendState}</if>
+        <if test="null != testState"> and c.test_state = #{testState}</if>
         <if test="null != hotState"> and c.hot_state = #{hotState}</if>
         <if test="null != freeState"> and c.free_state = #{freeState}</if>
+        <if test="null != courseId and '' != courseId"> and c.id = #{courseId}:: </if>
         <if test="null != courseCode and '' != courseCode"> and c.code = #{courseCode} </if>
         <if test="null != courseName and '' != courseName">
             <bind name="courseNameLike" value="'%' + courseName + '%'"/>
@@ -37,7 +40,8 @@
             resultType="cn.com.enjoystudy.oa.bean.study.TeachCourse">
         select c.id course_id, c.code course_code, c.name course_name, c.image course_image,
         c.current_price, c.market_price, c.sale_price, recommend_state, hot_state, free_state,
-        ct.id type_id, ct.code type_code, ct.name type_name,
+        ct.id type_id, ct.code type_code, ct.name type_name, c.test_state,
+        c.total_score, c.pass_score, c.test_amount, c.duration, c.question_amount,
         t.id teacher_id, t.full_name teacher_name, t.image teacher_image
         from (select * from course
         where id in (
@@ -54,9 +58,11 @@
         inner join course_type ct on ct.id = c.type_id
         inner join teacher t on t.id = c.teacher_id
         where c.show_state = true
+        <if test="null != testState"> and c.test_state = #{testState}</if>
         <if test="null != recommendState"> and c.recommend_state = #{recommendState}</if>
         <if test="null != hotState"> and c.hot_state = #{hotState}</if>
         <if test="null != freeState"> and c.free_state = #{freeState}</if>
+        <if test="null != courseId and '' != courseId"> and c.id = #{courseId}:: </if>
         <if test="null != courseCode and '' != courseCode"> and c.code = #{courseCode} </if>
         <if test="null != courseName and '' != courseName">
             <bind name="courseNameLike" value="'%' + courseName + '%'"/>

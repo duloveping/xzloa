@@ -1,7 +1,5 @@
 package cn.com.enjoystudy.oa.bean.study;
 
-import cn.com.enjoystudy.oa.bean.EntitySupport;
-
 import java.util.List;
 
 public class EmployeeExaminationQuestion extends Question {

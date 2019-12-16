@@ -21,6 +21,12 @@ public class TeachCourseSO extends SOSupport {
     private String teacherImage;
     private String employeeId;
     private String employeeName;
+    private Integer testState;
+    private Integer duration;
+    private Integer totalScore;
+    private Integer passScore;
+    private Integer testAmount;
+    private Integer questionAmount;
 
     public TeachCourseSO() {
     }
@@ -167,5 +173,53 @@ public class TeachCourseSO extends SOSupport {
 
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
+    }
+
+    public Integer getTestState() {
+        return testState;
+    }
+
+    public void setTestState(Integer testState) {
+        this.testState = testState;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public Integer getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Integer totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public Integer getPassScore() {
+        return passScore;
+    }
+
+    public void setPassScore(Integer passScore) {
+        this.passScore = passScore;
+    }
+
+    public Integer getTestAmount() {
+        return testAmount;
+    }
+
+    public void setTestAmount(Integer testAmount) {
+        this.testAmount = testAmount;
+    }
+
+    public Integer getQuestionAmount() {
+        return questionAmount;
+    }
+
+    public void setQuestionAmount(Integer questionAmount) {
+        this.questionAmount = questionAmount;
     }
 }

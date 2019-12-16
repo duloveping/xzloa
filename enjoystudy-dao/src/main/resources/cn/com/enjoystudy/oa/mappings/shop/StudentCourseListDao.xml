@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.enjoystudy.oa.dao.shop.StudentCourseListDao" >
+
+    <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.shop.StudentCourseList" >
+        insert into student_course_list (id, create_time, update_time, flag, status,
+        account_id, course_id, buy_time, expire_time, expire_state)
+        values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
+        #{accountId}::uuid, #{courseId}::uuid, #{buyTime}, #{expireTime}, #{expireState})
+    </insert>
+
+    <update id="update" parameterType="cn.com.enjoystudy.oa.bean.shop.StudentCourseList" >
+        update student_course_list set update_time = #{updateTime},
+        account_id = #{accountId}::uuid, course_id = #{courseId}::uuid, buy_time = #{buyTime}, expire_time = #{expireTime},
+        expire_state = #{expireState} where id = #{id}::uuid
+    </update>
+
+    <select id="getById" resultType="cn.com.enjoystudy.oa.bean.shop.StudentCourseList">
+        select account_id, course_id, buy_time, expire_time, expire_state
+        from student_course_list where flag = true and status = true and id = #{id}::uuid
+    </select>
+
+
+    <update id="deleteById">
+        update student_course_list set flag = false, status = false where id = #{id}::uuid
+    </update>
+
+    <select id="list" resultType="cn.com.enjoystudy.oa.bean.shop.StudentCourseList"
+            parameterType="cn.com.enjoystudy.oa.bean.shop.StudentCourseListSO">
+        select id, account_id, course_id, buy_time, expire_time, expire_state
+        from student_course_list
+        where flag = true and status = true
+        <if test="null != accountId and '' != accountId"> and account_id = #{accountId}::uuid </if>
+        <if test="null != courseId and '' != courseId"> and course_id = #{courseId}::uuid </if>
+        <if test="null != expireState"> and expire_state = #{expireState}::uuid </if>
+    </select>
+</mapper>
