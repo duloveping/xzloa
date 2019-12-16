@@ -129,10 +129,7 @@
                         Authorising<br>Signature：
                         <span class="line">
                             &nbsp;&nbsp;<span class="sign">
-                            <c:choose>
-                                <c:when test="${certificate.englishContent eq 'CQO'}">guqingfei</c:when>
-                                <c:otherwise>zhang suo</c:otherwise>
-                            </c:choose>
+                            guqingfei
                             </span>&nbsp;&nbsp;
                         </span>
                     </li>

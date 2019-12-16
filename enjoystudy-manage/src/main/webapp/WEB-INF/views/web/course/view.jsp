@@ -85,6 +85,7 @@
                                 <img id="onceBuy" data-id="${course.id}" src="<c:url value="/static/js/templates/web/index/atOnceBuy.jpg"/>" style="margin-right:20px; cursor:pointer;">
                                 <%--<img src="<c:url value="/static/js/templates/web/index/ShoucangButton.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
                                 <img src="<c:url value="/static/js/templates/web/index/learn.jpg"/>" style="margin-right:20px; cursor:pointer;">
+                                <img id="onceTest" src="<c:url value="/static/js/templates/web/index/onceTest.jpg"/>" style="margin-right:20px; cursor:pointer;">
                             </td>
                         </tr>
                     </tbody>
@@ -227,6 +228,30 @@
             },
             error : function(XmlHttpRequest, textStatus, errorThrown) {
                 top.layer.alert('生成系统订单时出错了。');
+            }
+        });
+    });
+
+    $("#onceTest").on("click", function () {
+        var loadIndex = layer.load();
+
+        var id = $("#onceBuy").attr("data-id");
+
+        $.ajax({
+            type: "get",
+            url: "/web/test/course-check.jhtml?courseId=" + id + "&rnd=" + Math.random(),
+            dataType: "json",
+            success: function (res) {
+                layer.close(loadIndex);
+                if (res.status) {
+                    document.location.href = "/web/test/paper-test.jhtml?paperId=" + res.paperId;
+                } else {
+                    layer.alert(res.info);
+                }
+            },
+            error : function(XmlHttpRequest, textStatus, errorThrown) {
+                layer.close(loadIndex);
+                layer.alert('系统出错了');
             }
         });
     });

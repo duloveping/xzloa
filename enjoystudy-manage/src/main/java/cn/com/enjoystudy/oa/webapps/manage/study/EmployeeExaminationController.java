@@ -8,7 +8,7 @@ import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.service.base.EmployeeAccountService;
 import cn.com.enjoystudy.oa.service.study.*;
 import cn.com.enjoystudy.oa.service.sys.SysSequenceService;
-import cn.com.enjoystudy.oa.webapps.BaseController;
+import cn.com.enjoystudy.oa.webapps.web.PaperController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/manage/study/employee-examination")
-public class EmployeeExaminationController extends BaseController {
+public class EmployeeExaminationController extends PaperController {
     @Autowired
     private CourseService courseService;
     @Autowired
@@ -35,29 +37,19 @@ public class EmployeeExaminationController extends BaseController {
     @Autowired
     private EmployeeExaminationQuestionService employeeExaminationQuestionService;
     @Autowired
-    private EmployeeExaminationQuestionAnalysisService employeeExaminationQuestionAnalysisService;
-    @Autowired
     private EmployeeExaminationQuestionItemService employeeExaminationQuestionItemService;
     @Autowired
     private CourseVideoService courseVideoService;
     @Autowired
     private EmployeeCourseStudyService employeeCourseStudyService;
     @Autowired
-    private StorePaperService storePaperService;
-    @Autowired
-    private StoreQuestionService storeQuestionService;
-    @Autowired
-    private StoreQuestionAnalysisService storeQuestionAnalysisService;
-    @Autowired
-    private StoreQuestionItemService storeQuestionItemService;
-    @Autowired
     private EmployeeCertificateService employeeCertificateService;
     @Autowired
     private SysSequenceService sysSequenceService;
     @Autowired
-    private EmployeeAccountCourseService employeeAccountCourseService;
-    @Autowired
     private EmployeeAccountService employeeAccountService;
+    @Autowired
+    private TeachCourseService teachCourseService;
 
     @RequestMapping("course-index")
     public ModelAndView courseIndex() {
@@ -67,26 +59,14 @@ public class EmployeeExaminationController extends BaseController {
 
     @RequestMapping("course-list")
     @ResponseBody
-    public JSONObject courseList(CourseSO so) {
+    public JSONObject courseList(TeachCourseSO so) {
         EmployeeAccount account = getCurrentUser();
-        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
-            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
-            courseSO.setEmployeeId(account.getId());
-            List<Course> courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
-            String[] courseIds = new String[courseList.size()];
-            int i = 0;
-            for (Course course : courseList) {
-                courseIds[i++] = course.getId();
-            }
-            so.setIds(courseIds);
-        }
+
+        so.setEmployeeId(account.getId());
         so.setTestState(2);
-        PageInfo<Course> pageInfo = courseService.findPag(so);
-        JSONObject json = resultSuccess();
-        json.put("datas", pageInfo.getList());
-        json.put("total", pageInfo.getTotal());
-        json.put("pages", pageInfo.getPages());
-        return json;
+
+        PageInfo<TeachCourse> pageInfo = teachCourseService.teachCoursePage(so);
+        return resultSuccess(pageInfo);
     }
 
     @RequestMapping("check-test")
@@ -187,89 +167,6 @@ public class EmployeeExaminationController extends BaseController {
             }
         }
         return json;
-    }
-
-    private String saveEmployeeExaminationPaper(EmployeeAccount account, Course course) {
-        StorePaperSO paperSO = new StorePaperSO();
-        paperSO.setCourseId(course.getId());
-        paperSO.setAuditState(2);
-        paperSO.setEditState(2);
-        List<StorePaper> storePaperList = storePaperService.list(paperSO);
-        if (null != storePaperList && storePaperList.size() > 0) {
-            Calendar calendar = Calendar.getInstance();
-
-            Random random = new Random();
-            StorePaper storePaper = storePaperList.get(random.nextInt(storePaperList.size()));
-
-            EmployeeExaminationPaper examinationPaper = new EmployeeExaminationPaper();
-            examinationPaper.setEmployeeId(account.getId());
-            examinationPaper.setEmployeeName(account.getFullName());
-            examinationPaper.setCourseId(course.getId());
-            examinationPaper.setCourseName(course.getName());
-            examinationPaper.setPaperId(storePaper.getId());
-            examinationPaper.setPaperTitle(storePaper.getTitle());
-            examinationPaper.setStartTime(calendar.getTime());
-            calendar.add(Calendar.MINUTE, storePaper.getDuration());
-            examinationPaper.setEndTime(calendar.getTime());
-            examinationPaper.setTestScore(0);
-            examinationPaper.setPassState(false);
-            examinationPaper.setPassScore(storePaper.getPassScore());
-            examinationPaper.setTotalScore(storePaper.getTotalScore());
-            examinationPaper.setJoinState(1);
-            examinationPaper.setTestState(1);
-            examinationPaper.setSingleAmount(0);
-            examinationPaper.setMultiAmount(0);
-            examinationPaper.setFillAmount(0);
-            examinationPaper.setCheckAmount(0);
-            examinationPaper.setJudgeAmount(0);
-
-            employeeExaminationPaperService.insert(examinationPaper);
-
-            StoreQuestionSO questionSO = new StoreQuestionSO();
-            questionSO.setPaperId(storePaper.getId());
-            List<StoreQuestion> storeQuestionList = storeQuestionService.list(questionSO);
-            if (null != storeQuestionList && storeQuestionList.size() > 0) {
-
-                for (StoreQuestion storeQuestion : storeQuestionList) {
-                    EmployeeExaminationQuestion examinationQuestion = new EmployeeExaminationQuestion();
-                    examinationQuestion.setPaperId(examinationPaper.getId());
-                    examinationQuestion.setQuestionId(storeQuestion.getId());
-                    examinationQuestion.setCategory(storeQuestion.getCategory());
-                    examinationQuestion.setScore(storeQuestion.getScore());
-                    examinationQuestion.setTitle(storeQuestion.getTitle());
-                    examinationQuestion.setAnswerState(1);
-                    examinationQuestion.setRightState(false);
-                    employeeExaminationQuestionService.insert(examinationQuestion);
-
-                    StoreQuestionItemSO questionItemSO = new StoreQuestionItemSO();
-                    questionItemSO.setQuestionId(storeQuestion.getId());
-                    List<StoreQuestionItem> storeQuestionItemList = storeQuestionItemService.list(questionItemSO);
-                    if (null != storeQuestionItemList && storeQuestionItemList.size() > 0) {
-                        for (StoreQuestionItem storeQuestionItem : storeQuestionItemList) {
-                            List<EmployeeExaminationQuestionItem> employeeExaminationQuestionItemList = new ArrayList<EmployeeExaminationQuestionItem>();
-
-                            EmployeeExaminationQuestionItem examinationQuestionItem = new EmployeeExaminationQuestionItem();
-                            examinationQuestionItem.setTitle(storeQuestionItem.getTitle());
-                            examinationQuestionItem.setAnswer(storeQuestionItem.getAnswer());
-                            examinationQuestionItem.setCheckState(false);
-                            examinationQuestionItem.setQuestionId(examinationQuestion.getId());
-                            employeeExaminationQuestionItemService.insert(examinationQuestionItem);
-                        }
-                    }
-
-                    StoreQuestionAnalysis questionAnalysis = storeQuestionAnalysisService.getAnalysisQuestionId(storeQuestion.getId());
-                    if (null != questionAnalysis) {
-                        EmployeeExaminationQuestionAnalysis examinationQuestionAnalysis = new EmployeeExaminationQuestionAnalysis();
-                        examinationQuestionAnalysis.setContent(questionAnalysis.getContent());
-                        examinationQuestionAnalysis.setQuestionId(examinationQuestion.getId());
-                        employeeExaminationQuestionAnalysisService.insert(examinationQuestionAnalysis);
-                    }
-
-                }
-            }
-            return examinationPaper.getId();
-        }
-        return null;
     }
 
     @RequestMapping("paper-test")

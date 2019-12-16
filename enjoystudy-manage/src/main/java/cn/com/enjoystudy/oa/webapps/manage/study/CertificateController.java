@@ -100,9 +100,19 @@ public class CertificateController extends BaseController {
 
     @RequestMapping("preview")
     public ModelAndView preview(@RequestParam String id) {
+        ModelAndView mv = new ModelAndView("manage/study/certificate/preview");
+
         EmployeeCertificate certificate = employeeCertificateService.getById(id);
 
-        ModelAndView mv = new ModelAndView("manage/study/certificate/preview");
+
+        if (StringUtils.isNotBlank(certificate.getCourseCode())) {
+            if ("CQO2019".equals(certificate.getCourseCode())) {
+                mv = new ModelAndView("manage/study/certificate/preview/CQO2019.jsp");
+            } else if ("ISO9001-2015".equals(certificate.getCourseCode())) {
+                mv = new ModelAndView("manage/study/certificate/preview/ISO9001-2015");
+            }
+
+        }
         mv.getModel().put("certificate", certificate);
         return mv;
     }

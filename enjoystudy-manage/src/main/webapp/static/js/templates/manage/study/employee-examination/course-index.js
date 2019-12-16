@@ -5,8 +5,8 @@ function goPage(curr) {
         cache: false,
         data: {
             "pageNum": curr,
-            "code": $.trim($("#code").val()),
-            "name": $.trim($("#name").val()),
+            "courseCode": $.trim($("#code").val()),
+            "courseName": $.trim($("#name").val()),
             "rnd": Math.random()
         },
         dataType: "json",
@@ -18,14 +18,14 @@ function goPage(curr) {
                     var data = array[i];
 
                     html += "<tr>";
-                    html += "<td>" + data.name + "</td>";
+                    html += "<td>" + data.courseName + "</td>";
                     html += "<td>" + data.totalScore + "</td>";
                     html += "<td>" + data.passScore + "</td>";
                     html += "<td>" + data.duration + "</td>";
                     html += "<td>" + data.testAmount + "</td>";
                     html += "<td>" + data.questionAmount + "</td>";
                     html += "<td class=\"td-manage\">";
-                    html += "<a href=\"javascript:void(0);\" onclick=\"course.check('" + data.id + "');\" style=\"text-decoration:none\" class=\"ml-5\" title=\"进入考试\">进入考试</a>&nbsp;&nbsp;";
+                    html += "<a href=\"javascript:void(0);\" onclick=\"course.check('" + data.courseId + "');\" style=\"text-decoration:none\" class=\"ml-5\" title=\"进入考试\">进入考试</a>&nbsp;&nbsp;";
                     html += "</td></tr>";
                 }
 
@@ -88,16 +88,7 @@ Course.prototype = {
         });
     },
     test: function (id) {
-        var index = top.layer.open({
-            type: 2,
-            title: '考试',
-            shadeClose: true,
-            shade: 0.8,
-            area: ['640px', '480px'],
-            maxmin: true,
-            content: ctx + '/manage/study/employee-examination/paper-test.jhtml?paperId=' + id + '&rnd=' + Math.random()
-        });
-        top.layer.full(index);
+        window.open("/web/test/paper-test.jhtml?paperId=" + id)
     }
 };
 
