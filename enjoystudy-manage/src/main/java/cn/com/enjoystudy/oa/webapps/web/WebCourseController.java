@@ -104,6 +104,7 @@ public class WebCourseController extends UploadController {
             mv.getModel().put("teacher", teacher);
             mv.getModel().put("hotCourseList", hotCourseList);
             mv.getModel().put("attachmentList", attachmentList);
+            mv.getModel().put("student", getCurrentUser());
         }
         return mv;
     }

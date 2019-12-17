@@ -27,7 +27,7 @@ public class ShoppingCartAdminController extends BaseController {
     private ShoppingCartService shoppingCartService;
 
     @RequestMapping("index")
-    public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView index() {
         ModelAndView mv = new ModelAndView("manage/order/shopping-cart/index");
         return mv;
     }

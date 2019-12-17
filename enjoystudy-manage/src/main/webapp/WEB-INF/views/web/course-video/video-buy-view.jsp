@@ -45,14 +45,14 @@
                         <img src="<c:url value="/static/js/templates/web/index/shoppingCart.jpg"/>" style="margin-right:20px; cursor:pointer; margin-left:20px;" onclick="BuyIt('${course.id}')">
                         <img id="onceBuy" data-id="${course.id}" src="<c:url value="/static/js/templates/web/index/atOnceBuy.jpg"/>" style="margin-right:20px; cursor:pointer;">
                         <%--<img src="<c:url value="/static/js/templates/web/index/ShoucangButton.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
-                        <img src="<c:url value="/static/js/templates/web/index/learn.jpg"/>" style="margin-right:20px; cursor:pointer;">
+                        <%--<img src="<c:url value="/static/js/templates/web/index/learn.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
 
-                        <span id="shoppingCart" style="margin-left:20px; color:#cc3300; font-size:16px; cursor:pointer;">
+                       <%-- <span id="shoppingCart" style="margin-left:20px; color:#cc3300; font-size:16px; cursor:pointer;">
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>放入购物车
                         </span>
                         <span id="onceBuy" style="margin-left:20px; color:#cc3300; font-size:16px; cursor:pointer;">
                             <i class="fa fa-shopping-bag" aria-hidden="true"></i>立即购买
-                        </span>
+                        </span>--%>
                     </td>
                 </tr>
                 <tr>

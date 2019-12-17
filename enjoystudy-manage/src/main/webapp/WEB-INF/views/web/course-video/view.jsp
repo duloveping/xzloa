@@ -95,9 +95,11 @@
             ]
         }
     });
-
     api.on("ready", function () {
     });
+    function BuyIt(id) {
+        location.href = "<c:url value='/web/shop/shopping-cart/add.jhtml'/>?courseId=" + id + "&rnd=" + Math.random();
+    }
 </script>
 </body>
 </html>

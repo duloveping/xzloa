@@ -83,9 +83,11 @@
                             <td class="KCListTableTdValue" style="height:50px;">
                                 <img src="<c:url value="/static/js/templates/web/index/shoppingCart.jpg"/>" style="margin-right:20px; cursor:pointer; margin-left:20px;" onclick="BuyIt('${course.id}')">
                                 <img id="onceBuy" data-id="${course.id}" src="<c:url value="/static/js/templates/web/index/atOnceBuy.jpg"/>" style="margin-right:20px; cursor:pointer;">
-                                <%--<img src="<c:url value="/static/js/templates/web/index/ShoucangButton.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
-                                <img src="<c:url value="/static/js/templates/web/index/learn.jpg"/>" style="margin-right:20px; cursor:pointer;">
-                                <img id="onceTest" src="<c:url value="/static/js/templates/web/index/onceTest.jpg"/>" style="margin-right:20px; cursor:pointer;">
+                                <c:if test="${not empty student}">
+                                    <%--<img src="<c:url value="/static/js/templates/web/index/ShoucangButton.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
+                                    <%--<img src="<c:url value="/static/js/templates/web/index/learn.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
+                                    <img id="onceTest" src="<c:url value="/static/js/templates/web/index/onceTest.jpg"/>" style="margin-right:20px; cursor:pointer;">
+                                </c:if>
                             </td>
                         </tr>
                     </tbody>
@@ -126,7 +128,7 @@
                     <div style="width:120px; height:50px; line-height:50px; float:left;" id="gkAra"><span onclick="LessonTagChange('gk')" style="font-size:16px; font-weight:bold; color:#2ba485;">课程概况</span></div>
                     <div style="width:120px; height:50px; line-height:50px; float:left;" id="mlAra"><span onclick="LessonTagChange('ml')" style="font-size:18px; color:#969696; cursor:pointer;">课程目录</span></div>
                     <div style="width:120px; height:50px; line-height:50px; float:left;" id="teAra"><span onclick="LessonTagChange('te')" style="font-size:16px; color:#969696; cursor:pointer;">主讲教师</span></div>
-                    <div style="width:120px; height:50px; line-height:50px; float:left;" id="obAra"><span onclick="LessonTagChange('ob')" style="font-size:16px; color:#969696; cursor:pointer;">适用对象</span></div>
+                    <%--<div style="width:120px; height:50px; line-height:50px; float:left;" id="obAra"><span onclick="LessonTagChange('ob')" style="font-size:16px; color:#969696; cursor:pointer;">适用对象</span></div>--%>
                     <div style="width:120px; height:50px; line-height:50px; float:left;" id="pjAra"><span onclick="LessonTagChange('pj')" style="font-size:16px; color:#969696; cursor:pointer;">课程文库</span></div>
                 </div>
                 <div id="gkDetailArea" style="width: 96%; min-height: 100px; height: auto; margin-left: 25px; margin-top: 20px; display: block;">
@@ -163,10 +165,13 @@
                                 <td style="width:21px;"><img src="<c:url value="${teacher.image}"/>" style="margin-right:5px; vertical-align:middle; width: 50px; height: 50px;"></td>
                                 <td><span style="font-size:15px; color:#666;">${teacher.fullName}</span></td>
                             </tr>
+                            <tr>
+                                <td colspan="2">${teacher.description}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-                <div id="obDetailArea" style="width:96%; min-height:100px; height:auto; margin-left:25px; margin-top:20px; display:none;">
+                <%--<div id="obDetailArea" style="width:96%; min-height:100px; height:auto; margin-left:25px; margin-top:20px; display:none;">
                     <table border="0" cellpadding="3" cellspacing="0" class="KCDetailTable">
                         <tbody>
                             <tr>
@@ -178,7 +183,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div>--%>
                 <div id="pjDetailArea" style="width:96%; min-height:100px; height:auto; margin-left:25px; margin-top:20px;display:none;">
                     <table border="0" cellpadding="3" cellspacing="0" class="KCDetailTable">
                         <tbody><tr>

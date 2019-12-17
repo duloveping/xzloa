@@ -1,3 +1,7 @@
+function BuyIt(id) {
+    location.href = "/web/shop/shopping-cart/add.jhtml?courseId=" + id + "&rnd=" + Math.random();
+}
+
 $(function () {
     $("#onceBuy").on("click", function () {
         var id = $("#courseTable").attr("data-id");
