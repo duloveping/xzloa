@@ -26,8 +26,6 @@ public class SysMenu extends EntitySupport {
     private String cssStyle;
     /** 显示状态 */
     private Boolean showState;
-    /** 排序序号 */
-    private Integer serialNumber;
     /** 备注 */
     private String caption;
     /** 所属父级ID */
@@ -101,14 +99,6 @@ public class SysMenu extends EntitySupport {
 
     public void setShowState(Boolean showState) {
         this.showState = showState;
-    }
-
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public String getCaption() {

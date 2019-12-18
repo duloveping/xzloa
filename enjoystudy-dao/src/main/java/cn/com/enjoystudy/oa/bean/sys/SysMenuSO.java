@@ -23,8 +23,6 @@ public class SysMenuSO extends SOSupport {
     private String cssStyle;
     /** 显示状态 */
     private Boolean showState;
-    /** 排序序号 */
-    private Integer serialNumber;
     /** 所属父级ID */
     private String parentId;
     /** 所属父级名称 */
@@ -101,14 +99,6 @@ public class SysMenuSO extends SOSupport {
 
     public void setShowState(Boolean showState) {
         this.showState = showState;
-    }
-
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public String getParentId() {

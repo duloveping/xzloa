@@ -19,8 +19,6 @@ public class BaseDictionaryItem extends EntitySupport {
     private String itemValue;
     /** 显示状态 */
     private Boolean showState;
-    /** 排序序号 */
-    private Integer serialNumber;
 
     public BaseDictionaryItem() {
     }
@@ -73,11 +71,4 @@ public class BaseDictionaryItem extends EntitySupport {
         this.showState = showState;
     }
 
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
-    }
 }

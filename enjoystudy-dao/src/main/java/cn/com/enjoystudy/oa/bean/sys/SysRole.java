@@ -15,8 +15,6 @@ public class SysRole extends EntitySupport {
     private String caption;
     /** 显示状态 */
     private Boolean showState;
-    /** 排序序号 */
-    private Integer serialNumber;
 
     public SysRole() {
     }
@@ -51,13 +49,5 @@ public class SysRole extends EntitySupport {
 
     public void setShowState(Boolean showState) {
         this.showState = showState;
-    }
-
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
     }
 }

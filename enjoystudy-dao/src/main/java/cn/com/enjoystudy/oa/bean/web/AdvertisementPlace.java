@@ -32,8 +32,6 @@ public class AdvertisementPlace extends EntitySupport {
     private String moreUrl;
     /** 图标 */
     private String icon;
-    /** 排序号 */
-    private Integer serialNumber;
 
     public AdvertisementPlace() {
     }
@@ -132,13 +130,5 @@ public class AdvertisementPlace extends EntitySupport {
 
     public void setIcon(String icon) {
         this.icon = icon;
-    }
-
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
     }
 }

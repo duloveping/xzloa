@@ -19,8 +19,6 @@ public class BaseDictionaryItemSO extends SOSupport {
     private String itemValue;
     /** 显示状态 */
     private Boolean showState;
-    /** 排序序号 */
-    private Integer serialNumber;
 
     public BaseDictionaryItemSO() {
     }
@@ -71,13 +69,5 @@ public class BaseDictionaryItemSO extends SOSupport {
 
     public void setShowState(Boolean showState) {
         this.showState = showState;
-    }
-
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
     }
 }

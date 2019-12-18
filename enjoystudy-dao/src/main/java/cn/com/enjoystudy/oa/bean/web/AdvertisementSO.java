@@ -35,8 +35,6 @@ public class AdvertisementSO extends SOSupport {
     private Date uploadTime;
     /** url地址 */
     private String url;
-    /** 排序号 */
-    private Integer serialNumber;
     /** 宽度 */
     private Integer width;
     /** 高度 */
@@ -171,14 +169,6 @@ public class AdvertisementSO extends SOSupport {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public Integer getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public Integer getWidth() {

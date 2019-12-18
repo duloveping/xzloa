@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SOSupport extends PageInfo implements Serializable {
+public class SOSupport extends PageInfo {
     private static final long serialVersionUID = 9046906931951512513L;
     /** 流水号 */
     private String id;
@@ -24,6 +24,8 @@ public class SOSupport extends PageInfo implements Serializable {
     private String exceptId;
     private String[] exceptIds;
     private Boolean like;
+    /** 排序号 */
+    private Integer serialNumber;
 
     public SOSupport() {
         this.like = Boolean.TRUE;
@@ -99,5 +101,13 @@ public class SOSupport extends PageInfo implements Serializable {
 
     public void setExceptIds(String[] exceptIds) {
         this.exceptIds = exceptIds;
+    }
+
+    public Integer getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(Integer serialNumber) {
+        this.serialNumber = serialNumber;
     }
 }

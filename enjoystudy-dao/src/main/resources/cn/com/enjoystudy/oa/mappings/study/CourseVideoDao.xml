@@ -23,18 +23,19 @@
 
     <insert id="insert" parameterType="cn.com.enjoystudy.oa.bean.study.CourseVideo" >
         insert into course_video (id, create_time, update_time, flag, status,
-        course_id, name,  image, file_name, file_path, file_type, file_size, upload_time, show_state,
+        course_id, name,  image, file_name, file_path, file_type, file_size, upload_time, show_state, serial_number,
         introduction, description)
         values (#{id}::uuid, #{createTime}, #{updateTime}, #{flag}, #{status},
         #{courseId}::uuid, #{name}, #{image}, #{fileName}, #{filePath}, #{fileType}, #{fileSize}, #{uploadTime}, #{showState},
-        #{introduction}, #{description})
+        #{serialNumber}, #{introduction}, #{description})
     </insert>
 
     <update id="update" parameterType="cn.com.enjoystudy.oa.bean.study.CourseVideo" >
         update course_video set update_time = #{updateTime},
         course_id = #{courseId}::uuid, name = #{name}, image = #{image}, file_name = #{fileName}, file_path = #{filePath},
         file_type = #{fileType}, file_size = #{fileSize}, show_state = #{showState}, upload_time = #{uploadTime},
-        introduction = #{introduction}, description = #{description} where id = #{id}::uuid
+        serial_number = #{serialNumber}, introduction = #{introduction}, description = #{description}
+        where id = #{id}::uuid
     </update>
 
     <resultMap id="getByIdResultMap" type="cn.com.enjoystudy.oa.bean.study.CourseVideo">
@@ -49,6 +50,7 @@
         <result column="file_size" jdbcType="BIGINT" property="fileSize" />
         <result column="upload_time" jdbcType="TIMESTAMP" property="updateTime" />
         <result column="show_state" jdbcType="BOOLEAN" property="showState" />
+        <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
         <result column="introduction" jdbcType="VARCHAR" property="introduction" />
         <result column="description" jdbcType="VARCHAR" property="description" />
         <collection property="attachmentList" column="{videoId=id}" javaType="java.util.List"
@@ -58,11 +60,12 @@
     <select id="getById" resultMap="getByIdResultMap">
         select 
         v.id, c.id course_id, c.name course_name, v.name, v.image, c.current_price, c.market_price, c.sale_price,
-        v.file_name, v.file_path, v.file_type, v.file_size, v.upload_time, v.show_state,
+        v.file_name, v.file_path, v.file_type, v.file_size, v.upload_time, v.show_state, v.serial_number,
         v.introduction, v.description, v.click_amount, v.love_amount, v.star_amount, v.remark_amount, c.buy_amount
         from course_video v
         inner join course c on c.id = v.course_id
         where v.id = #{id}::uuid and v.flag = true and v.status = true
+        order by v.serial_number asc
     </select>
 
     <update id="deleteById">
@@ -72,9 +75,9 @@
     <select id="list" resultType="cn.com.enjoystudy.oa.bean.study.CourseVideo"
             parameterType="cn.com.enjoystudy.oa.bean.study.CourseVideoSO">
         select id, course_id, name, image, file_name, file_path, file_type, file_size, upload_time, show_state,
-        click_amount, love_amount, star_amount, remark_amount, introduction
+        click_amount, love_amount, star_amount, remark_amount, serial_number, introduction
         from course_video <include refid="wheres"/>
-        order by create_time asc
+        order by serial_number asc
     </select>
 
     <select id="findAttachmentsByVideoId" resultType="cn.com.enjoystudy.oa.bean.study.CourseAttachment">
@@ -94,7 +97,7 @@
     <select id="videoList" resultType="cn.com.enjoystudy.oa.bean.study.CourseVideo"
             parameterType="cn.com.enjoystudy.oa.bean.study.CourseVideoSO">
         select v.id, v.name, v.image, v.file_path, v.introduction, c.current_price, c.market_price, c.sale_price,
-        t.id teacher_id, t.full_name teacher_name,
+        t.id teacher_id, t.full_name teacher_name, v.serial_number,
         c.id course_id, c.name course_name, v.click_amount, v.love_amount, v.star_amount, v.star_amount
         from course_video v
         left join course c on c.id = v.course_id
@@ -114,7 +117,7 @@
             <bind name="likeName" value="'%' + name + '%'"/>
             and v.name like #{likeName}
         </if>
-        order by v.create_time desc
+        order by v.serial_number asc
     </select>
 
     <update id="updateClickAmount">

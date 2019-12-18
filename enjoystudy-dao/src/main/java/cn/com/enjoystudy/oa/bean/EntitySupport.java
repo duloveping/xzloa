@@ -20,6 +20,8 @@ public class EntitySupport implements Serializable {
     private Boolean flag;
     /** 状态 */
     private Boolean status;
+    /** 排序号 */
+    private Integer serialNumber;
 
     public EntitySupport() {
     }
@@ -33,6 +35,7 @@ public class EntitySupport implements Serializable {
         this.updateTime = this.createTime;
         this.flag = Boolean.TRUE;
         this.status = this.flag;
+        this.serialNumber = 0;
     }
 
     /**
@@ -80,6 +83,14 @@ public class EntitySupport implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Integer getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(Integer serialNumber) {
+        this.serialNumber = serialNumber;
     }
 }
 
