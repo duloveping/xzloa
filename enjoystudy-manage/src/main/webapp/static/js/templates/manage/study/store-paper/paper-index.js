@@ -25,12 +25,10 @@ function goPage(curr) {
                     html += "<td>" + data.testAmount + "</td>";
                     html += "<td>" + (data.showState ? "显示" : "隐藏") + "</td>";
                     html += "<td class=\"td-manage\">";
-                    if (data.editState == 1) {
-                        html += "<a href=\"javascript:void(0);\" onclick=\"paper.edit('" + data.id + "');\" style=\"text-decoration:none\" class=\"ml-5\" title=\"编辑\"><i class=\"fa fa-edit fa-lg\"></i></a>&nbsp;";
+                    html += "<a href=\"javascript:void(0);\" onclick=\"paper.edit('" + data.id + "');\" style=\"text-decoration:none\" class=\"ml-5\" title=\"编辑\"><i class=\"fa fa-edit fa-lg\"></i></a>&nbsp;";
                         html += "<a href=\"javascript:void(0);\" onclick=\"paper.delete(this, '" + data.id + "');\"style=\"text-decoration:none\" class=\"ml-5\" title=\"删除\"><i class=\"fa fa-remove fa-lg\"></i></a>&nbsp;"
                         html += "<a href=\"javascript:void(0);\" onclick=\"paper.send('" + data.id + "');\"style=\"text-decoration:none\" class=\"ml-5\" title=\"提交\"><i class=\"fa fa-send fa-lg\"></i></a>"
                         html += "<a href=\"javascript:void(0);\" onclick=\"paper.questionList('" + data.id + "');\"style=\"text-decoration:none\" class=\"ml-5\" title=\"试题\"><i class=\"fa fa-list-ol fa-lg\"></i></a>"
-                    }
                     html += "<a href=\"javascript:void(0);\" onclick=\"paper.view('" + data.id + "');\"style=\"text-decoration:none\" class=\"ml-5\" title=\"预览\"><i class=\"fa fa-newspaper-o fa-lg\"></i></a>"
                     html += "</td></tr>";
                 }

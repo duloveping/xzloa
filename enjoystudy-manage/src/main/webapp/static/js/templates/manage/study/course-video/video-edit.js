@@ -21,6 +21,7 @@ $("#inputForm").validate({
         entity.course.name = $("#courseName").val();
         entity.courseId = $("#courseId").val();
         entity.courseName = $("#courseName").val();
+        entity.serialNumber = $("#serialNumber").val();
 
         $.ajax({
             type: "post",
@@ -177,6 +178,7 @@ CourseVideo.prototype = {
                     entity.course.name = res.video.courseName;
                     entity.id = res.video.id;
                     entity.name = res.video.name;
+                    entity.serialNumber = res.video.serialNumber;
                     entity.introduction = res.video.introduction;
                     entity.description = res.video.description;
 
@@ -203,6 +205,7 @@ CourseVideo.prototype = {
                         entity.fileSize = res.video.fileSize;
                         entity.filePath = res.video.filePath;
                         entity.uploadTime = res.video.uploadTime;
+                        entity.serialNumber = res.video.serialNumber;
 
                         var html = "";
 
@@ -231,6 +234,7 @@ CourseVideo.prototype = {
                     $("#fileSize").val(res.video.fileSize);
                     $("#filePath").val(res.video.filePath);
                     $("#uploadTime").val(res.video.uploadTime);
+                    $("#serialNumber").val(res.video.serialNumber);
 
                     if (null != res.video.attachmentList && res.video.attachmentList.length > 0) {
                         var html = "";
@@ -303,6 +307,7 @@ var entity = {
     fileType: "",
     fileSize: 0,
     filePath: "",
+    serialNumber: 0,
     uploadTime: new Date(),
     attachmentList: new Array()
 };
@@ -323,7 +328,6 @@ $(function () {
     editor.addListener( 'ready', function() {
         editor.setContent(entity.description);
     } );
-
 
     initUploader('photo', '/manage/study/course-video/upload-image.jhtml');
     initUploader('video', '/manage/study/course-video/upload-media.jhtml');

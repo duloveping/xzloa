@@ -36,6 +36,14 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                <span class="c-red">*</span>排序序号：
+            </label>
+            <div class="formControls col-xs-8 col-sm-10">
+                <form:input id="serialNumber" path="serialNumber" placeholder="排序序号" maxlength="4" cssClass="required input-text"/>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">封面：</label>
             <div class="formControls col-xs-8 col-sm-10">
                 <div class="uploader-thum-container">

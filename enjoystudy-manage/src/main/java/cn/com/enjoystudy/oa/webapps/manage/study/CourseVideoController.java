@@ -96,6 +96,7 @@ public class CourseVideoController extends UploadController {
             video.setFileSize(so.getFileSize());
             video.setFilePath(so.getFilePath());
             video.setUploadTime(so.getUploadTime());
+            video.setSerialNumber(so.getSerialNumber());
             if (StringUtils.isNotBlank(so.getId())) {
                 courseAttachmentService.deleteByVideoId(so.getId());
                 courseVideoService.update(video);
