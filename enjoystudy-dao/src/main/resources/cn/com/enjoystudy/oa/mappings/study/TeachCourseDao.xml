@@ -17,7 +17,7 @@
         <if test="null != testState"> and c.test_state = #{testState}</if>
         <if test="null != hotState"> and c.hot_state = #{hotState}</if>
         <if test="null != freeState"> and c.free_state = #{freeState}</if>
-        <if test="null != courseId and '' != courseId"> and c.id = #{courseId}:: </if>
+        <if test="null != courseId and '' != courseId"> and c.id = #{courseId}::uuid </if>
         <if test="null != courseCode and '' != courseCode"> and c.code = #{courseCode} </if>
         <if test="null != courseName and '' != courseName">
             <bind name="courseNameLike" value="'%' + courseName + '%'"/>
@@ -62,7 +62,7 @@
         <if test="null != recommendState"> and c.recommend_state = #{recommendState}</if>
         <if test="null != hotState"> and c.hot_state = #{hotState}</if>
         <if test="null != freeState"> and c.free_state = #{freeState}</if>
-        <if test="null != courseId and '' != courseId"> and c.id = #{courseId}:: </if>
+        <if test="null != courseId and '' != courseId"> and c.id = #{courseId}::uuid </if>
         <if test="null != courseCode and '' != courseCode"> and c.code = #{courseCode} </if>
         <if test="null != courseName and '' != courseName">
             <bind name="courseNameLike" value="'%' + courseName + '%'"/>
