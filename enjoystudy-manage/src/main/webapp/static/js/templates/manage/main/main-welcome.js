@@ -38,24 +38,24 @@ function study(id) {
 function examinationList() {
     $.ajax({
         type: "get",
-        url: ctx + "/manage/main/examination-list.jhtml?rnd=" + Math.random(),
+        url: "/manage/study/employee-examination/course-list.jhtml?rnd=" + Math.random(),
         dataType: "json",
         success: function (res) {
             if (res.status) {
                 var html = "";
-                var array = res.examinationList;
+                var array = res.datas;
                 for (var i = 0; i < array.length; i++) {
                     var data = array[i];
 
                     html += "<tr>";
-                    html += "<td>" + data.name + "</td>";
+                    html += "<td>" + data.courseName + "</td>";
                     html += "<td>" + data.totalScore + "</td>";
                     html += "<td>" + data.passScore + "</td>";
                     html += "<td>" + data.duration + "</td>";
                     html += "<td>" + data.testAmount + "</td>";
                     html += "<td>" + data.questionAmount + "</td>";
                     html += "<td class=\"td-manage\">";
-                    html += "<a href=\"javascript:void(0);\" onclick=\"checkExamination('" + data.id + "');\" style=\"text-decoration:none\" class=\"ml-5\" title=\"进入考试\">进入考试</a>&nbsp;&nbsp;";
+                    html += "<a href=\"javascript:void(0);\" onclick=\"checkExamination('" + data.courseId  + "');\" style=\"text-decoration:none\" class=\"ml-5\" title=\"进入考试\">进入考试</a>&nbsp;&nbsp;";
                     html += "</td>";
                     html += "</tr>";
                 }
@@ -74,7 +74,7 @@ function examinationList() {
 function checkExamination(courseId) {
     $.ajax({
         type: "post",
-        url: ctx + "/manage/study/employee-examination/check-test.jhtml",
+        url: "/manage/study/employee-examination/check-test.jhtml",
         cache: false,
         data: {courseId: courseId, rnd: Math.random()},
         dataType: "json",
@@ -94,12 +94,12 @@ function checkExamination(courseId) {
 function examinationTest(id) {
     var index = top.layer.open({
         type: 2,
-        title: '考试',
+        title: '课程考试',
         shadeClose: true,
         shade: 0.8,
-        area: ['640px', '480px'],
+        area: ['800px', '600px'],
         maxmin: true,
-        content: ctx + '/manage/study/employee-examination/paper-test.jhtml?paperId=' + id + '&rnd=' + Math.random()
+        content: "/web/test/paper-test.jhtml?paperId=" + id + "&rnd=" + Math.random()
     });
     top.layer.full(index);
 }

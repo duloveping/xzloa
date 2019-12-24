@@ -88,7 +88,16 @@ Course.prototype = {
         });
     },
     test: function (id) {
-        window.open("/web/test/paper-test.jhtml?paperId=" + id)
+        var index = top.layer.open({
+            type: 2,
+            title: '课程考试',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['800px', '600px'],
+            maxmin: true,
+            content: "/web/test/paper-test.jhtml?paperId=" + id + "&rnd=" + Math.random()
+        });
+        top.layer.full(index);
     }
 };
 

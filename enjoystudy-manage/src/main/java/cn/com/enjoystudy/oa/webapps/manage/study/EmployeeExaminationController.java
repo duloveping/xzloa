@@ -290,6 +290,7 @@ public class EmployeeExaminationController extends PaperController {
                     String certificateCode = date + rnd1 + sysSequenceService.fillZero(value.toString(), 7) + md;
                     EmployeeCertificate certificate = new EmployeeCertificate();
                     certificate.setCertificateCode(certificateCode);
+                    certificate.setCourseCode(course.getCode());
                     certificate.setCertificateName(course.getChineseName());
                     certificate.setCertificateDate(paper.getSubmitTime());
                     certificate.setCertificateState(1);

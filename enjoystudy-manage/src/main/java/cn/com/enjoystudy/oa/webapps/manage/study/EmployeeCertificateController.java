@@ -9,6 +9,8 @@ import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.POIXMLDocument;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/manage/study/employee-certificate")
@@ -37,6 +41,18 @@ public class EmployeeCertificateController extends BaseController {
         so.setEmployeeId(account.getId());
         JSONObject json = adminList(so);
         return json;
+    }
+
+    @ResponseBody
+    public void download(@RequestParam String id) {
+        EmployeeCertificate certificate = employeeCertificateService.getById(id);
+
+        XWPFDocument document = null;
+        try {
+            document = new XWPFDocument(POIXMLDocument.openPackage(certificate.getCourseCode()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping("admin-index")

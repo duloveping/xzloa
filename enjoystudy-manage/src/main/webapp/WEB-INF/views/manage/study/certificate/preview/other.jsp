@@ -3,9 +3,18 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>证书预览</title>
+    <title>${certificate.certificateName}</title>
     <%@ include file="/WEB-INF/views/common/meta.jsp" %>
     <style type="text/css">
+        @media print {
+            body{
+                -webkit-print-color-adjust:exact;
+                -moz-print-color-adjust:exact;
+                -ms-print-color-adjust:exact;
+                print-color-adjust:exact;
+            }
+        }
+
         .paper{
             margin: auto 0px;
             width: 210mm;
@@ -150,5 +159,12 @@
     </div>
     <div  style="background-image:url(<c:url value="/static/js/images/xzlgz.png"/>); background-repeat :no-repeat; background-position:right bottom; width: 700px; height: 150px;"></div>
 </div>
+<script type="text/javascript" src="<c:url value='/static/js/common/jquery/jquery-1.11.3.min.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/js/common/jquery-print/jQuery.print.js' />"></script>
+<script type="text/javascript">
+    function print() {
+        $.print("#paper");
+    }
+</script>
 </body>
 </html>

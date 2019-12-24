@@ -103,7 +103,7 @@ public class CertificateController extends BaseController {
         ModelAndView mv = new ModelAndView("manage/study/certificate/preview");
         EmployeeCertificate certificate = employeeCertificateService.getById(id);
         if (StringUtils.isNotBlank(certificate.getCourseCode())) {
-            mv = new ModelAndView("manage/study/certificate/" + certificate.getCourseCode());
+            mv = new ModelAndView("manage/study/certificate/preview/" + certificate.getCourseCode());
         }
         mv.getModel().put("certificate", certificate);
         return mv;
