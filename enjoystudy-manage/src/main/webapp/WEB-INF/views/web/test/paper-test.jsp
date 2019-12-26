@@ -400,6 +400,10 @@
             success : function(res){
                 layer.close(loadIndex);
                 layer.alert(res.info);
+                if  (res.status) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                }
 
             },
             error : function(XmlHttpRequest, textStatus, errorThrown) {

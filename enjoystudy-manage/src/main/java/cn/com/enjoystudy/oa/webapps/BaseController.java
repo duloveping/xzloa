@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 基础Controller，所属的Controller类都需要继承该类
@@ -48,6 +49,12 @@ public class BaseController {
         json.put("datas", pageInfo.getList());
         json.put("total", pageInfo.getTotal());
         json.put("pages", pageInfo.getPages());
+        return json;
+    }
+
+    public JSONObject resultSuccess(List<?> list) {
+        JSONObject json = resultSuccess();
+        json.put("datas", list);
         return json;
     }
 

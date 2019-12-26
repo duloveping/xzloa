@@ -1,7 +1,7 @@
 function videoList() {
     $.ajax({
         type: "get",
-        url: ctx + "/manage/main/course-list.jhtml?rnd=" + Math.random(),
+        url: "/manage/main/course-list.jhtml?rnd=" + Math.random(),
         dataType: "json",
         success: function (res) {
             if (res.status) {
@@ -31,7 +31,7 @@ function study(id) {
         shade: 0.8,
         area: ['640px', '480px'],
         maxmin: true,
-        content: ctx + '/manage/study/course-study/study.jhtml?videoId=' + id + '&rnd=' + Math.random()
+        content: '/manage/study/course-study/study.jhtml?videoId=' + id + '&rnd=' + Math.random()
     });
 }
 
@@ -157,7 +157,7 @@ function certificateList() {
                     var certificateDate = moment(data.certificateDate).format("YYYY-MM-DD");
 
                     html += "<tr>";
-                    html += "<td><a href=\"javascript:void(0);" + ctx  + "/manage/study/certificate/preview.jhtml?id=" + data.id + "\" target=\"_blank\">" + data.certificateName + "</td>";
+                    html += "<td><a href=\"/manage/study/certificate/preview.jhtml?id=" + data.id + "\" target=\"_blank\">" + data.certificateName + "</td>";
                     html += "<td>" + data.certificateCode + "</td>";
                     html += "<td>" + certificateDate + "</td>";
                     html += "</tr>";

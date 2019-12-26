@@ -249,7 +249,17 @@
             success: function (res) {
                 layer.close(loadIndex);
                 if (res.status) {
-                    document.location.href = "/web/test/paper-test.jhtml?paperId=" + res.paperId;
+                    console.log(res.paperId);
+                    var index = top.layer.open({
+                        type: 2,
+                        title: '课程考试',
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['800px', '600px'],
+                        maxmin: true,
+                        content: "/web/test/paper-test.jhtml?paperId=" + res.paperId + "&rnd=" + Math.random()
+                    });
+                    top.layer.full(index);
                 } else {
                     layer.alert(res.info);
                 }

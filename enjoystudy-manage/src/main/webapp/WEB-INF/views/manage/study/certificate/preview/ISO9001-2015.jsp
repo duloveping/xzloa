@@ -5,6 +5,12 @@
 <head>
     <title>9001-2015内审员培训证书</title>
     <%@ include file="/WEB-INF/views/common/meta.jsp" %>
+    <style media="print">
+        @page {
+            size: auto;  /* auto is the initial value */
+            margin: 0mm; /* this affects the margin in the printer settings */
+        }
+    </style>
     <style type="text/css">
         @media print {
             body{

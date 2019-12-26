@@ -146,10 +146,9 @@ public class SysMenuController extends BaseController {
 
     @RequestMapping("delete")
     @ResponseBody
-    public JSONObject delete(@RequestParam Long id) {
-        JSONObject json = new JSONObject();
-        json.put("status", true);
-        json.put("info", "成功");
+    public JSONObject delete(@RequestParam String id) {
+        sysMenuService.deleteById(id);
+        JSONObject json = resultSuccess();
         return json;
     }
 

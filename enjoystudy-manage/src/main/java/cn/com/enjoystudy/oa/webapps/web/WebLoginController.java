@@ -25,15 +25,13 @@ public class WebLoginController extends LoginController {
     @Override
     @RequestMapping("logout")
     public ModelAndView logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
         Subject subject = SecurityUtils.getSubject();
         if (null != subject) {
             Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
             if (null != object) {
-                session.removeAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
+                subject.getSession().removeAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
+                subject.logout();
             }
-            subject.getSession().removeAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
-            subject.logout();
         }
         ModelAndView mv = new ModelAndView("redirect:/web/login/index.jhtml");
         return mv;

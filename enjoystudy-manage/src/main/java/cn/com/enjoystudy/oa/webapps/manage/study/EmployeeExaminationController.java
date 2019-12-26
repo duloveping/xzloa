@@ -61,11 +61,9 @@ public class EmployeeExaminationController extends PaperController {
     @ResponseBody
     public JSONObject courseList(TeachCourseSO so) {
         EmployeeAccount account = getCurrentUser();
-
         so.setEmployeeId(account.getId());
         so.setTestState(2);
-
-        PageInfo<TeachCourse> pageInfo = teachCourseService.teachCoursePage(so);
+        PageInfo<TeachCourse> pageInfo = teachCourseService.learnCoursePage(so);
         return resultSuccess(pageInfo);
     }
 

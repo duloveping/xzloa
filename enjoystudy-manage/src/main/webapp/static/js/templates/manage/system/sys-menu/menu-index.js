@@ -4,7 +4,7 @@ Menu.prototype = {
     list: function (){
         $.ajax({
             type: "post",
-            url: "list.jhtml",
+            url: "/manage/system/sys-menu/list.jhtml",
             cache: false,
             data: {
                 "code": $.trim($("#code").val()),
@@ -47,7 +47,7 @@ Menu.prototype = {
                                     html += "<td></td>";
                                     html += "<td>";
                                     html += "<a href=\"javascript:void(0);\" onclick=\"menu.edit('" + obj.id + "');\">编辑</a>&nbsp;&nbsp;";
-                                    html += "<a href=\"javascript:void(0);\" onclick=\"menu.delete(this, '" + obj.id + "');\">删除</a>"
+                                    html += "<a href=\"javascript:void(0);\" onclick=\"menu.delete(this, '" + obj.id + "');\">删除</a>";
                                     html += "</td></tr>";
                                 }
                             }
@@ -69,7 +69,7 @@ Menu.prototype = {
             shade: 0.8,
             area: ['800px', '600px'],
             maxmin: true,
-            content: 'edit.jhtml?parentId=' + pid + '&rnd=' + Math.random()
+            content: '/manage/system/sys-menu/edit.jhtml?parentId=' + pid + '&rnd=' + Math.random()
         });
     },
     permission: function (menuId) {
@@ -80,7 +80,7 @@ Menu.prototype = {
             shade: 0.8,
             area: ['800px', '600px'],
             maxmin: true,
-            content: 'permission-edit.jhtml?parentId=' + menuId + '&rnd=' + Math.random()
+            content: '/manage/system/sys-menu/permission-edit.jhtml?parentId=' + menuId + '&rnd=' + Math.random()
         });
     },
     edit: function (id) {
@@ -91,23 +91,23 @@ Menu.prototype = {
             shade: 0.8,
             area: ['800px', '600px'],
             maxmin: true,
-            content: 'edit.jhtml?id=' + id + '&rnd=' + Math.random()
+            content: '/manage/system/sys-menu/edit.jhtml?id=' + id + '&rnd=' + Math.random()
         });
     },
     delete: function (obj, id) {
-        layer.confirm('确认要删除吗？',function(index){
+        top.layer.confirm('确认要删除吗？',function(index){
+            var loadIndex = top.layer.load();
             $.ajax({
-                type : "post",
-                url : "delete.jhtml",
-                cache : false,
-                data : {"id" : id, "rnd" : Math.random()},
+                type : "get",
+                url : "/manage/system/sys-menu/delete.jhtml?id=" + id,
                 dataType : "json",
-                success : function(res){
-                    if (res.status) {
-                        layer.msg('删除成功',{icon:1,time:3000});
-                    } else {
-                        layer.alert(res.info);
-                    }
+                success: function (res) {
+                    top.layer.close(loadIndex);
+                    top.layer.msg(res.info);
+                },
+                error : function(XmlHttpRequest, textStatus, errorThrown) {
+                    top.layer.close(loadIndex);
+                    top.layer.alert('系统出错！');
                 }
             });
             $(obj).parents("tr").remove();

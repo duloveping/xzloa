@@ -9,10 +9,12 @@ import cn.com.enjoystudy.oa.filter.ManageSessionFilter;
 import cn.com.enjoystudy.oa.service.study.CourseService;
 import cn.com.enjoystudy.oa.service.study.CourseVideoService;
 import cn.com.enjoystudy.oa.service.study.EmployeeAccountCourseService;
+import cn.com.enjoystudy.oa.service.study.TeachCourseService;
 import cn.com.enjoystudy.oa.service.sys.SysMenuService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -37,7 +39,7 @@ public class MainController extends BaseController {
     @Autowired
     private CourseVideoService courseVideoService;
     @Autowired
-    private EmployeeAccountCourseService employeeAccountCourseService;
+    private TeachCourseService teachCourseService;
 
     @RequestMapping("index")
     public ModelAndView index(HttpServletRequest request) {
@@ -108,26 +110,24 @@ public class MainController extends BaseController {
     @RequestMapping("course-list")
     @ResponseBody
     public JSONObject courseList() {
-        CourseVideoSO videoSO = new CourseVideoSO();
-
-        EmployeeAccount account = getCurrentUser();
-        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
-            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
-            courseSO.setEmployeeId(account.getId());
-            List<Course> courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
+        List<CourseVideo> videoList = new ArrayList<CourseVideo>();
+        TeachCourseSO teachCourseSO = new TeachCourseSO();
+        teachCourseSO.setEmployeeId(getCurrentUser().getId());
+        List<TeachCourse> courseList = teachCourseService.learnCourseList(teachCourseSO);
+        if (CollectionUtils.isNotEmpty(courseList)) {
             String[] courseIds = new String[courseList.size()];
             int i = 0;
-            for (Course course : courseList) {
-                courseIds[i++] = course.getId();
+            for (TeachCourse course : courseList) {
+                courseIds[i++] = course.getCourseId();
             }
+            CourseVideoSO videoSO = new CourseVideoSO();
             videoSO.setCourseIds(courseIds);
+            videoSO.setShowState(true);
+            videoSO.setPageNum(1);
+            videoSO.setPageSize(10);
+            videoList = courseVideoService.findVideoPage(videoSO).getList();
         }
 
-        videoSO.setShowState(true);
-        videoSO.setPageNum(1);
-        videoSO.setPageSize(10);
-
-        List<CourseVideo> videoList = courseVideoService.findVideoPage(videoSO).getList();
         JSONObject json = resultSuccess();
         json.put("videoList", videoList);
         return json;
@@ -136,25 +136,25 @@ public class MainController extends BaseController {
     @RequestMapping("examination-list")
     @ResponseBody
     public JSONObject examinationList() {
-        CourseSO so  = new CourseSO();
-        so.setTestState(2);
-        so.setPageNum(1);
-        so.setPageSize(10);
+        List<Course> examinationList = new ArrayList<Course>();
 
-        EmployeeAccount account = getCurrentUser();
-        if (account.getCategory().equals(Constants.ACCOUNT_CATEGORY_STUDENT)) {
-            EmployeeAccountCourseSO courseSO = new EmployeeAccountCourseSO();
-            courseSO.setEmployeeId(account.getId());
-            List<Course> courseList = employeeAccountCourseService.findCourseByEmployeeId(account.getId());
+        TeachCourseSO teachCourseSO = new TeachCourseSO();
+        teachCourseSO.setEmployeeId(getCurrentUser().getId());
+        List<TeachCourse> courseList = teachCourseService.learnCourseList(teachCourseSO);
+        if (CollectionUtils.isNotEmpty(courseList)) {
             String[] courseIds = new String[courseList.size()];
             int i = 0;
-            for (Course course : courseList) {
-                courseIds[i++] = course.getId();
+            for (TeachCourse course : courseList) {
+                courseIds[i++] = course.getCourseId();
             }
+            CourseSO so  = new CourseSO();
+            so.setTestState(2);
+            so.setPageNum(1);
+            so.setPageSize(10);
             so.setIds(courseIds);
+            examinationList = courseService.findPag(so).getList();
         }
 
-        List<Course> examinationList = courseService.findPag(so).getList();
         JSONObject json = resultSuccess();
         json.put("examinationList", examinationList);
         return json;

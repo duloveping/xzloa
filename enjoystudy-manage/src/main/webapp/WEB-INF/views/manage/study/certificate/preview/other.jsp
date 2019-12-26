@@ -5,6 +5,12 @@
 <head>
     <title>${certificate.certificateName}</title>
     <%@ include file="/WEB-INF/views/common/meta.jsp" %>
+    <style media="print">
+        @page {
+            size: auto;  /* auto is the initial value */
+            margin: 0mm; /* this affects the margin in the printer settings */
+        }
+    </style>
     <style type="text/css">
         @media print {
             body{
@@ -97,7 +103,7 @@
     </style>
 </head>
 <body>
-<div class="paper">
+<div id="paper" class="paper">
     <div class="logo">
         <img src="<c:url value='/static/js/images/logo.jpg'/>">
     </div>

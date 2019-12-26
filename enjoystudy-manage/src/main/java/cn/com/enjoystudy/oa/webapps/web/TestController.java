@@ -118,7 +118,7 @@ public class TestController extends PaperController {
         // 判断题
         List<EmployeeExaminationQuestion> list4 = new ArrayList<EmployeeExaminationQuestion>();
 
-        EmployeeExaminationPaper paper = employeeExaminationPaperService.getById(paperId);
+         EmployeeExaminationPaper paper = employeeExaminationPaperService.getById(paperId);
 
         if (null != paper) {
             if (CollectionUtils.isNotEmpty(paper.getQuestionList())) {
