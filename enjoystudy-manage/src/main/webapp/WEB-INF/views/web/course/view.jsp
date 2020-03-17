@@ -86,7 +86,9 @@
                                 <c:if test="${not empty student}">
                                     <%--<img src="<c:url value="/static/js/templates/web/index/ShoucangButton.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
                                     <%--<img src="<c:url value="/static/js/templates/web/index/learn.jpg"/>" style="margin-right:20px; cursor:pointer;">--%>
-                                    <img id="onceTest" src="<c:url value="/static/js/templates/web/index/onceTest.jpg"/>" style="margin-right:20px; cursor:pointer;">
+                                    <c:if test="${buyState}">
+                                        <img id="onceTest" src="<c:url value="/static/js/templates/web/index/onceTest.jpg"/>" style="margin-right:20px; cursor:pointer;">
+                                    </c:if>
                                 </c:if>
                             </td>
                         </tr>

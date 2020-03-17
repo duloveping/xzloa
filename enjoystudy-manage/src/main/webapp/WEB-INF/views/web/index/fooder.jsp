@@ -13,7 +13,7 @@
             <span>传真：020-82587526</span>
             <span>邮箱：enjoystudy_gz@163.com</span>
             <span>QQ：3318998249</span>
-            <span>苏ICP备14034064号-1</span>
+            <span><a href="http://beian.miit.gov.cn/" target="_blank">粤ICP备19095535号-1</a></span>
         </div>
     </div>
 </div>

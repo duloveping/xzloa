@@ -71,8 +71,8 @@
                                 <div class="LeITemTitle">
                                     <a href="<c:url value='/web/course/view.jhtml?id=${course.id}'/>" target="_blank">${course.name}</a></div>
                                 <div class="LeItemPrice">
-                                    <span>￥<fmt:formatNumber value="${course.currentPrice}" pattern="###0.00"/></span>
-                                    <span style="color:#ea511e; font-size:15px; margin-left:30px;">学时：8</span>
+                                    <span>现价：<fmt:formatNumber value="${course.currentPrice}" pattern="###0.00"/></span>
+                                    <span style="color:#ea511e; font-size:10px;">市价：<fmt:formatNumber value="${course.marketPrice}" pattern="###0.00"/></span>
                                 </div>
                                 <div class="LeItemComment">
                                     <span>已有<span style="color:#075cbc; font-size:16px; font-weight:bold;">${course.buyAmount}</span>人评价</span>

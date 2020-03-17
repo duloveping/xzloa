@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <title>订单支付</title>
-    <link href="/static/js/common/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/js/common/H-ui.admin_v3.0/lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css">
     <link href="/static/js/common/H-ui.admin_v3.0/lib/Hui-iconfont/1.0.8/iconfont.min.css" rel="stylesheet" type="text/css">
     <link href="<c:url value='/static/js/templates/web/index/Style2018.css'/>" rel="stylesheet" type="text/css">
     <link href="<c:url value='/static/js/templates/web/index/css.css'/>" rel="stylesheet" type="text/css">
@@ -54,10 +54,10 @@
                 <tr>
                     <td class="KCListTableTdValue">
                         <span id="weixin" style="margin-left:20px; color:#cc3300; font-size:16px; cursor:pointer;">
-                            <i class="Hui-iconfont">&#xe719</i>微信支付
+                            <i class="Hui-iconfont">&#xe719;</i>微信支付
                         </span>
                         <span id="alipay" style="color:#cc3300; font-size:16px; cursor:pointer;">
-                            <i class="Hui-iconfont">&#xe730;</i>支付宝支付
+                            <i class="Hui-iconfont">&#xe71f;</i>支付宝支付
                         </span>
                        <%-- <span id="unionpay" style="color:#cc3300; font-size:16px; cursor:pointer;">
                             <i class="Hui-iconfont">&#xe71d;</i>银联支付
@@ -84,6 +84,8 @@
 </table>
 <%@ include file="/WEB-INF/views/web/index/fooder.jsp" %>
 <script type="text/javascript" src="<c:url value='/static/js/common/jquery/jquery-1.11.3.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/static/js/common/jquery.timers/jquery.timers.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/static/js/common/layer/layer.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/web/index/function.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/web/index/fordboy.js'/>"></script>
 <script type="text/javascript">
@@ -106,7 +108,22 @@
             payImg.prop("src", "/web/allinpay/unitorder-pay/qqpay.jhtml?orderId=${order.id}");
             payDesc.text("请用QQ扫描左侧的二维码支付订单");
         });
+
+        $('body').everyTime('5s',checkPayfor);
     });
+
+    function checkPayfor() {
+        $.ajax({
+            type : "get",
+            url : "/web/shop/web-shopping-order/checkPayment.jhtml?orderId=${order.id}&rnd=" + Math.random(),
+            dataType : "json",
+            success : function(res){
+                if (res.status) {
+                    document.location.href = "/web/shop/web-shopping-order/result.jhtml?orderId=${order.id}&rnd=" + Math.random();
+                }
+            }
+        });
+    }
 </script>
 </body>
 </html>

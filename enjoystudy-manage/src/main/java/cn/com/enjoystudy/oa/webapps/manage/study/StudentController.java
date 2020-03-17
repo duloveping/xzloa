@@ -19,6 +19,8 @@ import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -30,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -314,7 +317,7 @@ public class StudentController extends BaseController {
 
     @RequestMapping("batchSave")
     @ResponseBody
-    public JSONObject batchSave(StudentSO so) {
+    public JSONObject batchSave(@RequestBody StudentSO so) {
         String ym = DateFormatUtils.format(new Date(), "yyyyMM");
         String code = "XY" + ym;
         String name = "学员" +  ym;
@@ -360,7 +363,14 @@ public class StudentController extends BaseController {
             er.setRoleId(role.getId());
             employeeRoleService.insert(er);
 
-            if (StringUtils.isNotBlank(so.getCourseId())) {
+            if (ArrayUtils.isNotEmpty(so.getCourseIds())) {
+                for (String courseId : so.getCourseIds()) {
+                    EmployeeAccountCourse po = new EmployeeAccountCourse();
+                    po.setEmployeeId(student.getId());
+                    po.setCourseId(courseId);
+                    employeeAccountCourseService.insert(po);
+                }
+            } else if (StringUtils.isNotBlank(so.getCourseId())) {
                 EmployeeAccountCourse po = new EmployeeAccountCourse();
                 po.setEmployeeId(student.getId());
                 po.setCourseId(so.getCourseId());

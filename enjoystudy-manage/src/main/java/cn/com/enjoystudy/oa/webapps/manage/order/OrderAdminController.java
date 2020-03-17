@@ -8,6 +8,7 @@ import cn.com.enjoystudy.oa.service.shop.ShoppingOrderService;
 import cn.com.enjoystudy.oa.webapps.BaseController;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,13 @@ public class OrderAdminController extends BaseController {
     @ResponseBody
     public JSONObject list(ShoppingOrderSO so) {
         PageInfo<ShoppingOrder> pageInfo = shoppingOrderService.findPage(so);
+        if (CollectionUtils.isNotEmpty(pageInfo.getList())) {
+            for (ShoppingOrder order : pageInfo.getList()) {
+                ShoppingOrderItemSO itemSO = new ShoppingOrderItemSO();
+                itemSO.setOrderId(order.getId());
+                order.setOrderItemList(shoppingOrderItemService.list(itemSO));
+            }
+        }
         return resultSuccess(pageInfo);
     }
 

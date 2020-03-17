@@ -179,10 +179,8 @@ public class ShoppingCartController extends BaseController {
     @RequestMapping("remove")
     @ResponseBody
     public JSONObject remove(@RequestParam("courseId") String courseId) {
-        Subject subject = SecurityUtils.getSubject();
-        Object object = subject.getSession().getAttribute(ManageSessionFilter.DEFAULT_LOGIN_USER);
-        if (null != object) {
-            EmployeeAccount account = (EmployeeAccount) object;
+        EmployeeAccount account = getCurrentUser();
+        if (null != account) {
             shoppingCartService.remove(account.getId(), courseId);
             return resultSuccess("成功");
         }
@@ -214,11 +212,14 @@ public class ShoppingCartController extends BaseController {
                             item.setMarketPrice(course.getMarketPrice());
                             item.setSalePrice(course.getSalePrice());
                             item.setTotalAmount(1);
-                            item.setTotalPrice(course.getCurrentPrice());
+                            if (course.getCurrentPrice().equals(course.getSalePrice())) {
+                                item.setTotalPrice(course.getCurrentPrice());
+                                totalPrice += course.getCurrentPrice();
+                            } else {
+                                item.setTotalPrice(course.getSalePrice());
+                                totalPrice += course.getSalePrice();
+                            }
                             orderItemList.add(item);
-
-                            totalPrice += course.getCurrentPrice();
-
                             shoppingCartService.deleteById(cart.getId());
                         }
                     }

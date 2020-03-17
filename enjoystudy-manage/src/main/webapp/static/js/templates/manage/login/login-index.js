@@ -3,8 +3,6 @@ function keyDown(){
 	if(evt.keyCode==13) {$("#loginform").submit()};
 }
 
-var cookie_login_name = "default_enjoystudy_username";
-
 $(function(){
 	$("#register").click(register);
 
@@ -24,6 +22,11 @@ $(function(){
 		focusCleanup : true,
 		success : "valid",
 		submitHandler : function(form) {
+			var loadIndex = top.layer.load();
+			$("#submit").prop("disabled", true);
+			$("#reset").prop("disabled", true);
+			$("#register").prop("register", true);
+
 			$.ajax({
 				type: "post",
 				url: "login.jhtml",
@@ -31,19 +34,34 @@ $(function(){
 				data: $(form).serialize(),
 				dataType: "json",
 				success: function (res) {
+					top.layer.close(loadIndex);
+					$("#submit").prop("disabled", false);
+					$("#reset").prop("disabled", false);
+					$("#register").prop("register", false);
+
 					if (res.success) {
 						var menus = res.menus;
 						localStorage.setItem(EMPLOYEE_MENU_PERMISSION_LIST, menus);
-						window.location.href = "../../manage/main/index.jhtml";
+						var url = document.referrer;
+						if (null !== url && typeof(url) !== "undefined" && "" !== url) {
+							window.location.href = url;
+						} else {
+							window.location.href = "/manage/main/index.jhtml";
+						}
+
 					} else {
-						$("#kaptchaImage").attr('src', '../../images/kaptcha.jpg?' + Math.floor(Math.random()*100));
+						$("#kaptchaImage").attr('src', '/images/kaptcha.jpg?' + Math.floor(Math.random()*100));
 						$("#password").val("");
 						$("#checkCode").val("");
                         layer.alert(res.message);
 					}
 				},
 				error : function(XmlHttpRequest, textStatus, errorThrown) {
-                    $("#kaptchaImage").attr('src', '../../images/kaptcha.jpg?' + Math.floor(Math.random()*100));
+					top.layer.close(loadIndex);
+					$("#submit").prop("disabled", false);
+					$("#reset").prop("disabled", false);
+					$("#register").prop("register", false);
+					$("#kaptchaImage").attr('src', '/images/kaptcha.jpg?' + Math.floor(Math.random()*100));
 					layer.alert('登录失败');
 				}
 			});
@@ -53,12 +71,12 @@ $(function(){
 	$("#username").focus();
 	
 	$('#kaptchaImage').click(function () {
-    	$(this).attr('src', '../../images/kaptcha.jpg?' + Math.floor(Math.random()*100)); 
+    	$(this).attr('src', '/images/kaptcha.jpg?' + Math.floor(Math.random()*100));
     });
 });
 
 function register() {
-	document.location.href = ctx + "/manage/login/register.jhtml";
+	document.location.href = "/manage/login/register.jhtml";
 }
 
 

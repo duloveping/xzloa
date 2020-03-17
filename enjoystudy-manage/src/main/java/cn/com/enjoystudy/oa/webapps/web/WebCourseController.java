@@ -36,13 +36,14 @@ public class WebCourseController extends UploadController {
     private CourseTypeService courseTypeService;
     @Autowired
     private TeacherService teacherService;
-
     @Autowired
     private CourseAttachmentService courseAttachmentService;
     @Autowired
     private StudentCourseListService studentCourseListService;
     @Autowired
     private EmployeeAccountCourseService employeeAccountCourseService;
+    @Autowired
+    private TeachCourseService teachCourseService;
 
     @RequestMapping("list")
     public ModelAndView list(CourseSO so) {
@@ -75,6 +76,19 @@ public class WebCourseController extends UploadController {
 
         Course course =courseService.getById(id);
         if (null != course) {
+            EmployeeAccount account = getCurrentUser();
+            boolean buyState = false;
+            if (null != account) {
+                TeachCourseSO teachCourseSO = new TeachCourseSO();
+                teachCourseSO.setEmployeeId(account.getId());
+                teachCourseSO.setCourseId(course.getId());
+                List<TeachCourse> teachCourseList = teachCourseService.learnCourseList(teachCourseSO);
+                if (CollectionUtils.isNotEmpty(teachCourseList)) {
+                    buyState = true;
+                }
+            }
+
+
             CourseType courseType = courseTypeService.getById(course.getTypeId());
             Teacher teacher = teacherService.getById(course.getTeacherId());
 
@@ -104,7 +118,8 @@ public class WebCourseController extends UploadController {
             mv.getModel().put("teacher", teacher);
             mv.getModel().put("hotCourseList", hotCourseList);
             mv.getModel().put("attachmentList", attachmentList);
-            mv.getModel().put("student", getCurrentUser());
+            mv.getModel().put("student", account);
+            mv.getModel().put("buyState", buyState);
         }
         return mv;
     }

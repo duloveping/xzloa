@@ -171,18 +171,18 @@ $(function () {
                 shade: 0.8,
                 area: ['480px', '600px'],
                 maxmin: true,
-                content: ctx + '/manage/study/course/courseTypeIndex.jhtml?rnd=' + Math.random(),
+                content: '/manage/study/course/courseTypeIndex.jhtml?rnd=' + Math.random(),
                 btn: ['确定','关闭'],
                 yes: function(index, layero){
                     var data = $(layero).find("iframe")[0].contentWindow.getCheckValue();
                     if (null != data && typeof(data) != "undefined") {
-                        var strs = data.id.split(":");
+                        var strs = data[0].id.split(":");
                         if (strs[0] == 1) {
                             var loadIndex = top.layer.load();
                             var obj = {employeeIds: studentIds, courseId: strs[1]};
                             $.ajax({
                                 type: "post",
-                                url: ctx + "/manage/study/student/saveCourse.jhtml?courseId=" + obj.courseId + "&employeeIds=" + obj.employeeIds.join(","),
+                                url: "/manage/study/student/saveCourse.jhtml?courseId=" + obj.courseId + "&employeeIds=" + obj.employeeIds.join(","),
                                 cache: false,
                                 dataType: "json",
                                 success: function (res) {
@@ -212,17 +212,17 @@ $(function () {
             shade: 0.8,
             area: ['480px', '600px'],
             maxmin: true,
-            content: ctx + '/manage/study/course/courseTypeIndex.jhtml?rnd=' + Math.random(),
+            content: '/manage/study/course/courseTypeIndex.jhtml?rnd=' + Math.random(),
             btn: ['确定','关闭'],
             yes: function(index, layero){
                 var data = $(layero).find("iframe")[0].contentWindow.getCheckValue();
                 if (null != data && typeof(data) != "undefined") {
-                    var strs = data.id.split(":");
+                    var strs = data[0].id.split(":");
                     if (strs[0] == 1) {
                         var loadIndex = top.layer.load();
                         $.ajax({
                             type: "get",
-                            url: ctx + "/manage/study/student/saveCourseForStudent.jhtml?courseId=" + strs[1] + "&rnd=" + Math.random(),
+                            url: "/manage/study/student/saveCourseForStudent.jhtml?courseId=" + strs[1] + "&rnd=" + Math.random(),
                             cache: false,
                             dataType: "json",
                             success: function (res) {
@@ -249,12 +249,12 @@ $(function () {
             shade: 0.8,
             area: ['480px', '600px'],
             maxmin: true,
-            content: ctx + '/manage/study/course/courseTypeIndex.jhtml?rnd=' + Math.random(),
+            content: '/manage/study/course/courseTypeIndex.jhtml?rnd=' + Math.random(),
             btn: ['确定','关闭'],
             yes: function(index, layero){
                 var data = $(layero).find("iframe")[0].contentWindow.getCheckValue();
                 if (null != data && typeof(data) != "undefined") {
-                    var strs = data.id.split(":");
+                    var strs = data[0].id.split(":");
                     if (strs[0] == 1) {
                         var loadIndex = top.layer.load();
                         $.ajax({

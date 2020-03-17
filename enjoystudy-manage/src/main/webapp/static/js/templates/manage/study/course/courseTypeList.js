@@ -3,33 +3,30 @@ function CourseType() {};
 CourseType.prototype = {id: null, name: null};
 
 function getCheckValue() {
-    return courseType;
-}
-
-function zTreeOnCheck(event, treeId, treeNode) {
-    if (treeNode.checked) {
-        courseType = new CourseType();
-        courseType.id = treeNode.id;
-        courseType.name = treeNode.name;
+    let courses = new Array();
+    let treeObj = $.fn.zTree.getZTreeObj("courseTree");
+    let nodes = treeObj.getCheckedNodes(true);
+    for(var i=0; i < nodes.length; i++) {
+        var node = nodes[i];
+        let course = new CourseType();
+        course.id = node.id;
+        course.name = node.name;
+        courses.push(course);
     }
-};
+    return courses;
+}
 
 var setting = {
     check: {
         enable: true,
-        chkStyle: "radio"
     },
     data: {
         simpleData: {
             enable: true
         }
-    },
-    callback: {
-        onCheck: zTreeOnCheck
     }
 };
 
-var courseType = null;
 $(function () {
     $.ajax({
         type: "get",

@@ -24,7 +24,7 @@
         <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
             <tbody>
                 <tr>
-                    <td style="width:10px;"><input id="checkAll" name="checkAll" type="checkbox" value="true"></td>
+                    <td style="width:10px;"><input id="checkAll" name="checkAll" type="checkbox" value="true" checked="checked"></td>
                     <td style="width:423px;"><span style="color:#666666; margin-left:7px;">课程</span></td>
                     <td style="width:125px;"><span style="color:#666666; margin-left:7px;">单价</span></td>
                     <td style="width:125px;"><span style="color:#666666; margin-left:7px;">数量</span></td>
@@ -37,7 +37,7 @@
 
     <c:set var="total" value="0.00"/>
     <c:forEach var="cart" items="${cartList}">
-        <div style="width:1200px; height:100px; margin:0px auto; border:1px solid #f1f1f1; background-color:#fff4e8; border-top:2px solid #aaaaaa; margin-top:10px;">
+        <div data-id="${cart.courseId}" style="width:1200px; height:100px; margin:0px auto; border:1px solid #f1f1f1; background-color:#fff4e8; border-top:2px solid #aaaaaa; margin-top:10px;">
             <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
                 <tbody>
                 <tr>
@@ -46,7 +46,7 @@
                         <table border="0" cellpadding="0" cellspacing="0">
                             <tbody>
                             <tr>
-                                <td><input name="shoppingCartIds" type="checkbox" value="${cart.id}"></td>
+                                <td><input name="shoppingCartIds" type="checkbox" value="${cart.id}" data-course-id="${cart.courseId}" checked="checked"></td>
                                 <td style="width:155px; height:100px;">
                                     <img src="<c:url value='${cart.image}'/>" style="width:135px; height:90px; margin-left:5px;">
                                 </td>
@@ -63,25 +63,45 @@
                     </td>
                     <td style="width:125px;">
                     <span style="color:#666666; margin-left:7px;">
-                    ¥<span id="LePrice_190924"><c:set var="total" value="${total + cart.currentPrice * cart.buyAmount}"/><fmt:formatNumber value="${cart.currentPrice}" pattern="###0.00"/></span></span>
+                        ¥<span id="LePrice_${cart.courseId}">
+                            <c:choose>
+                                <c:when test="${cart.currentPrice ne cart.salePrice}">
+                                    <c:set var="total" value="${total + cart.salePrice * cart.buyAmount}"/>
+                                    <fmt:formatNumber value="${cart.salePrice}" pattern="###0.00"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="total" value="${total + cart.currentPrice * cart.buyAmount}"/>
+                                    <fmt:formatNumber value="${cart.currentPrice}" pattern="###0.00"/>
+                                </c:otherwise>
+                            </c:choose>
+
+                        </span>
+                    </span>
                     </td>
                     <td style="width:125px;">
                         <span style="color:#666666; margin-left:7px;">
                             ${cart.buyAmount}<input type="hidden" id="BuyCount_${cart.courseId}" name="BuyCount_${cart.courseId}" value="${cart.buyAmount}">
                         </span>
-
-
                     </td>
                     <td style="width:145px;">
-                    <span style="color:#666666; margin-left:7px; font-size:14px; font-weight:bold;">
-                        ¥<span id="LeCostShow_190924"><fmt:formatNumber value="${cart.currentPrice * cart.buyAmount}" pattern="###0.00"/></span>
-                        <input type="hidden" id="LeCost_190924" name="LeCost_190924" value="100.00">
-                    </span>
+                        <span style="color:#666666; margin-left:7px; font-size:14px; font-weight:bold;">
+                            <c:choose>
+                                <c:when test="${cart.currentPrice ne cart.salePrice}">
+                                    ¥<span id="LeCostShow_${cart.courseId}"><fmt:formatNumber value="${cart.salePrice * cart.buyAmount}" pattern="###0.00"/></span>
+                                    <input type="hidden" id="LeCost_${cart.courseId}" name="LeCost_${cart.courseId}" value="<fmt:formatNumber value="${cart.salePrice * cart.buyAmount}" pattern="###0.00"/>">
+                                </c:when>
+                                <c:otherwise>
+                                    ¥<span id="LeCostShow_${cart.courseId}"><fmt:formatNumber value="${cart.currentPrice * cart.buyAmount}" pattern="###0.00"/></span>
+                                    <input type="hidden" id="LeCost_${cart.courseId}" name="LeCost_${cart.courseId}" value="<fmt:formatNumber value="${cart.currentPrice * cart.buyAmount}" pattern="###0.00"/>">
+                                </c:otherwise>
+                            </c:choose>
+
+                        </span>
                     </td>
                     <td style="width:100px;">
-                    <span style="color:#666666; margin-left:7px;">
-                        <a href="javascript:void(0)" onclick="Del(&#39;190924&#39;)" style="color:#666666;">删除</a>
-                    </span>
+                        <span style="color:#666666; margin-left:7px;">
+                            <a href="javascript:void(0)" onclick="deleteItem('${cart.courseId}')" style="color:#666666;">删除</a>
+                        </span>
                     </td>
                 </tr>
                 </tbody>
@@ -111,15 +131,21 @@
 <script type="text/javascript" src="<c:url value='/static/js/templates/web/index/function.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/static/js/templates/web/index/fordboy.js'/>"></script>
 <script type="text/javascript">
+
     $(function () {
         $("#checkAll").on("click", function () {
             let flag = this.checked;
             $.each($('input[name=shoppingCartIds][type=checkbox]'),function(){
                 this.checked = flag;
             });
+            autoComputer();
         });
 
-        $("#checkAll").on("click", function () {
+        $('input[name=shoppingCartIds][type=checkbox]').on('click', function () {
+            autoComputer();
+        })
+
+        $("#payment").on("click", function () {
             let shoppingCartIds = new Array();
             $.each($('input[name=shoppingCartIds][type=checkbox]'),function(){
                 if (this.checked) {
@@ -147,8 +173,37 @@
                 layer.alert("请选择要结算的课程！");
             }
         });
-
     });
+
+    function autoComputer() {
+        let cartTotalPrice = 0.0;
+        $.each($('input[name=shoppingCartIds][type=checkbox]'),function(){
+            if (this.checked) {
+                let courseId = this.getAttribute("data-course-id");
+                cartTotalPrice += parseFloat($("#LeCostShow_" + courseId).text());
+            }
+        });
+        $("#cartTotalPrice").text(cartTotalPrice.toFixed(2));
+    }
+
+    function deleteItem(id) {
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type : "get",
+                url : "/web/shop/shopping-cart/remove.jhtml?courseId=" + id + '&rnd=' + Math.random(),
+                cache : false,
+                dataType : "json",
+                success : function(res){
+                    if (res.status) {
+                        $("div[data-id=" + id + "]").remove();
+                        autoComputer();
+                        layer.msg('删除成功',{icon:1,time:3000});
+                    }
+                }
+            });
+            layer.close(index);
+        });
+    }
 </script>
 </body>
 </html>

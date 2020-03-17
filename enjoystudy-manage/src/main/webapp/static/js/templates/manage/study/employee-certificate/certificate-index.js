@@ -20,7 +20,9 @@ function goPage(curr) {
                     var certificateDate = moment(data.certificateDate).format("YYYY-MM-DD");
 
                     html += "<tr>";
-                    html += "<td><a href=\"" + ctx  + "/manage/study/certificate/preview.jhtml?id=" + data.id + "\" target=\"_blank\">" + data.certificateName + "</td>";
+                    html += "<td><a href=\"" + ctx  + "/manage/study/certificate/preview.jhtml?id=" + data.id + "\" target=\"_blank\">" + data.certificateName + "</a>";
+                    // html += "<span style='float:right;cursor:pointer;'><a href='"+ctx+"/manage/study/certificate/printdown.jhtml?id="+ data.id+"'  target='_blank'>预览下载</a></span>"
+                    html += "</td>"
                     html += "<td>" + data.certificateCode + "</td>";
                     html += "<td>" + certificateDate + "</td>";
                     html += "</tr>";
@@ -48,6 +50,7 @@ function goPage(curr) {
         }
     });
 }
+
 
 function certificateState(state) {
     var val;

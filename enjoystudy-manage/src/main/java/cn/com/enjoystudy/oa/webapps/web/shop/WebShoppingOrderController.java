@@ -133,4 +133,22 @@ public class WebShoppingOrderController extends BaseController {
         }
         return mv;
     }
+
+    @RequestMapping("result")
+    public ModelAndView result(@RequestParam String orderId) {
+        ModelAndView mv = new ModelAndView("web/shop/web-shopping-order/result");
+        mv.getModel().put("order", shoppingOrderService.getById(orderId));
+        return mv;
+    }
+
+    @RequestMapping("checkPayment")
+    @ResponseBody
+    public JSONObject checkPayment(@RequestParam String orderId) {
+        ShoppingOrder order = shoppingOrderService.getById(orderId);
+        if (order.getPayState().equals(Constants.PAY_STATE_YES)) {
+            return resultSuccess("已支付");
+        } else {
+            return resultError("尚未支付");
+        }
+    }
 }

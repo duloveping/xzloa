@@ -64,7 +64,7 @@ public class WebCourseVideoController extends BaseController {
         EmployeeAccount account = getCurrentUser();
 
         if (null != account) {
-            mv = new ModelAndView("web/course-video/video-buy-view");
+            mv = new ModelAndView("web/course-video/view");
             CourseVideo video = courseVideoService.getById(id);
             Course course = courseService.getById(video.getCourseId());
             mv.getModel().put("video", video);
@@ -72,6 +72,8 @@ public class WebCourseVideoController extends BaseController {
 
             // 判断课程是否免费
             if (null != course.getFreeState() && course.getFreeState().equals(Boolean.FALSE)) {
+                mv = new ModelAndView("web/course-video/video-buy-view");
+
                 StudentCourseListSO courseListSO = new StudentCourseListSO();
                 courseListSO.setCourseId(course.getId());
                 courseListSO.setAccountId(account.getId());

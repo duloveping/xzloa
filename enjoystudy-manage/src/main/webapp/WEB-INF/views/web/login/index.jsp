@@ -66,21 +66,21 @@
                     <table style="font-size:15px; margin-top:30px; color:#373737;" cellpadding="0" cellspacing="0" border="0" width="100%" class="inputTable">
                         <tbody>
                             <tr>
-                                <td width="110" style="text-align:right; height:40px;">用户名：</td>
-                                <td width="300" colspan="2"><input class="inputText" id="username" name="username" style="width:220px;"></td>
+                                <td width="110" style="text-align:right; height:45px;">用户名：</td>
+                                <td width="300" colspan="2"><input class="inputText" id="username" name="username" style="width:220px; height: 30px;"></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td width="110" style="text-align:right; height:40px;">密　码：</td>
-                                <td width="300" colspan="2"><input type="password" id="password" name="password" class="inputText" style="width:220px;"></td>
+                                <td width="110" style="text-align:right; height:45px;">密　码：</td>
+                                <td width="300" colspan="2"><input type="password" id="password" name="password" class="inputText" style="width:220px; height: 30px;"></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td width="110" style="text-align:right; height:40px;">验证码：</td>
-                                <td width="90"><input class="inputText" id="checkCode" name="checkCode" style="width:90px;"></td>
+                                <td width="110" style="text-align:right; height:45px;">验证码：</td>
+                                <td width="90"><input class="inputText" id="checkCode" name="checkCode" style="width:90px; height: 30px;"></td>
                                 <td style="width:120px;">
                                     <span style="display:inline-block;">
-                                        <img src="<c:url value='/images/kaptcha.jpg'/>" id="nonImgVCode" name="nonImgVCode" style="cursor: pointer; vertical-align:bottom;" alt="点击刷新" title="点击刷新" width="60" height="20">
+                                        <img src="<c:url value='/images/kaptcha.jpg'/>" id="nonImgVCode" name="nonImgVCode" style="cursor: pointer; vertical-align:bottom;" alt="点击刷新" title="点击刷新" width="60" height="30">
                                     </span>
                                 </td>
                                 <td></td>
@@ -98,9 +98,12 @@
                                 <td colspan="4" style="height:10px;"></td>
                             </tr>
                             <tr>
-                                <td colspan="4" style="text-align:center; height:40px; line-height:30px;">
+                                <td colspan="4" style="text-align:center; height:45px; line-height:30px;">
                                     <div style="width:280px; height:30px; margin:0px auto;">
-                                        <div style="width:35%; height:30px; line-height:30px; float:left; text-align:center;"><a href="<c:url value="/manage/login/register.jhtml"/>" style="font-size:14px; text-decoration:none; color:#004998;">注册新用户</a></div>
+                                        <div style="width:100%; height:30px; line-height:30px; text-align:center;">
+                                            <a href="<c:url value="/manage/login/register.jhtml"/>" style="font-size:14px; text-decoration:none; color:#004998;">注册新用户</a>
+                                            <a href="<c:url value="/manage/login/register.jhtml"/>" style="font-size:14px; text-decoration:none; color:#004998;">忘记账号或密码</a>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -156,7 +159,12 @@
                     dataType: "json",
                     success: function (res) {
                         if (res.success) {
-                            window.location.href = "<c:url value='/manage/main/index.jhtml'/>";
+                            var url = document.referrer
+                            if (null !== url && typeof(url) !== "undefined" && "" !== url) {
+                                window.location.href = url;
+                            } else {
+                                window.location.href = "<c:url value='/manage/main/index.jhtml'/>";
+                            }
                         } else {
                             $("#kaptchaImage").attr('src', '<c:url value='/images/kaptcha.jpg'/>?rnd=' + Math.floor(Math.random()*100));
                             $("#password").val("");

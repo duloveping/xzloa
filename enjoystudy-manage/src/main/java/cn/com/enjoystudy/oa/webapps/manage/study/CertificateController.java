@@ -13,8 +13,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Range;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +108,14 @@ public class CertificateController extends BaseController {
             mv = new ModelAndView("manage/study/certificate/preview/" + certificate.getCourseCode());
         }
         mv.getModel().put("certificate", certificate);
+        return mv;
+    }
+
+    @RequestMapping("printdown")
+    public ModelAndView print(@RequestParam String id) {
+        ModelAndView mv = new ModelAndView("manage/study/employee-certificate/pdfpreview");
+        EmployeeCertificate certificate = employeeCertificateService.getById(id);
+        mv.addObject("pdfpath","123.pdf");
         return mv;
     }
 

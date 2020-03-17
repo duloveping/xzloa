@@ -51,7 +51,7 @@
                     .viewProductDetails{width:168px; height:33px; line-height:33px; border:1px solid #ca2936; text-align:center; font-size:14px; color:#ca2936; cursor:pointer; margin-left:20px;}
                     .goToPayFor{width:170px; height:35px; line-height:35px; background-color:#e5383c; text-align:center; font-size:14px; color:#ffffff; margin-top:20px; margin-left:20px; cursor:pointer;}
                 </style>
-                <div class="viewProductDetails" onclick="location.href='<c:url value="/web/shop/shopping-cart/add.jhtml?courseId=${course.id}"/>'">查看商品详情 </div>
+                <div class="viewProductDetails" onclick="location.href='<c:url value="/web/course/view.jhtml?id=${course.id}"/>'">查看商品详情 </div>
                 <div class="goToPayFor" onclick="location.href='<c:url value="/web/shop/shopping-cart/index.jhtml"/>'">去购物车结算 </div>
             </td>
         </tr>

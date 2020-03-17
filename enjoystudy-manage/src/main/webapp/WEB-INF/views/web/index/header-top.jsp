@@ -36,10 +36,12 @@
             }
         </script>
     </div>
-    <div class="LoginEnter">
-        <a href="<c:url value='/web/login/index.jhtml'/>" target="_blank">
-            <img src="<c:url value='/static/js/templates/web/index/LoginEnterButton.jpg'/>" />
-        </a>
-    </div>
+    <c:if test="${empty manage_login_user}">
+        <div class="LoginEnter">
+            <a href="<c:url value='/web/login/index.jhtml'/>" target="_blank">
+                <img src="<c:url value='/static/js/templates/web/index/LoginEnterButton.jpg'/>" />
+            </a>
+        </div>
+    </c:if>
 </div>
 </div>

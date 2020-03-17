@@ -28,7 +28,7 @@ import java.util.GregorianCalendar;
 public class UploadController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
     private static final String[] dirs = {"image", "flash", "media", "file"};
-    private static final String[] images = { "gif", "jpg", "jpeg", "png", "bmp" };
+    private static final String[] images = { "gif", "jpg", "jpeg", "png", "bmp", "jfif" };
     private static final String[] flashes = { "swf", "flv" };
     private static final String[] medias = { "swf", "flv", "mp3", "mp4", "wav", "wma", "wmv", "mid", "avi", "mpg", "asf", "rm", "rmvb" };
     private static final String[] files = { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "et", "wps", "dps", "txt", "xz", "zip", "bzip2", "rar", "tar", "gz", "gzip", "bz2", "7z" };

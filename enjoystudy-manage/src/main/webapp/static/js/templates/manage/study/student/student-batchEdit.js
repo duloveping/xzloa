@@ -28,20 +28,34 @@ $(function () {
         focusCleanup : true,
         success : "valid",
         submitHandler : function(form) {
-            $("#courseId").val();
+            var loadIndex = top.layer.load();
+
+            let courseIds = new Array();
+            let courseId = $("#courseId").val();
+            if (null !== courseId && typeof(courseId) !== "undefined" && "" !== courseId) {
+                $.each(courseId.split(","),function(i, v){
+                    let strs = v.split(":");
+                    if (strs[0] == "1") {
+                        courseIds.push(strs[1]);
+                    }
+                });
+            }
             var param = {
                 amount: $("#amount").val(),
                 lockState: $("input[name=lockState][type=radio]:checked").val(),
                 loginPassword: $("#loginPassword").val(),
-                courseId:$("#courseId").val()
+                courseIds: courseIds
             };
+
             $.ajax({
                 type: "post",
-                url: ctx + "/manage/study/student/batchSave.jhtml",
+                url: "/manage/study/student/batchSave.jhtml",
                 cache: false,
-                data:  param,
+                data: JSON.stringify(param),
+                contentType : 'application/json;charset=utf-8',
                 dataType: "json",
                 success: function (res) {
+                    top.layer.close(loadIndex);
                     layer.msg(res.info,{icon:1,time:3000});
                     if (res.status) {
                         var index = parent.layer.getFrameIndex(window.name);
@@ -50,6 +64,7 @@ $(function () {
                     }
                 },
                 error : function(XmlHttpRequest, textStatus, errorThrown) {
+                    top.layer.close(loadIndex);
                     top.layer.alert('数据保存失败');
                 }
             });
@@ -67,18 +82,19 @@ function getCourse() {
         shade: 0.8,
         area: ['480px', '600px'],
         maxmin: true,
-        content: ctx + '/manage/study/course/courseTypeIndex.jhtml?courseIds=' + courseIds + '&rnd=' + Math.random(),
+        content: '/manage/study/course/courseTypeIndex.jhtml?courseIds=' + courseIds + '&rnd=' + Math.random(),
         btn: ['确定','关闭'],
         yes: function(index, layero){
             var data = $(layero).find("iframe")[0].contentWindow.getCheckValue();
             if (null != data && typeof(data) != "undefined") {
-                var strs = data.id.split(":");
-                if (strs[0] == 1) {
-                    var courseId = strs[1];
-                    document.getElementById("courseId").value = courseId;
-                    // $("#courseId").val(courseId);
-                    $("#courseName").val(data.name);
-                }
+                let ids = new Array();
+                let names = new Array();
+                $.each(data,function(i, v){
+                    ids.push(v.id);
+                    names.push(v.name);
+                });
+                document.getElementById("courseId").value = ids.join(",");
+                document.getElementById("courseName").value = names.join(",");
             }
             top.layer.close(index);
         }
