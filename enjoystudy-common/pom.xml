@@ -39,7 +39,7 @@
 		<xmlbeans.version>2.6.0</xmlbeans.version>
 		<pdfbox.version>2.0.8</pdfbox.version>
 		<httpcore.version>4.4.5</httpcore.version>
-		<httpclient.version>4.5.2</httpclient.version>
+		<httpclient.version>4.5.13</httpclient.version>
 		<solr.version>4.7.2</solr.version>
 		<userAgentUtils.version>1.20</userAgentUtils.version>
 		<commons-cli.version>1.3.1</commons-cli.version>
